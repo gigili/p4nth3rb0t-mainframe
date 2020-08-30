@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "compile": "./node_modules/.bin/tsc --watch",
-    "start": "nodemon"
+    "prestart": "typescript src/server.ts",
+    "start": "node dist/server.js",
+    "dev": "nodemon"
   },
   "author": "whitep4nth3r",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "tmi.js": "^1.5.0",
     "ws": "^7.3.1"
   },
   "devDependencies": {
