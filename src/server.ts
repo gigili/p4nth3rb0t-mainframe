@@ -1,20 +1,31 @@
+import { config } from 'dotenv';
 import express from 'express';
 import http from 'http';
 import WebSocket from 'ws';
 import tmi, { ChatUserstate } from 'tmi.js';
 
-const client = new (tmi.Client as any)({
+config();
+
+const tmiclient = new (tmi.Client as any)({
   options: { debug: true },
   connection: {
     secure: true,
     reconnect: true,
   },
-  channels: ['whitep4nth3r'],
+  identity: {
+    username: process.env.BOT_NAME,
+    password: process.env.P4NTH3RB0T_AUTH,
+  },
+  channels: [process.env.CHANNELS],
 });
 
-client.connect();
+tmiclient.connect();
 
 const app = express();
+
+app.use('/', (req, res) => {
+  res.send('P4NTH3RB0T MAINFRAME');
+});
 
 //initialize a simple http server
 const server = http.createServer(app);
@@ -27,7 +38,6 @@ const wss = new WebSocket.Server({ server });
 
 interface ExtWebSocket extends WebSocket {
   isAlive: boolean;
-  // ping: () => {};
 }
 
 wss.on('connection', (ws: ExtWebSocket) => {
@@ -35,37 +45,6 @@ wss.on('connection', (ws: ExtWebSocket) => {
 
   ws.on('pong', () => {
     ws.isAlive = true;
-  });
-
-  client.on(
-    'message',
-    (channel: string, tags: ChatUserstate, message: string, self: boolean) => {
-      // "Alca: Hello, World!"
-      console.log(`${tags['display-name']}: ${message}`);
-    }
-  );
-
-  //connection is up, let's add a simple simple event
-  ws.on('message', (message: string) => {
-    //log the received message and send it back to the client
-    console.log('received: %s', message);
-
-    // arbitrary way to send categorised messages?
-    const broadcastRegex = /^broadcast\:/;
-
-    if (broadcastRegex.test(message)) {
-      message = message.replace(broadcastRegex, '');
-
-      //send back the message to the other clients
-      console.log(wss.clients);
-      wss.clients.forEach((client) => {
-        // if (client != ws) {
-        client.send(`Hello, broadcast message -> ${message}`);
-        // }
-      });
-    } else {
-      ws.send(`Hello, you sent -> ${message}`);
-    }
   });
 
   const ping = setInterval(() => {
@@ -81,11 +60,32 @@ wss.on('connection', (ws: ExtWebSocket) => {
     clearInterval(ping);
   });
 
-  //send immediatly a feedback to the incoming connection
-  ws.send('Hi there, I am a WebSocket server');
+  //send immediately a feedback to the incoming connection
+  ws.send('Welcome to the p4nth3rb0t mainframe');
+});
+
+//TODO send specific messaged based on all the events
+// I care about
+// And then get all p4nth3rball and p4nth3rdrop to listen for those events
+
+tmiclient.on(
+  'message',
+  (channel: string, tags: ChatUserstate, message: string, self: boolean) => {
+    wss.clients.forEach((client) => {
+      client.send(message);
+    });
+  }
+);
+
+tmiclient.on('join', (channel: string, username: string, self: boolean) => {
+  wss.clients.forEach((client) => {
+    client.send(`joined': $username`);
+  });
 });
 
 //start our server
 server.listen(process.env.PORT || 8999, () => {
-  console.log(`Server started on port ${(server.address() as any).port} :)`);
+  console.log(
+    `p4nth3rb0t mainframe started on port ${(server.address() as any).port} :)`
+  );
 });
