@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "./node_modules/.bin/tsc --watch",
-    "prestart": "typescript src/server.ts",
+    "prestart": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon"
   },
