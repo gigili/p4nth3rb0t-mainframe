@@ -2,10 +2,18 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "outDir": "./dist/server",
-    "strict": true,
     "sourceMap": true,
-    "typeRoots": ["node_modules/@types"]
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "strict": true,
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["express", "tmi.js"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "lib": ["ES2016"]
   },
+  "include": ["./src/"],
   "exclude": ["dist", "node_modules"]
 }
