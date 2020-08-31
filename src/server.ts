@@ -1,8 +1,8 @@
-import { config } from 'dotenv';
-import express from 'express';
-import http from 'http';
-import WebSocket from 'ws';
-import tmi, { ChatUserstate } from 'tmi.js';
+import { config } from "dotenv";
+import express from "express";
+import http from "http";
+import WebSocket from "ws";
+import tmi, { ChatUserstate } from "tmi.js";
 
 config();
 
@@ -14,7 +14,7 @@ const tmiclient = new (tmi.Client as any)({
   },
   identity: {
     username: process.env.BOT_NAME,
-    password: process.env.P4NTH3RB0T_AUTH,
+    password: process.env.BOT_AUTH,
   },
   channels: [process.env.CHANNELS],
 });
@@ -23,8 +23,8 @@ tmiclient.connect();
 
 const app = express();
 
-app.use('/', (req, res) => {
-  res.send('P4NTH3RB0T MAINFRAME');
+app.use("/", (req: Request, res: Response) => {
+  res.send("P4NTH3RB0T MAINFRAME");
 });
 
 //initialize a simple http server
@@ -40,10 +40,10 @@ interface ExtWebSocket extends WebSocket {
   isAlive: boolean;
 }
 
-wss.on('connection', (ws: ExtWebSocket) => {
+wss.on("connection", (ws: ExtWebSocket) => {
   ws.isAlive = true;
 
-  ws.on('pong', () => {
+  ws.on("pong", () => {
     ws.isAlive = true;
   });
 
@@ -56,12 +56,12 @@ wss.on('connection', (ws: ExtWebSocket) => {
     });
   }, 10000);
 
-  ws.on('close', function (cc: number, cmsg: string) {
+  ws.on("close", function (cc: number, cmsg: string) {
     clearInterval(ping);
   });
 
   //send immediately a feedback to the incoming connection
-  ws.send('Welcome to the p4nth3rb0t mainframe');
+  ws.send("Welcome to the p4nth3rb0t mainframe");
 });
 
 //TODO send specific messaged based on all the events
@@ -69,7 +69,7 @@ wss.on('connection', (ws: ExtWebSocket) => {
 // And then get all p4nth3rball and p4nth3rdrop to listen for those events
 
 tmiclient.on(
-  'message',
+  "message",
   (channel: string, tags: ChatUserstate, message: string, self: boolean) => {
     wss.clients.forEach((client) => {
       client.send(message);
@@ -77,7 +77,7 @@ tmiclient.on(
   }
 );
 
-tmiclient.on('join', (channel: string, username: string, self: boolean) => {
+tmiclient.on("join", (channel: string, username: string, self: boolean) => {
   wss.clients.forEach((client) => {
     client.send(`joined': $username`);
   });
