@@ -12,9 +12,11 @@
   "author": "whitep4nth3r",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "ws": "^7.3.1",
-    "typescript": "^4.0.2"
+    "tmi.js": "^1.5.0",
+    "typescript": "^4.0.2",
+    "ws": "^7.3.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
