@@ -13,6 +13,6 @@
     "declaration": true,
     "lib": ["ES2016"]
   },
-  "include": ["./src/"],
+  "include": ["src/**/*"],
   "exclude": ["build", "node_modules"]
 }
