@@ -29,6 +29,6 @@ tmi.on(
 
 tmi.on("join", (channel: string, username: string, self: boolean) => {
   wsServer.clients.forEach((client) => {
-    client.send(`joined': $username`);
+    client.send(`joined': ${username}`);
   });
 });
