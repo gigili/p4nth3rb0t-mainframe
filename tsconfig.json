@@ -7,7 +7,6 @@
     "outDir": "./build",
     "strict": true,
     "typeRoots": ["./node_modules/@types"],
-    "types": ["express", "tmi.js"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
