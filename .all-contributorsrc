@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "antonedvard",
+      "name": "Anton Kristensen",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5489879?v=4",
+      "profile": "http://www.akr.is",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "p4nth3rb0t-mainframe",
+  "projectOwner": "whitep4nth3r",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
