@@ -6,13 +6,13 @@
     "moduleResolution": "node",
     "outDir": "./build",
     "strict": true,
-    "typeRoots": ["./node_modules/@types"], 
+    "typeRoots": ["./node_modules/@types"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "lib": ["ES2016"]
   },
-  "include": ["./src/"],
+  "include": ["src/**/*"],
   "exclude": ["build", "node_modules"]
 }
