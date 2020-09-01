@@ -1,8 +1,9 @@
-import { config } from "dotenv";
+import { config } from 'dotenv';
 config();
 
-import { webServer } from "./webserver";
-import { tmi } from "./tmi";
+import { webServer } from './webserver';
+import { tmi } from './tmi';
+import './events/subscriptions';
 
 async function run() {
   try {
