@@ -1,5 +1,3 @@
-import { ChatUserstate } from 'tmi.js';
-import { ChatUserstate } from 'tmi.js';
 import { Client, ChatUserstate } from 'tmi.js';
 import { wsServer } from './websocket';
 
