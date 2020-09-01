@@ -19,19 +19,21 @@ interface SubEvent {
 const userManager = new UserManager();
 
 const sendSubEvent = async (userId: string) => {
-  const user = await userManager.getUser(userId as string);
+  try {
+    const user = await userManager.getUser(userId as string);
 
-  const subEvent: SubEvent = {
-    event: Event.sub,
-    subscriberAvatarUrl: user.logo,
-  };
+    const subEvent: SubEvent = {
+      event: Event.sub,
+      subscriberAvatarUrl: user.logo,
+    };
 
-  wsServer.clients.forEach((client) => {
-    client.send(subEvent);
-  });
+    wsServer.clients.forEach((client) => {
+      client.send(JSON.stringify(subEvent));
+    });
+  } catch (error) {}
 };
 
-// DEBUGGING
+// DEBUGGING;
 // tmi.on(
 //   'message',
 //   async (
@@ -40,6 +42,8 @@ const sendSubEvent = async (userId: string) => {
 //     message: string,
 //     self: boolean
 //   ) => {
+//     console.log('SENDING TEST SUB EVENT MESSAGE');
+
 //     sendSubEvent(tags['user-id'] as string);
 //   }
 // );
