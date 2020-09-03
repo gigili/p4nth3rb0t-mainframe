@@ -1,8 +1,10 @@
-import { Client, ChatUserstate } from 'tmi.js';
-import { wsServer } from './websocket';
+import { Client, ChatUserstate } from "tmi.js";
+import { wsServer } from "./websocket";
+
+import { CHANNELS } from "./env";
 
 export const tmi = new (Client as any)({
-  options: { debug: process.env.NODE_ENV === 'development' ? true : false },
+  options: { debug: process.env.NODE_ENV === "development" ? true : false },
   connection: {
     secure: true,
     reconnect: true,
@@ -11,7 +13,7 @@ export const tmi = new (Client as any)({
     username: process.env.BOT_NAME,
     password: process.env.BOT_AUTH,
   },
-  channels: [process.env.CHANNELS],
+  channels: CHANNELS,
 });
 
 // tmi.on(

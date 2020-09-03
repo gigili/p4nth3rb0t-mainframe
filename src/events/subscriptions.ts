@@ -32,8 +32,12 @@ const sendSubEvent = async (userId: string) => {
     wsServer.clients.forEach((client) => {
       client.send(JSON.stringify(subEvent));
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+
 
 if (DEBUG) {
   // DEBUGGING;
