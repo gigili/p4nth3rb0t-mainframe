@@ -2,31 +2,27 @@ import { wsServer } from "../websocket";
 import { tmi } from "./../tmi";
 import { ChatUserstate } from "tmi.js";
 import UserManager from "../users/UserManager";
+import { SocketPacket, TwitchEvent } from "../types";
 
 const DEBUG = false;
+
+const userManager = new UserManager();
 
 //According to tmijs docs that is what is happening.
 //Subgif is a gift to someone directly as in 1:1,
 //where as mysterygift can be 1:N number of gifts given
 
-enum Event {
-  sub = "sub",
-}
-
-interface SubEvent {
-  event: Event;
-  subscriberAvatarUrl: string;
-}
-
-const userManager = new UserManager();
-
 const sendSubEvent = async (userId: string) => {
   try {
     const user = await userManager.getUser(userId as string);
 
-    const subEvent: SubEvent = {
-      event: Event.sub,
-      subscriberAvatarUrl: user.logo,
+    const subEvent: SocketPacket = {
+      broadcaster: "sdfsdf",
+      event: TwitchEvent.sub,
+      id: "sdfsdf",
+      data: {
+        logoUrl: user.logo as string,
+      },
     };
 
     wsServer.clients.forEach((client) => {
@@ -36,8 +32,6 @@ const sendSubEvent = async (userId: string) => {
     console.log(error);
   }
 };
-
-
 
 if (DEBUG) {
   // DEBUGGING;

@@ -3,6 +3,7 @@ import "./env";
 import { webServer } from "./webserver";
 import { tmi } from "./tmi";
 import "./events/subscriptions";
+import "./events/messages";
 
 async function run() {
   try {
