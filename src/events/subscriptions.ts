@@ -34,7 +34,6 @@ const sendSubEvent = async (userId: string) => {
 };
 
 if (DEBUG) {
-  // DEBUGGING;
   tmi.on(
     "message",
     async (
@@ -43,7 +42,6 @@ if (DEBUG) {
       message: string,
       self: boolean
     ) => {
-      console.log("SENDING TEST SUB EVENT MESSAGE");
       sendSubEvent(tags["user-id"] as string);
     }
   );
