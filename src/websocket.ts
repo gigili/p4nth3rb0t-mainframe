@@ -31,5 +31,7 @@ wsServer.on("connection", (ws: ExtWebSocket) => {
   });
 
   //send immediately a feedback to the incoming connection
-  ws.send("Welcome to the p4nth3rb0t mainframe");
+  ws.send(
+    JSON.stringify({ status: 200, msg: "Welcome to the p4nth3rb0t mainframe" })
+  );
 });

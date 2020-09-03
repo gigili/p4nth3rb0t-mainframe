@@ -1,9 +1,8 @@
-import { config } from 'dotenv';
-config();
+import "./env";
 
-import { webServer } from './webserver';
-import { tmi } from './tmi';
-import './events/subscriptions';
+import { webServer } from "./webserver";
+import { tmi } from "./tmi";
+import "./events/subscriptions";
 
 async function run() {
   try {
@@ -14,8 +13,10 @@ async function run() {
         } :)`
       );
     });
-    tmi.connect();
-  } catch (error) {}
+    await tmi.connect();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 run();

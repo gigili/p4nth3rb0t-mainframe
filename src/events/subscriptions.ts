@@ -1,14 +1,14 @@
-import { wsServer } from '../websocket';
-import { tmi } from './../tmi';
-import { ChatUserstate } from 'tmi.js';
-import UserManager from '../users/UserManager';
+import { wsServer } from "../websocket";
+import { tmi } from "./../tmi";
+import { ChatUserstate } from "tmi.js";
+import UserManager from "../users/UserManager";
 
 //According to tmijs docs that is what is happening.
 //Subgif is a gift to someone directly as in 1:1,
 //where as mysterygift can be 1:N number of gifts given
 
 enum Event {
-  sub = 'SUBSCRIPTION',
+  sub = "sub",
 }
 
 interface SubEvent {
@@ -19,52 +19,56 @@ interface SubEvent {
 const userManager = new UserManager();
 
 const sendSubEvent = async (userId: string) => {
-  const user = await userManager.getUser(userId as string);
+  try {
+    const user = await userManager.getUser(userId as string);
 
-  const subEvent: SubEvent = {
-    event: Event.sub,
-    subscriberAvatarUrl: user.logo,
-  };
+    const subEvent: SubEvent = {
+      event: Event.sub,
+      subscriberAvatarUrl: user.logo,
+    };
 
-  wsServer.clients.forEach((client) => {
-    client.send(subEvent);
-  });
+    wsServer.clients.forEach((client) => {
+      client.send(JSON.stringify(subEvent));
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-// DEBUGGING
-// tmi.on(
-//   'message',
-//   async (
-//     channel: string,
-//     tags: ChatUserstate,
-//     message: string,
-//     self: boolean
-//   ) => {
-//     sendSubEvent(tags['user-id'] as string);
-//   }
-// );
-
+// DEBUGGING;
 tmi.on(
-  'anongiftpaidupgrade',
-  async (channel: string, username: string, userstate: ChatUserstate) => {
-    sendSubEvent(userstate['user-id'] as string);
+  "message",
+  async (
+    channel: string,
+    tags: ChatUserstate,
+    message: string,
+    self: boolean
+  ) => {
+    sendSubEvent(tags["user-id"] as string);
   }
 );
 
 tmi.on(
-  'giftpaidupgrade',
+  "anongiftpaidupgrade",
+  async (channel: string, username: string, userstate: ChatUserstate) => {
+    sendSubEvent(userstate["user-id"] as string);
+  }
+);
+
+tmi.on(
+  "giftpaidupgrade",
   async (
     channel: string,
     username: string,
     sender: string,
     userstate: ChatUserstate
   ) => {
-    sendSubEvent(userstate['user-id'] as string);
+    sendSubEvent(userstate["user-id"] as string);
   }
 );
 
 tmi.on(
-  'subgift',
+  "subgift",
   (
     channel: string,
     username: string,
@@ -73,12 +77,12 @@ tmi.on(
     methods: {},
     userstate: ChatUserstate
   ) => {
-    sendSubEvent(userstate['user-id'] as string);
+    sendSubEvent(userstate["user-id"] as string);
   }
 );
 
 tmi.on(
-  'subscription',
+  "subscription",
   (
     channel: string,
     username: string,
@@ -87,12 +91,12 @@ tmi.on(
     message: string,
     userstate: ChatUserstate
   ) => {
-    sendSubEvent(userstate['user-id'] as string);
+    sendSubEvent(userstate["user-id"] as string);
   }
 );
 
 tmi.on(
-  'resub',
+  "resub",
   (
     channel: string,
     username: string,
@@ -101,12 +105,12 @@ tmi.on(
     userstate: ChatUserstate,
     methods: {}
   ) => {
-    sendSubEvent(userstate['user-id'] as string);
+    sendSubEvent(userstate["user-id"] as string);
   }
 );
 
 tmi.on(
-  'submysterygift',
+  "submysterygift",
   (
     channel: string,
     username: string,
@@ -114,6 +118,6 @@ tmi.on(
     methods: {},
     userstate: ChatUserstate
   ) => {
-    sendSubEvent(userstate['user-id'] as string);
+    sendSubEvent(userstate["user-id"] as string);
   }
 );
