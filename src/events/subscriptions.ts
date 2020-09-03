@@ -3,6 +3,8 @@ import { tmi } from "./../tmi";
 import { ChatUserstate } from "tmi.js";
 import UserManager from "../users/UserManager";
 
+const DEBUG = false;
+
 //According to tmijs docs that is what is happening.
 //Subgif is a gift to someone directly as in 1:1,
 //where as mysterygift can be 1:N number of gifts given
@@ -35,18 +37,23 @@ const sendSubEvent = async (userId: string) => {
   }
 };
 
-// DEBUGGING;
-tmi.on(
-  "message",
-  async (
-    channel: string,
-    tags: ChatUserstate,
-    message: string,
-    self: boolean
-  ) => {
-    sendSubEvent(tags["user-id"] as string);
-  }
-);
+
+
+if (DEBUG) {
+  // DEBUGGING;
+  tmi.on(
+    "message",
+    async (
+      channel: string,
+      tags: ChatUserstate,
+      message: string,
+      self: boolean
+    ) => {
+      console.log("SENDING TEST SUB EVENT MESSAGE");
+      sendSubEvent(tags["user-id"] as string);
+    }
+  );
+}
 
 tmi.on(
   "anongiftpaidupgrade",

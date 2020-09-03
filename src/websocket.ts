@@ -1,5 +1,5 @@
-import WebSocket from "ws";
-import { webServer } from "./webserver";
+import WebSocket from 'ws';
+import { webServer } from './webserver';
 //wss - web socket server
 //ws - web socket client
 
@@ -10,10 +10,10 @@ interface ExtWebSocket extends WebSocket {
   isAlive: boolean;
 }
 
-wsServer.on("connection", (ws: ExtWebSocket) => {
+wsServer.on('connection', (ws: ExtWebSocket) => {
   ws.isAlive = true;
 
-  ws.on("pong", () => {
+  ws.on('pong', () => {
     ws.isAlive = true;
   });
 
@@ -26,7 +26,7 @@ wsServer.on("connection", (ws: ExtWebSocket) => {
     });
   }, 10000);
 
-  ws.on("close", function (cc: number, cmsg: string) {
+  ws.on('close', function (cc: number, cmsg: string) {
     clearInterval(ping);
   });
 
