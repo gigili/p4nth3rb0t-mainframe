@@ -25,3 +25,22 @@ export const sendDropUserEvent = async (userId: string, messageId: string) => {
     console.log(error);
   }
 };
+
+export const sendWeatherEvent = (weatherType: string, messageId: string) => {
+  try {
+    const weatherEvent: SocketPacket = {
+      broadcaster: config.broadcaster,
+      event: TwitchEvent.weather,
+      id: messageId,
+      data: {
+        weatherEvent: weatherType,
+      },
+    };
+
+    wsServer.clients.forEach((client) => {
+      client.send(JSON.stringify(weatherEvent));
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

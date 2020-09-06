@@ -1,5 +1,5 @@
 import { ChatUserstate } from "tmi.js";
-import { sendDropUserEvent } from "../actions/drop";
+import { sendDropUserEvent, sendWeatherEvent } from "../actions/drop";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -22,7 +22,21 @@ const ChatCommands: Commands = {
       sendDropUserEvent(tags["user-id"] as string, tags["id"] as string);
     }
   },
-  "!rain": () => {},
+  "!rain": (tags, message) => {
+    sendWeatherEvent("!rain", tags["id"] as string);
+  },
+  "!shower": (tags, message) => {
+    sendWeatherEvent("!shower", tags["id"] as string);
+  },
+  "!snow": (tags, message) => {
+    sendWeatherEvent("!snow", tags["id"] as string);
+  },
+  "!hail": (tags, message) => {
+    sendWeatherEvent("!hail", tags["id"] as string);
+  },
+  "!blizzard": (tags, message) => {
+    sendWeatherEvent("!blizzard", tags["id"] as string);
+  },
 };
 
 export { ChatCommands };
