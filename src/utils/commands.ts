@@ -1,3 +1,4 @@
+import { sendDropEmotesEvent } from "./../actions/drop";
 import { ChatUserstate } from "tmi.js";
 import { sendDropUserEvent, sendWeatherEvent } from "../actions/drop";
 
@@ -12,9 +13,28 @@ type Commands = {
 };
 
 const ChatCommands: Commands = {
+  "!bigdrop": (tags, message) => {
+    // !drop emotes
+    if (tags.emotes) {
+      sendDropEmotesEvent(
+        Object.keys(tags.emotes) as [],
+        true,
+        tags["id"] as string,
+        "!bigdrop"
+      );
+    }
+  },
   "!drop": (tags, message) => {
-    // !drop me
+    if (tags.emotes) {
+      sendDropEmotesEvent(
+        Object.keys(tags.emotes) as [],
+        false,
+        tags["id"] as string,
+        "!drop"
+      );
+    }
 
+    // !drop me
     // TODO - only do user drop if this-
     // if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {}
 

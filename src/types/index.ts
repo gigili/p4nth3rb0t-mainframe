@@ -2,23 +2,28 @@ export enum TwitchEvent {
   sub = "sub",
   dropUser = "dropuser",
   weather = "weather",
+  dropEmotes = "dropemotes",
 }
 
-interface SocketData {}
+interface Data {}
 
-interface DropSocketData extends SocketData {}
+interface DropData extends Data {
+  logoUrl?: string;
+  emoteUrls?: string[];
+  dropType?: string;
+}
 
-interface SubSocketData extends SocketData {
+interface SubData extends Data {
   logoUrl: string;
 }
 
-interface WeatherSocketData extends SocketData {
+interface WeatherData extends Data {
   weatherEvent: string;
 }
 
-export interface SocketPacket {
+export interface Packet {
   broadcaster: string;
   event: TwitchEvent;
   id: string;
-  data: DropSocketData | SubSocketData | WeatherSocketData;
+  data: DropData | SubData | WeatherData;
 }

@@ -2,7 +2,7 @@ import { wsServer } from "../websocket";
 import { tmi } from "./../tmi";
 import { ChatUserstate } from "tmi.js";
 import UserManager from "../users/UserManager";
-import { SocketPacket, TwitchEvent } from "../types";
+import { Packet, TwitchEvent } from "../types";
 import { config } from "../config";
 
 const DEBUG = false;
@@ -17,7 +17,7 @@ const sendSubEvent = async (userId: string, messageId: string) => {
   try {
     const user = await userManager.getUser(userId as string);
 
-    const subEvent: SocketPacket = {
+    const subEvent: Packet = {
       broadcaster: config.broadcaster,
       event: TwitchEvent.sub,
       id: messageId,
