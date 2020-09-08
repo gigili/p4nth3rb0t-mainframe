@@ -1,3 +1,4 @@
+import { testConfig } from "./../../testConfig";
 import { wsServer } from "../websocket";
 import { tmi } from "./../tmi";
 import { ChatUserstate } from "tmi.js";
@@ -91,7 +92,9 @@ tmi.on(
     message: string,
     userstate: ChatUserstate
   ) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+    testConfig.connectToFdgt
+      ? sendSubEvent(testConfig.userId, testConfig.userId)
+      : sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
   }
 );
 

@@ -2,6 +2,7 @@ import "./env";
 
 import { webServer } from "./webserver";
 import { tmi } from "./tmi";
+import { testConfig } from "./../testConfig";
 import "./events/subscriptions";
 import "./events/messages";
 
@@ -15,6 +16,12 @@ async function run() {
       );
     });
     await tmi.connect();
+
+    if (testConfig.connectToFdgt) {
+      setTimeout(() => {
+        tmi.say(testConfig.channel, testConfig.command);
+      }, 5000);
+    }
   } catch (error) {
     console.log(error);
   }
