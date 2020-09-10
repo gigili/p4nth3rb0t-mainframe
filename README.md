@@ -1,6 +1,6 @@
 # Welcome to the p4nth3rb0t MAINFRAME
 
-P4nth3rb0t MAINFRAME is a backend to support all things Twitch chat bot and overlay. It is written in Typescript and uses [TMI.JS](https://github.com/tmijs) over Websockets.
+P4nth3rb0t MAINFRAME is a backend to support all things Twitch chat bot and overlay. It is written in Typescript and uses websockets to communicate.
 
 It can handle the following Twitch events:
 
