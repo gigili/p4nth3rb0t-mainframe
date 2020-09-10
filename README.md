@@ -4,13 +4,16 @@ P4nth3rb0t MAINFRAME is a backend to support all things Twitch chat bot and over
 
 It can handle the following Twitch events:
 
-* Subscriptions - All tiers, gift subs, resubs and sub updgrades
-* Followers
-* Raids
-* Cheers
+```
+- Subscriptions - All tiers, gift subs, resubs and sub updgrades
+- Followers
+- Raids
+- Bits
+```
 
 It also supports the following custom events originally found in [P4nth3rDrop](https://github.com/whitep4nth3r/p4nth3rdrop):
 
+```
 - !rain
 - !shower
 - !snow
@@ -24,6 +27,7 @@ It also supports the following custom events originally found in [P4nth3rDrop](h
 // broadcaster only
 - !start-trail
 - !end-trail
+```
 
 ## Testing events with fdgt
 
