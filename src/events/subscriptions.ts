@@ -87,7 +87,6 @@ tmi.on(
   (
     channel: string,
     username: string,
-    recipient: string,
     methods: {},
     message: string,
     userstate: ChatUserstate

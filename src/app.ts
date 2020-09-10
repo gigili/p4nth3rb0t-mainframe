@@ -5,6 +5,8 @@ import { tmi } from "./tmi";
 import { testConfig } from "./../testConfig";
 import "./events/subscriptions";
 import "./events/messages";
+import "./events/raids";
+import "./events/cheers";
 
 async function run() {
   try {

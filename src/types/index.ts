@@ -3,9 +3,15 @@ export enum TwitchEvent {
   dropUser = "dropuser",
   weather = "weather",
   dropEmotes = "dropemotes",
+  raid = "raid",
+  cheer = "cheer",
 }
 
 interface Data {}
+
+interface CheerData extends Data {
+  bitCount: string;
+}
 
 interface DropData extends Data {
   logoUrl?: string;
@@ -21,9 +27,14 @@ interface WeatherData extends Data {
   weatherEvent: string;
 }
 
+interface RaidData extends Data {
+  raiderCount: number;
+  raider: string;
+}
+
 export interface Packet {
   broadcaster: string;
   event: TwitchEvent;
   id: string;
-  data: DropData | SubData | WeatherData;
+  data: CheerData | DropData | RaidData | SubData | WeatherData;
 }
