@@ -1,5 +1,6 @@
 interface Config {
   broadcaster: string;
+  channel: string;
   drop: {
     minAccountAge: number;
   };
@@ -8,10 +9,12 @@ interface Config {
     sizes: string[];
   };
   specialUsers: string[];
+  botResponses: any;
 }
 
 const config: Config = {
   broadcaster: "whitep4nth3r",
+  channel: "#whitep4nth3r",
   drop: {
     minAccountAge: 7 * 24 * 60 * 60 * 1000,
   },
@@ -25,7 +28,17 @@ const config: Config = {
     "codingwithluce",
     "madhousesteve",
     "melkeydev",
+    "rawrsatbeards",
   ],
+  botResponses: {
+    SillyQuestion: (username: string) => {
+      return `Hi there ${username}! 
+      It looks like you're trying to find out what we're doing!
+      Sit back, relax, and watch for a few minutes to see what's going on.
+      If you're still not sure, you can use the following commands in chat to find out more: 
+      !project, !today, !who`;
+    },
+  },
 };
 
 export { config };
