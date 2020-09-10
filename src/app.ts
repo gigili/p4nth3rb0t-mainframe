@@ -7,6 +7,7 @@ import "./events/subscriptions";
 import "./events/messages";
 import "./events/raids";
 import "./events/cheers";
+import "./events/joins";
 
 async function run() {
   try {

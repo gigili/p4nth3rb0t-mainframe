@@ -6,6 +6,25 @@ import UserManager from "../users/UserManager";
 
 const userManager = new UserManager();
 
+export const sendWeatherTrailEvent = async (trailing: boolean) => {
+  try {
+    const weatherTrailEvent: Packet = {
+      broadcaster: config.broadcaster,
+      event: TwitchEvent.weatherTrailEvent,
+      id: "trailing-" + Date.now(),
+      data: {
+        trailing: trailing,
+      },
+    };
+
+    wsServer.clients.forEach((client) => {
+      client.send(JSON.stringify(weatherTrailEvent));
+    });
+  } catch (error) {
+    console.log(Error);
+  }
+};
+
 export const sendDropUserEvent = async (userId: string, messageId: string) => {
   try {
     const user = await userManager.getUser(userId as string);

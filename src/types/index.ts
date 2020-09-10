@@ -5,6 +5,8 @@ export enum TwitchEvent {
   dropEmotes = "dropemotes",
   raid = "raid",
   cheer = "cheer",
+  specialUserJoin = "specialuserjoin",
+  weatherTrailEvent = "settrailing",
 }
 
 interface Data {}
@@ -19,12 +21,20 @@ interface DropData extends Data {
   dropType?: string;
 }
 
+interface SpecialUserJoinData extends Data {
+  username: string;
+}
+
 interface SubData extends Data {
   logoUrl: string;
 }
 
 interface WeatherData extends Data {
   weatherEvent: string;
+}
+
+interface WeatherTrailData extends Data {
+  trailing: boolean;
 }
 
 interface RaidData extends Data {
@@ -36,5 +46,12 @@ export interface Packet {
   broadcaster: string;
   event: TwitchEvent;
   id: string;
-  data: CheerData | DropData | RaidData | SubData | WeatherData;
+  data:
+    | CheerData
+    | DropData
+    | SpecialUserJoinData
+    | RaidData
+    | SubData
+    | WeatherData
+    | WeatherTrailData;
 }

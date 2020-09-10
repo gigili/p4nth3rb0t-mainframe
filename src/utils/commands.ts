@@ -1,6 +1,11 @@
 import { sendDropEmotesEvent } from "./../actions/drop";
 import { ChatUserstate } from "tmi.js";
-import { sendDropUserEvent, sendWeatherEvent } from "../actions/drop";
+import { config } from "../config";
+import {
+  sendDropUserEvent,
+  sendWeatherEvent,
+  sendWeatherTrailEvent,
+} from "../actions/drop";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -13,6 +18,16 @@ type Commands = {
 };
 
 const ChatCommands: Commands = {
+  "!start-trail": (tags, message) => {
+    if (tags.username === config.broadcaster) {
+      sendWeatherTrailEvent(true);
+    }
+  },
+  "!end-trail": (tags, message) => {
+    if (tags.username === config.broadcaster) {
+      sendWeatherTrailEvent(false);
+    }
+  },
   "!bigdrop": (tags, message) => {
     // !drop emotes
     if (tags.emotes) {
