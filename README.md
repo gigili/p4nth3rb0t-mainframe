@@ -1,6 +1,33 @@
 # Welcome to the p4nth3rb0t MAINFRAME
 
+P4nth3rb0t MAINFRAME is a backend to support all things Twitch chat bot and overlay. It is written in Typescript and uses [TMI.JS](https://github.com/tmijs) over Websockets.
+
+It can handle the following Twitch events:
+
+* Subscriptions - All tiers, gift subs, resubs and sub updgrades
+* Followers
+* Raids
+* Cheers
+
+It also supports the following custom events originally found in [P4nth3rDrop](https://github.com/whitep4nth3r/p4nth3rdrop):
+
+- !rain
+- !shower
+- !snow
+- !hail
+- !blizzard
+
+- !drop me
+- !drop {emotes}
+- !bigdrop {emotes}
+
+// broadcaster only
+- !start-trail
+- !end-trail
+
 ## Testing events with fdgt
+
+Fdgt is an excellent tool that allows you to test your events without having to spend money on Twitch.
 
 [See fdgt docs](https://fdgt-website.now.sh/docs/getting-started)
 
