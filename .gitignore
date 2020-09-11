@@ -116,5 +116,3 @@ dist
 .pnp.*
 
 build
-
-testConfig.ts
