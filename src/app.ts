@@ -11,7 +11,7 @@ import "./events/joins";
 
 async function run() {
   try {
-    webServer.listen(process.env.PORT, () => {
+    webServer.listen(process.env.PORT || 8999, () => {
       console.log(
         `p4nth3rb0t mainframe started on port ${
           (webServer.address() as any).port
