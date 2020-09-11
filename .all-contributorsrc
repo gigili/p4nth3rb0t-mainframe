@@ -13,6 +13,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "LuceCarter",
+      "name": "Luce Carter",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6980734?v=4",
+      "profile": "http://lucecarter.co.uk",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
