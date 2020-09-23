@@ -4,6 +4,7 @@ import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
 import { Packet, TwitchEvent } from "../types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
+import { isSillyQuestion } from "../utils/sillyQuestions";
 import UserManager from "../users/UserManager";
 import LiveCoders, { Coders, Coder } from "../users/LiveCoders";
 
@@ -11,53 +12,10 @@ const userManager = new UserManager();
 
 const liveCoders = new LiveCoders();
 let teamMembers: Coders = [];
+const teamMembersGreeted: Coders = [];
 
 const teamMembersPromise = liveCoders.getUserNames();
 teamMembersPromise.then((res) => (teamMembers = res));
-
-const teamMembersGreeted: Coders = [];
-
-// please describe the evening's plan in detail, kindest regards
-// to whom this concerns would you kindly explain what is the purpose of your live streaming event this fine evening
-const wordTetris = {
-  what: [
-    "what",
-    "wut",
-    "wot",
-    "wat",
-    "wht",
-    "whaat",
-    "vat",
-    "why",
-    "whut",
-    "vvhat",
-    "waat",
-    "w4t",
-    "twaat",
-  ],
-  are: ["are", "r", "ar", "ae", "re", "array", "4re"],
-  you: ["you", "yu", "yo", "u", "yoo", "yuu", "yew", "ewe", "uu", "uyo"],
-  doing: ["doing", "doin", "dooing", "doign", "ding", "dong", "dwoing"],
-  working: ["working", "woring", "coding"],
-};
-
-const isSillyQuestion = (message: string): boolean => {
-  return (
-    message
-      .replace("?", "")
-      .replace("how", "")
-      .split(" ")
-      .map(
-        (word) =>
-          wordTetris.what.includes(word) ||
-          wordTetris.are.includes(word) ||
-          wordTetris.you.includes(word) ||
-          wordTetris.doing.includes(word) ||
-          wordTetris.working.includes(word)
-      )
-      .filter(Boolean).length >= 4
-  );
-};
 
 const sendLiveCoderJoinEvent = async (coder: Coder) => {
   try {
@@ -103,7 +61,12 @@ tmi.on(
       !teamMembersGreeted.includes(possibleLiveCoder) &&
       possibleLiveCoder.name !== config.broadcaster
     ) {
-      tmi.say(config.channel, `Yo, ${possibleLiveCoder.name}!`);
+      //https://github.com/CodingGarden/twitch-team-shoutout-bot/blob/master/src/twitchAPI.js
+      //https://github.com/CodingGarden/twitch-team-shoutout-bot/blob/master/src/config.js
+      tmi.say(
+        config.channel,
+        `whitep30PEWPEW Live Coder detected! 👋 Hello there, @${possibleLiveCoder.name}! Check out their channel here: https://twitch.tv/${possibleLiveCoder.name}`
+      );
       teamMembersGreeted.push(possibleLiveCoder);
       sendLiveCoderJoinEvent(possibleLiveCoder);
     }
