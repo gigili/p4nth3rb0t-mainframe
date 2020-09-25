@@ -7,6 +7,7 @@ export enum TwitchEvent {
   cheer = "cheer",
   specialUserJoin = "specialuserjoin",
   weatherTrailEvent = "settrailing",
+  liveCoderJoin = "livecoderjoin",
 }
 
 interface Data {}
@@ -23,6 +24,10 @@ interface DropData extends Data {
 
 interface SpecialUserJoinData extends Data {
   username: string;
+}
+
+interface LiveCoderJoinData extends Data {
+  logoUrl: string;
 }
 
 interface SubData extends Data {

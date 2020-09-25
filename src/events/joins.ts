@@ -5,7 +5,7 @@ import { config } from "../config";
 
 const sendSpecialUserJoinEvent = async (username: string) => {
   try {
-    const cheerEvent: Packet = {
+    const specialUserJoin: Packet = {
       broadcaster: config.broadcaster,
       event: TwitchEvent.specialUserJoin,
       id: username + "-" + Date.now(),
@@ -15,15 +15,15 @@ const sendSpecialUserJoinEvent = async (username: string) => {
     };
 
     wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(cheerEvent));
+      client.send(JSON.stringify(specialUserJoin));
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-tmi.on("join", (channel: string, username: string, self: boolean) => {
+tmi.on("join", async (channel: string, username: string, self: boolean) => {
   if (config.specialUsers.includes(username)) {
-    sendSpecialUserJoinEvent(username as string);
+    sendSpecialUserJoinEvent(username);
   }
 });

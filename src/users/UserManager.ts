@@ -1,9 +1,7 @@
-const axios = require('axios').default;
+import axios from "axios";
 
 export default class UserManager {
   cache = new Map<string, any>();
-
-  constructor() {}
 
   async getUser(userId: string) {
     if (this.cache.has(userId)) {
@@ -14,8 +12,8 @@ export default class UserManager {
       `https://api.twitch.tv/kraken/users/${userId}`,
       {
         headers: {
-          accept: 'application/vnd.twitchtv.v5+json',
-          'client-id': process.env.CLIENT_ID,
+          accept: "application/vnd.twitchtv.v5+json",
+          "client-id": process.env.CLIENT_ID,
         },
       }
     );
