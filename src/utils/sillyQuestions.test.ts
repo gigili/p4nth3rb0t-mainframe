@@ -4,6 +4,7 @@ test("what are you doing?", () => {
   const result = isSillyQuestion("what are you doing?");
   expect(result).toBe(true);
 });
+
 test("what are you working on?", () => {
   const result = isSillyQuestion("what are you working on?");
   expect(result).toBe(true);
