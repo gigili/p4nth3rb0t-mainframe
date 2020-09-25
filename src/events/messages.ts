@@ -5,12 +5,16 @@ import { config } from "../config";
 import { Packet, TwitchEvent } from "../types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
-import UserManager from "../users/UserManager";
-import LiveCoders, { Coders, Coder } from "../users/LiveCoders";
+import { TwitchChannel, Coders, Coder } from "./../types";
 
+import { testConfig } from "../../testConfig";
+
+import UserManager from "../users/UserManager";
 const userManager = new UserManager();
 
+import LiveCoders from "../users/LiveCoders";
 const liveCoders = new LiveCoders();
+
 let teamMembers: Coders = [];
 const teamMembersGreeted: Coders = [];
 
@@ -61,11 +65,14 @@ tmi.on(
       !teamMembersGreeted.includes(possibleLiveCoder) &&
       possibleLiveCoder.name !== config.broadcaster
     ) {
-      tmi.say(
-        config.channel,
-        liveCoders.getWelcomeMessage(possibleLiveCoder.name)
+      const liveCoderChannel = await liveCoders.getChannelById(
+        possibleLiveCoder.id
       );
 
+      tmi.say(
+        config.channel,
+        liveCoders.getWelcomeMessage(liveCoderChannel as TwitchChannel)
+      );
       teamMembersGreeted.push(possibleLiveCoder);
       sendLiveCoderJoinEvent(possibleLiveCoder);
     }
