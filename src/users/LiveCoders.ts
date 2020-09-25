@@ -22,6 +22,10 @@ export default class LiveCoders {
   //TODO: some kind of cache expiry
   cache: Coders = [];
 
+  public getWelcomeMessage = (username: string): string => {
+    return `whitep30PEWPEW Live Coder team member detected! 👋 Hello there, @${username}! Check out their channel here: https://twitch.tv/${username}`;
+  };
+
   async getUserNames(): Promise<Coders> {
     if (this.cache.length > 0) {
       return this.cache;

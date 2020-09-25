@@ -61,12 +61,11 @@ tmi.on(
       !teamMembersGreeted.includes(possibleLiveCoder) &&
       possibleLiveCoder.name !== config.broadcaster
     ) {
-      //https://github.com/CodingGarden/twitch-team-shoutout-bot/blob/master/src/twitchAPI.js
-      //https://github.com/CodingGarden/twitch-team-shoutout-bot/blob/master/src/config.js
       tmi.say(
         config.channel,
-        `whitep30PEWPEW Live Coder detected! 👋 Hello there, @${possibleLiveCoder.name}! Check out their channel here: https://twitch.tv/${possibleLiveCoder.name}`
+        liveCoders.getWelcomeMessage(possibleLiveCoder.name)
       );
+
       teamMembersGreeted.push(possibleLiveCoder);
       sendLiveCoderJoinEvent(possibleLiveCoder);
     }
