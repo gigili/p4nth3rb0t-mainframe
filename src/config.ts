@@ -32,7 +32,7 @@ const config: Config = {
   ],
   botResponses: {
     SillyQuestion: (username: string) => {
-      return `!today >> Hi there ${username}! You can use the following commands in chat to find out more: !project, !today, !who`;
+      return `Hi there ${username}! You can use the following commands in chat to find out more: !project, !today, !who`;
     },
   },
 };
