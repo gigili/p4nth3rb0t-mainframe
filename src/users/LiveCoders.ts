@@ -53,8 +53,8 @@ export default class LiveCoders {
         `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcasterId}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Client-Id": process.env.CLIENT_ID,
+            authorization: `Bearer ${accessToken}`,
+            "client-id": process.env.CLIENT_ID,
           },
         }
       );
