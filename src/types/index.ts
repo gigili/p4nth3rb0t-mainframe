@@ -60,3 +60,39 @@ export interface Packet {
     | WeatherData
     | WeatherTrailData;
 }
+
+export interface TwitchChannel {
+  broadcaster_id: string;
+  broadcaster_name: string;
+  broadcaster_language: string;
+  game_id: string;
+  game_name: string;
+  title: string;
+}
+
+export interface Coder {
+  name: string;
+  id: string;
+}
+
+export type Coders = Coder[];
+
+export interface TeamResponse {
+  data: {
+    users: [
+      {
+        name: string;
+        _id: string;
+      }
+    ];
+  };
+}
+
+export interface AccessTokenResponse {
+  data: {
+    access_token: string;
+    expires_in: number;
+    scope: [];
+    token_type: string;
+  };
+}
