@@ -32,11 +32,7 @@ const config: Config = {
   ],
   botResponses: {
     SillyQuestion: (username: string) => {
-      return `Hi there ${username}! 
-      It looks like you're trying to find out what we're doing!
-      Sit back, relax, and watch for a few minutes to see what's going on.
-      If you're still not sure, you can use the following commands in chat to find out more: 
-      !project, !today, !who`;
+      return `!today >> Hi there ${username}! You can use the following commands in chat to find out more: !project, !today, !who`;
     },
   },
 };

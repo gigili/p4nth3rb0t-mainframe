@@ -8,6 +8,7 @@ const sillyWords = {
     "wat",
     "wht",
     "whaat",
+    "whatcha",
     "vat",
     "why",
     "whut",
@@ -23,11 +24,11 @@ const sillyWords = {
 };
 
 const isSillyQuestion = (message: string): boolean => {
+  const messageArray = message.replace("?", "").replace("how", "").split(" ");
+  const uniqueWords = [...new Set(messageArray)];
+
   return (
-    message
-      .replace("?", "")
-      .replace("how", "")
-      .split(" ")
+    uniqueWords
       .map(
         (word) =>
           sillyWords.what.includes(word) ||
@@ -36,7 +37,7 @@ const isSillyQuestion = (message: string): boolean => {
           sillyWords.doing.includes(word) ||
           sillyWords.working.includes(word)
       )
-      .filter(Boolean).length >= 4
+      .filter(Boolean).length >= 3
   );
 };
 
