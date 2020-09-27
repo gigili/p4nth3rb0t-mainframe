@@ -3,11 +3,14 @@ import "./env";
 import { webServer } from "./webserver";
 import { tmi } from "./tmi";
 import { testConfig } from "./../testConfig";
+import Database from "./data/database";
 import "./events/subscriptions";
 import "./events/messages";
 import "./events/raids";
 import "./events/cheers";
 import "./events/joins";
+
+Database.connect();
 
 async function run() {
   try {

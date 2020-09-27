@@ -4,7 +4,7 @@ import {
   TeamResponse,
   AccessTokenResponse,
   Coders,
-} from "./../types";
+} from "../data/types";
 
 export default class LiveCoders {
   //TODO: some kind of cache expiry

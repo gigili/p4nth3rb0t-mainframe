@@ -3,7 +3,7 @@ import { wsServer } from "../websocket";
 import { tmi } from "./../tmi";
 import { ChatUserstate } from "tmi.js";
 import UserManager from "../users/UserManager";
-import { Packet, TwitchEvent } from "../types";
+import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
 const DEBUG = false;

@@ -2,10 +2,10 @@ import { tmi } from "./../tmi";
 import { wsServer } from "../websocket";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
-import { Packet, TwitchEvent } from "../types";
+import { Packet, TwitchEvent } from "../data/types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
-import { TwitchChannel, Coders, Coder } from "./../types";
+import { TwitchChannel, Coders, Coder } from "../data/types";
 
 import { testConfig } from "../../testConfig";
 

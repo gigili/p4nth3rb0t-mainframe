@@ -1,5 +1,5 @@
 import { config } from "../config";
-import { Packet, TwitchEvent } from "../types";
+import { Packet, TwitchEvent } from "../data/types";
 import { wsServer } from "../websocket";
 
 import UserManager from "../users/UserManager";
