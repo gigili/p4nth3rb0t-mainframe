@@ -1,40 +1,13 @@
 import axios from "axios";
-import {
-  TwitchChannel,
-  TeamResponse,
-  AccessTokenResponse,
-  Coders,
-} from "../data/types";
+import AccessToken from "../classes/AccessToken";
+import { TwitchChannel, TeamResponse, Coders } from "../data/types";
+
+const accessTokenUtil = new AccessToken();
 
 export default class LiveCoders {
   //TODO: some kind of cache expiry
   //TODO: put channels in cache
   cache: Coders = [];
-  accessTokenCache = "";
-
-  async getAccessToken(): Promise<string> {
-    if (this.accessTokenCache.length > 0) {
-      return this.accessTokenCache;
-    }
-
-    try {
-      const response = await axios.post<string, AccessTokenResponse>(
-        `https://id.twitch.tv/oauth2/token?scope=user:edit&response_type=token&client_secret=${process.env.CLIENT_SECRET}&grant_type=client_credentials&client_id=${process.env.CLIENT_ID}`,
-        {
-          headers: {
-            accept: "application/vnd.twitchtv.v5+json",
-          },
-        }
-      );
-
-      this.accessTokenCache = response.data.access_token;
-      return response.data.access_token;
-    } catch (error) {
-      console.log(error);
-    }
-
-    return "";
-  }
 
   public getWelcomeMessage = (channel: TwitchChannel): string => {
     return `whitep30PEWPEW Live Coder team member detected! 
@@ -46,23 +19,27 @@ export default class LiveCoders {
   async getChannelById(
     broadcasterId: string
   ): Promise<TwitchChannel | undefined> {
-    const accessToken = await this.getAccessToken();
+    const accessTokenData = await accessTokenUtil.get();
 
-    try {
-      const response = await axios.get<{ data: TwitchChannel[] }>(
-        `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcasterId}`,
-        {
-          headers: {
-            authorization: `Bearer ${accessToken}`,
-            "client-id": process.env.CLIENT_ID,
-          },
-        }
-      );
+    if (accessTokenData) {
+      try {
+        const response = await axios.get<{ data: TwitchChannel[] }>(
+          `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcasterId}`,
+          {
+            headers: {
+              authorization: `Bearer ${accessTokenData.accessToken}`,
+              "client-id": process.env.CLIENT_ID,
+            },
+          }
+        );
 
-      return response.data.data[0];
-    } catch (error) {
-      console.log(error);
+        return response.data.data[0];
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+    return undefined;
   }
 
   async getUserNames(): Promise<Coders> {
