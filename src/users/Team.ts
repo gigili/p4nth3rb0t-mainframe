@@ -1,22 +1,20 @@
 import axios from "axios";
 import AccessToken from "../classes/AccessToken";
 import { TwitchChannel, TeamResponse, Coders } from "../data/types";
+import { config } from "../config";
 
 const accessTokenUtil = new AccessToken();
 
-export default class LiveCoders {
+export default class Team {
   //TODO: some kind of cache expiry
   //TODO: put channels in cache
-  cache: Coders = [];
+  static cache: Coders = [];
 
-  public getWelcomeMessage = (channel: TwitchChannel): string => {
-    return `whitep30PEWPEW Live Coder team member detected! 
-    PEW PEW, @${channel.broadcaster_name}! 
-    Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
-    | They were last seen streaming ${channel.title} in ${channel.game_name} whitep30PEWPEW`;
+  static getWelcomeMessage = (channel: TwitchChannel): string => {
+    return config.teamWelcomeMessage(channel);
   };
 
-  async getChannelById(
+  static async getChannelById(
     broadcasterId: string
   ): Promise<TwitchChannel | undefined> {
     const accessTokenData = await accessTokenUtil.get();
@@ -42,14 +40,14 @@ export default class LiveCoders {
     return undefined;
   }
 
-  async getUserNames(): Promise<Coders> {
-    if (this.cache.length > 0) {
-      return this.cache;
+  static async getUserNames(): Promise<Coders> {
+    if (Team.cache.length > 0) {
+      return Team.cache;
     }
 
     try {
       const response = await axios.get<any, TeamResponse>(
-        "https://api.twitch.tv/kraken/teams/livecoders",
+        `https://api.twitch.tv/kraken/teams/${config.teamName}`,
         {
           headers: {
             accept: "application/vnd.twitchtv.v5+json",
@@ -63,7 +61,7 @@ export default class LiveCoders {
         id: user._id,
       }));
 
-      this.cache = users;
+      Team.cache = users;
 
       return users;
     } catch (error) {
