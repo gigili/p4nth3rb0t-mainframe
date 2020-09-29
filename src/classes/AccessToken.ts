@@ -13,25 +13,22 @@ export default class AccessToken {
   async get(): Promise<AccessTokenData | undefined> {
     const getAccessToken = await AccessTokenModel.findOne();
 
-    if (
-      !getAccessToken ||
-      (getAccessToken && !this.checkExistsAndValid(getAccessToken))
-    ) {
-      const response = await this.fetch();
-      if (response) {
-        const accessToken = await this.set(response);
-        return this.get();
-      }
-    }
+    const isValid =
+      getAccessToken && (await this.checkExistsAndValid(getAccessToken));
 
-    if (getAccessToken && this.checkExistsAndValid(getAccessToken)) {
+    if (getAccessToken && isValid) {
       return getAccessToken;
     }
 
-    return undefined;
+    const response = await this.fetch();
+
+    if (response) {
+      const accessToken = await this.set(response);
+      return this.get();
+    }
   }
 
-  async set({ data }: AccessTokenResponse): Promise<AccessTokenDoc> {
+  async set(data: AccessTokenResponse): Promise<AccessTokenDoc> {
     const setAccessToken = await AccessTokenModel.updateOne(
       {},
       {

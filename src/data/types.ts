@@ -89,10 +89,8 @@ export interface TeamResponse {
 }
 
 export interface AccessTokenResponse {
-  data: {
-    access_token: string;
-    expires_in: number;
-    scope: [];
-    token_type: string;
-  };
+  access_token: string;
+  expires_in: number;
+  scope: [];
+  token_type: string;
 }
