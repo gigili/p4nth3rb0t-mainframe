@@ -1,3 +1,5 @@
+import { TwitchChannel } from "./data/types";
+
 interface Config {
   broadcaster: string;
   channel: string;
@@ -10,6 +12,8 @@ interface Config {
   };
   specialUsers: string[];
   botResponses: any;
+  teamName: string;
+  teamWelcomeMessage: (channel: TwitchChannel) => string;
 }
 
 const config: Config = {
@@ -34,6 +38,13 @@ const config: Config = {
     SillyQuestion: (username: string) => {
       return `Hi there ${username}! You can use the following commands in chat to find out more: !project, !today, !who`;
     },
+  },
+  teamName: "livecoders",
+  teamWelcomeMessage: (channel: TwitchChannel): string => {
+    return `whitep30PEWPEW Live Coder team member detected! 
+    PEW PEW, @${channel.broadcaster_name}! 
+    Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
+    | They were last seen streaming ${channel.title} in ${channel.game_name} whitep30PEWPEW`;
   },
 };
 

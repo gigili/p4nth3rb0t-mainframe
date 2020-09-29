@@ -7,7 +7,7 @@ export enum TwitchEvent {
   cheer = "cheer",
   specialUserJoin = "specialuserjoin",
   weatherTrailEvent = "settrailing",
-  liveCoderJoin = "livecoderjoin",
+  teamMemberJoin = "teammemberjoin",
 }
 
 interface Data {}
@@ -26,7 +26,7 @@ interface SpecialUserJoinData extends Data {
   username: string;
 }
 
-interface LiveCoderJoinData extends Data {
+interface teamMemberJoinData extends Data {
   logoUrl: string;
 }
 
@@ -58,7 +58,8 @@ export interface Packet {
     | RaidData
     | SubData
     | WeatherData
-    | WeatherTrailData;
+    | WeatherTrailData
+    | teamMemberJoinData;
 }
 
 export interface TwitchChannel {
@@ -89,10 +90,8 @@ export interface TeamResponse {
 }
 
 export interface AccessTokenResponse {
-  data: {
-    access_token: string;
-    expires_in: number;
-    scope: [];
-    token_type: string;
-  };
+  access_token: string;
+  expires_in: number;
+  scope: [];
+  token_type: string;
 }

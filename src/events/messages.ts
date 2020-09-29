@@ -2,32 +2,31 @@ import { tmi } from "./../tmi";
 import { wsServer } from "../websocket";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
-import { Packet, TwitchEvent } from "../types";
+import { Packet, TwitchEvent } from "../data/types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
-import { TwitchChannel, Coders, Coder } from "./../types";
+import { TwitchChannel, Coders, Coder } from "../data/types";
 
 import { testConfig } from "../../testConfig";
 
 import UserManager from "../users/UserManager";
 const userManager = new UserManager();
 
-import LiveCoders from "../users/LiveCoders";
-const liveCoders = new LiveCoders();
+import Team from "../users/Team";
 
 let teamMembers: Coders = [];
 const teamMembersGreeted: Coders = [];
 
-const teamMembersPromise = liveCoders.getUserNames();
+const teamMembersPromise = Team.getUserNames();
 teamMembersPromise.then((res) => (teamMembers = res));
 
-const sendLiveCoderJoinEvent = async (coder: Coder) => {
+const sendteamMemberJoinEvent = async (coder: Coder) => {
   try {
     const user = await userManager.getUser(coder.id as string);
 
-    const liveCoderJoin: Packet = {
+    const teamMemberJoin: Packet = {
       broadcaster: config.broadcaster,
-      event: TwitchEvent.liveCoderJoin,
+      event: TwitchEvent.teamMemberJoin,
       id: coder.name + "-" + Date.now(),
       data: {
         logoUrl: user.logo,
@@ -35,7 +34,7 @@ const sendLiveCoderJoinEvent = async (coder: Coder) => {
     };
 
     wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(liveCoderJoin));
+      client.send(JSON.stringify(teamMemberJoin));
     });
   } catch (error) {
     console.log(error);
@@ -56,25 +55,25 @@ tmi.on(
       }
     }
 
-    const possibleLiveCoder = teamMembers.find(
+    const possibleTeamMember = teamMembers.find(
       (member) => member.name === tags.username
     );
 
     if (
-      possibleLiveCoder &&
-      !teamMembersGreeted.includes(possibleLiveCoder) &&
-      possibleLiveCoder.name !== config.broadcaster
+      possibleTeamMember &&
+      !teamMembersGreeted.includes(possibleTeamMember) &&
+      possibleTeamMember.name !== config.broadcaster
     ) {
-      const liveCoderChannel = await liveCoders.getChannelById(
-        possibleLiveCoder.id
+      const liveCoderChannel = await Team.getChannelById(
+        possibleTeamMember.id
       );
 
       tmi.say(
         config.channel,
-        liveCoders.getWelcomeMessage(liveCoderChannel as TwitchChannel)
+        Team.getWelcomeMessage(liveCoderChannel as TwitchChannel)
       );
-      teamMembersGreeted.push(possibleLiveCoder);
-      sendLiveCoderJoinEvent(possibleLiveCoder);
+      teamMembersGreeted.push(possibleTeamMember);
+      sendteamMemberJoinEvent(possibleTeamMember);
     }
 
     if (isSillyQuestion(message)) {

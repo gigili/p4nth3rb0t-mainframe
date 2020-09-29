@@ -1,6 +1,6 @@
 import { tmi } from "../tmi";
 import { wsServer } from "../websocket";
-import { Packet, TwitchEvent } from "../types";
+import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 import { ChatUserstate } from "tmi.js";
 
