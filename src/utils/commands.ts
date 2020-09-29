@@ -72,6 +72,9 @@ const ChatCommands: Commands = {
   "!blizzard": (tags, message) => {
     sendWeatherEvent("!blizzard", tags["id"] as string);
   },
+  "!fire": (tags, message) => {
+    sendWeatherEvent("!fire", tags["id"] as string);
+  },
 };
 
 export { ChatCommands };
