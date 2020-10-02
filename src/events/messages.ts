@@ -52,6 +52,10 @@ tmi.on(
     if (tags.username === config.broadcaster) {
       if (message === "!reset") {
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
+        tmi.say(
+          config.channel,
+          `${config.teamName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`
+        );
       }
     }
 
@@ -64,9 +68,7 @@ tmi.on(
       !teamMembersGreeted.includes(possibleTeamMember) &&
       possibleTeamMember.name !== config.broadcaster
     ) {
-      const liveCoderChannel = await Team.getChannelById(
-        possibleTeamMember.id
-      );
+      const liveCoderChannel = await Team.getChannelById(possibleTeamMember.id);
 
       tmi.say(
         config.channel,
