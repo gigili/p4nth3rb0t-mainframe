@@ -1,18 +1,15 @@
 import { tmi } from "./../tmi";
 import { wsServer } from "../websocket";
-import { ChatUserstate } from "tmi.js";
+import { ChatUserstate, Badges } from "tmi.js";
 import { config } from "../config";
 import { Packet, TwitchEvent } from "../data/types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
-import { TwitchChannel, Coders, Coder } from "../data/types";
-
-import { testConfig } from "../../testConfig";
-
+import { TwitchChannel, Coders, Coder, ChatMessageData } from "../data/types";
 import UserManager from "../users/UserManager";
-const userManager = new UserManager();
-
 import Team from "../users/Team";
+
+// import { testConfig } from "../../testConfig";
 
 let teamMembers: Coders = [];
 const teamMembersGreeted: Coders = [];
@@ -20,9 +17,26 @@ const teamMembersGreeted: Coders = [];
 const teamMembersPromise = Team.getUserNames();
 teamMembersPromise.then((res) => (teamMembers = res));
 
+const sendChatMessageEvent = async (data: ChatMessageData) => {
+  try {
+    const chatMessageEvent: Packet = {
+      broadcaster: config.broadcaster,
+      event: TwitchEvent.chatMessage,
+      id: data.messageId,
+      data,
+    };
+
+    wsServer.clients.forEach((client) => {
+      client.send(JSON.stringify(chatMessageEvent));
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const sendteamMemberJoinEvent = async (coder: Coder) => {
   try {
-    const user = await userManager.getUser(coder.id as string);
+    const user = await UserManager.getUser(coder.id as string);
 
     const teamMemberJoin: Packet = {
       broadcaster: config.broadcaster,
@@ -85,7 +99,41 @@ tmi.on(
     const possibleCommand: string = getCommandFromMessage(message);
     const foundHandler = ChatCommands[possibleCommand];
 
+    //if no 'command', send a chat message
     if (!foundHandler) {
+      const badges: Badges = tags.badges || {};
+      const isMod: boolean = badges.moderator
+        ? badges.moderator === "1"
+        : false;
+
+      const isVip: boolean = badges.vip ? badges.vip === "1" : false;
+
+      const isSubscriber: boolean =
+        (badges.subscriber ? badges.subscriber === "1" : false) ||
+        (badges.premium ? badges.premium === "1" : false);
+
+      const isBroadcaster: boolean = badges.broadcaster
+        ? badges.broadcaster === "1"
+        : false;
+
+      const user = await UserManager.getUser(tags["user-id"] as string);
+
+      const chatMessageData: ChatMessageData = {
+        userId: tags["user-id"] as string,
+        username: tags.username as string,
+        displayName: tags["display-name"] as string,
+        messageId: tags.id as string,
+        message: message as string,
+        logoUrl: user.logo,
+        isMod,
+        isVip,
+        isSubscriber,
+        isBroadcaster,
+        isTeamMember: possibleTeamMember !== undefined,
+        emotes: tags.emotes,
+      };
+
+      await sendChatMessageEvent(chatMessageData);
       return;
     }
 

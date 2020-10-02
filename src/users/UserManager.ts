@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default class UserManager {
-  cache = new Map<string, any>();
+  static cache = new Map<string, any>();
 
-  async getUser(userId: string) {
+  static async getUser(userId: string) {
     if (this.cache.has(userId)) {
       return this.cache.get(userId);
     }

@@ -8,15 +8,13 @@ import { config } from "../config";
 
 const DEBUG = false;
 
-const userManager = new UserManager();
-
 //According to tmijs docs that is what is happening.
 //Subgif is a gift to someone directly as in 1:1,
 //where as mysterygift can be 1:N number of gifts given
 
 const sendSubEvent = async (userId: string, messageId: string) => {
   try {
-    const user = await userManager.getUser(userId as string);
+    const user = await UserManager.getUser(userId as string);
 
     const subEvent: Packet = {
       broadcaster: config.broadcaster,
