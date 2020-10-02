@@ -8,6 +8,7 @@ export enum TwitchEvent {
   specialUserJoin = "specialuserjoin",
   weatherTrailEvent = "settrailing",
   teamMemberJoin = "teammemberjoin",
+  chatMessage = "chatmessage",
 }
 
 interface Data {}
@@ -47,19 +48,21 @@ interface RaidData extends Data {
   raider: string;
 }
 
-export interface Packet {
-  broadcaster: string;
-  event: TwitchEvent;
-  id: string;
-  data:
-    | CheerData
-    | DropData
-    | SpecialUserJoinData
-    | RaidData
-    | SubData
-    | WeatherData
-    | WeatherTrailData
-    | teamMemberJoinData;
+export interface ChatMessageData extends Data {
+  userId: string;
+  username: string;
+  displayName: string;
+  messageId: string;
+  message: string;
+  logoUrl: string;
+  isMod: boolean;
+  isVip: boolean;
+  isSubscriber: boolean;
+  isBroadcaster: boolean;
+  isTeamMember: boolean;
+  emotes?: {
+    [emoteid: string]: string[];
+  };
 }
 
 export interface TwitchChannel {
@@ -94,4 +97,20 @@ export interface AccessTokenResponse {
   expires_in: number;
   scope: [];
   token_type: string;
+}
+
+export interface Packet {
+  broadcaster: string;
+  event: TwitchEvent;
+  id: string;
+  data:
+    | CheerData
+    | DropData
+    | SpecialUserJoinData
+    | RaidData
+    | SubData
+    | WeatherData
+    | WeatherTrailData
+    | teamMemberJoinData
+    | ChatMessageData;
 }

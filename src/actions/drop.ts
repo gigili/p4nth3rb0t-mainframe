@@ -1,10 +1,7 @@
 import { config } from "../config";
 import { Packet, TwitchEvent } from "../data/types";
 import { wsServer } from "../websocket";
-
 import UserManager from "../users/UserManager";
-
-const userManager = new UserManager();
 
 export const sendWeatherTrailEvent = async (trailing: boolean) => {
   try {
@@ -27,7 +24,7 @@ export const sendWeatherTrailEvent = async (trailing: boolean) => {
 
 export const sendDropUserEvent = async (userId: string, messageId: string) => {
   try {
-    const user = await userManager.getUser(userId as string);
+    const user = await UserManager.getUser(userId as string);
 
     const dropUserEvent: Packet = {
       broadcaster: config.broadcaster,
