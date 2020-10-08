@@ -11,11 +11,14 @@ import Team from "../users/Team";
 
 // import { testConfig } from "../../testConfig";
 
+let possibleTeamMember: Coder;
 let teamMembers: Coders = [];
 const teamMembersGreeted: Coders = [];
 
-const teamMembersPromise = Team.getUserNames();
-teamMembersPromise.then((res) => (teamMembers = res));
+if (config.teamShoutoutEnabled) {
+  const teamMembersPromise = Team.getUserNames();
+  teamMembersPromise.then((res) => (teamMembers = res));
+}
 
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
@@ -134,7 +137,9 @@ tmi.on(
         isVip,
         isSubscriber,
         isBroadcaster,
-        isTeamMember: possibleTeamMember !== undefined,
+        isTeamMember: config.teamShoutoutEnabled
+          ? possibleTeamMember !== undefined
+          : false,
         emotes: tags.emotes,
       };
 
