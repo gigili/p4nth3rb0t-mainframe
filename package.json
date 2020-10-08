@@ -16,6 +16,7 @@
   "author": "whitep4nth3r",
   "license": "MIT",
   "dependencies": {
+    "@types/cors": "^2.8.7",
     "@types/express": "^4.17.7",
     "@types/jest": "^26.0.14",
     "@types/mongoose": "^5.7.36",
@@ -23,6 +24,7 @@
     "@types/tmi.js": "^1.4.1",
     "@types/ws": "^7.2.6",
     "axios": "^0.20.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jest": "^26.4.2",

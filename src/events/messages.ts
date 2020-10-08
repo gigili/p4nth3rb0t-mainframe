@@ -55,6 +55,7 @@ const sendteamMemberJoinEvent = async (coder: Coder) => {
   }
 };
 
+//TODO - I think this needs to be chatmessage??? Or chat??
 tmi.on(
   "message",
   async (
@@ -73,23 +74,27 @@ tmi.on(
       }
     }
 
-    const possibleTeamMember = teamMembers.find(
-      (member) => member.name === tags.username
-    );
-
-    if (
-      possibleTeamMember &&
-      !teamMembersGreeted.includes(possibleTeamMember) &&
-      possibleTeamMember.name !== config.broadcaster
-    ) {
-      const liveCoderChannel = await Team.getChannelById(possibleTeamMember.id);
-
-      tmi.say(
-        config.channel,
-        Team.getWelcomeMessage(liveCoderChannel as TwitchChannel)
+    if (config.teamShoutoutEnabled) {
+      const possibleTeamMember = teamMembers.find(
+        (member) => member.name === tags.username
       );
-      teamMembersGreeted.push(possibleTeamMember);
-      sendteamMemberJoinEvent(possibleTeamMember);
+
+      if (
+        possibleTeamMember &&
+        !teamMembersGreeted.includes(possibleTeamMember) &&
+        possibleTeamMember.name !== config.broadcaster
+      ) {
+        const teamMemberChannel = await Team.getChannelById(
+          possibleTeamMember.id
+        );
+
+        tmi.say(
+          config.channel,
+          Team.getWelcomeMessage(teamMemberChannel as TwitchChannel)
+        );
+        teamMembersGreeted.push(possibleTeamMember);
+        sendteamMemberJoinEvent(possibleTeamMember);
+      }
     }
 
     if (isSillyQuestion(message)) {

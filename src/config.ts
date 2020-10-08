@@ -12,6 +12,7 @@ interface Config {
   };
   specialUsers: string[];
   botResponses: any;
+  teamShoutoutEnabled: boolean;
   teamName: string;
   teamWelcomeMessage: (channel: TwitchChannel) => string;
 }
@@ -39,9 +40,10 @@ const config: Config = {
       return `Hi there ${username}! You can use the following commands in chat to find out more: !project, !today, !who`;
     },
   },
-  teamName: "livecoders",
+  teamShoutoutEnabled: false,
+  teamName: "",
   teamWelcomeMessage: (channel: TwitchChannel): string => {
-    return `whitep30PEWPEW Live Coder team member detected! 
+    return `whitep30PEWPEW Team member detected! 
     PEW PEW, @${channel.broadcaster_name}! 
     Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
     | They were last seen streaming ${channel.title} in ${channel.game_name} whitep30PEWPEW`;
