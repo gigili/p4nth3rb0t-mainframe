@@ -11,6 +11,8 @@ interface Config {
     sizes: string[];
   };
   specialUsers: string[];
+  ignoredUsers: string[];
+  ignoredMessages: string[];
   botResponses: any;
   teamShoutoutEnabled: boolean;
   teamName: string;
@@ -34,6 +36,11 @@ const config: Config = {
     "madhousesteve",
     "melkeydev",
     "rawrsatbeards",
+    "laylacodesit",
+  ],
+  ignoredUsers: ["nightbot", "pretzelrocks", "p4nth3rb0t"],
+  ignoredMessages: [
+    "Twitch Themer is ready to go. Listening for commands beginning with !theme",
   ],
   botResponses: {
     SillyQuestion: (username: string) => {

@@ -2,7 +2,7 @@ const testConfig = {
   connectToFdgt: false,
   userId: "",
   channel: "#channel",
-  command: "raid",
+  command: "--bitscount 999999 Woohoo!",
 };
 
 export { testConfig };

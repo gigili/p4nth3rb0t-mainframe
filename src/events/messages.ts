@@ -60,13 +60,22 @@ const sendteamMemberJoinEvent = async (coder: Coder) => {
 
 //TODO - I think this needs to be chatmessage??? Or chat??
 tmi.on(
-  "message",
+  "chat",
   async (
     channel: string,
     tags: ChatUserstate,
     message: string,
     self: boolean
   ) => {
+    if (config.ignoredUsers.includes(tags.username as string)) {
+      return;
+    }
+
+    //todo - make into regex
+    if (config.ignoredMessages.includes(message)) {
+      return;
+    }
+
     if (tags.username === config.broadcaster) {
       if (message === "!reset") {
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
