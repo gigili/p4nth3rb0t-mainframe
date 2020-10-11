@@ -117,7 +117,7 @@ tmi.on(
     const foundHandler = ChatCommands[possibleCommand];
 
     //if no 'command', send a chat message
-    if (!foundHandler) {
+    if (!foundHandler && !message.startsWith("!")) {
       const badges: Badges = tags.badges || {};
       const isMod: boolean = badges.moderator
         ? badges.moderator === "1"
