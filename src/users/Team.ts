@@ -8,7 +8,7 @@ const accessTokenUtil = new AccessToken();
 export default class Team {
   //TODO: some kind of cache expiry
   //TODO: put channels in cache
-  static cache: Coders = [];
+  static cache: Coders = config.teamMembers;
 
   static getWelcomeMessage = (channel: TwitchChannel): string => {
     return config.teamWelcomeMessage(channel);
@@ -40,34 +40,34 @@ export default class Team {
     return undefined;
   }
 
-  static async getUserNames(): Promise<Coders> {
+  static getUserNames(): Coders {
     if (Team.cache.length > 0) {
       return Team.cache;
     }
 
-    try {
-      const response = await axios.get<any, TeamResponse>(
-        `https://api.twitch.tv/kraken/teams/${config.teamName}`,
-        {
-          headers: {
-            accept: "application/vnd.twitchtv.v5+json",
-            "client-id": process.env.CLIENT_ID,
-          },
-        }
-      );
-
-      const users = response.data.users.map((user) => ({
-        name: user.name,
-        id: user._id,
-      }));
-
-      Team.cache = users;
-
-      return users;
-    } catch (error) {
-      console.log(error);
-    }
-
     return [];
+
+    // try {
+    //   const response = await axios.get<any, TeamResponse>(
+    //     `https://api.twitch.tv/kraken/teams/${config.teamName}`,
+    //     {
+    //       headers: {
+    //         accept: "application/vnd.twitchtv.v5+json",
+    //         "client-id": process.env.CLIENT_ID,
+    //       },
+    //     }
+    //   );
+
+    //   const users = response.data.users.map((user) => ({
+    //     name: user.name,
+    //     id: user._id,
+    //   }));
+
+    //   Team.cache = users;
+
+    //   return users;
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 }

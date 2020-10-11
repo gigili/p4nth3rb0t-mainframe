@@ -1,4 +1,4 @@
-import { TwitchChannel } from "./data/types";
+import { TwitchChannel, Coder } from "./data/types";
 
 interface Config {
   broadcaster: string;
@@ -16,6 +16,7 @@ interface Config {
   botResponses: any;
   teamShoutoutEnabled: boolean;
   teamName: string;
+  teamMembers: Coder[];
   teamWelcomeMessage: (channel: TwitchChannel) => string;
 }
 
@@ -47,10 +48,72 @@ const config: Config = {
       return `Hi there ${username}! You can use the following commands in chat to find out more: !project, !today, !who`;
     },
   },
-  teamShoutoutEnabled: false,
-  teamName: "",
+  teamShoutoutEnabled: true,
+  teamName: "The Claw",
+  teamMembers: [
+    {
+      name: "sadmoody",
+      id: "28493092",
+    },
+    {
+      name: "codingwithluce",
+      id: "199566394",
+    },
+    {
+      name: "thatn00b__",
+      id: "235952406",
+    },
+    {
+      name: "rawrsatbeards",
+      id: "166942660",
+    },
+    {
+      name: "vic10usx",
+      id: "190920462",
+    },
+    {
+      name: "gacbl",
+      id: "120572949",
+    },
+    {
+      name: "cadillackjack1",
+      id: "501793804",
+    },
+    {
+      name: "jwalter",
+      id: "50911906",
+    },
+    {
+      name: "madhousesteve",
+      id: "76884091",
+    },
+    {
+      name: "sketchni",
+      id: "64115778",
+    },
+    {
+      name: "laylacodesit",
+      id: "260151116",
+    },
+    {
+      name: "greg_holmes",
+      id: "93948214",
+    },
+    {
+      name: "canhorn",
+      id: "60218113",
+    },
+    {
+      name: "ryan_the_rhg",
+      id: "154364425",
+    },
+    {
+      name: "ryantupo",
+      id: "158165150",
+    },
+  ],
   teamWelcomeMessage: (channel: TwitchChannel): string => {
-    return `whitep30PEWPEW Team member detected! 
+    return `whitep30PEWPEW ${config.teamName} team member detected! 
     PEW PEW, @${channel.broadcaster_name}! 
     Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
     | They were last seen streaming ${channel.title} in ${channel.game_name} whitep30PEWPEW`;

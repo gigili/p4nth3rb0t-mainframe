@@ -12,13 +12,8 @@ import Team from "../users/Team";
 // import { testConfig } from "../../testConfig";
 
 let possibleTeamMember: Coder;
-let teamMembers: Coders = [];
+const teamMembers: Coders = Team.getUserNames();
 const teamMembersGreeted: Coders = [];
-
-if (config.teamShoutoutEnabled) {
-  const teamMembersPromise = Team.getUserNames();
-  teamMembersPromise.then((res) => (teamMembers = res));
-}
 
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
@@ -58,7 +53,6 @@ const sendteamMemberJoinEvent = async (coder: Coder) => {
   }
 };
 
-//TODO - I think this needs to be chatmessage??? Or chat??
 tmi.on(
   "chat",
   async (
