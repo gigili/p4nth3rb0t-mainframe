@@ -111,6 +111,14 @@ const config: Config = {
       name: "ryantupo",
       id: "158165150",
     },
+    {
+      name: "codejuration",
+      id: "25116716",
+    },
+    {
+      name: "exegete46",
+      id: "487278707",
+    },
   ],
   teamWelcomeMessage: (channel: TwitchChannel): string => {
     return `whitep30PEWPEW ${config.teamName} team member detected! 
