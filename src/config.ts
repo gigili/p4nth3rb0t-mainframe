@@ -117,7 +117,7 @@ const config: Config = {
     },
     {
       name: "exegete46",
-      id: "487278707",
+      id: "40856022",
     },
   ],
   teamWelcomeMessage: (channel: TwitchChannel): string => {
