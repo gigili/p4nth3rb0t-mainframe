@@ -54,7 +54,7 @@ const sendteamMemberJoinEvent = async (coder: Coder) => {
 };
 
 tmi.on(
-  "chat",
+  "message",
   async (
     channel: string,
     tags: ChatUserstate,
@@ -144,6 +144,7 @@ tmi.on(
           ? possibleTeamMember !== undefined
           : false,
         emotes: tags.emotes,
+        type: tags["message-type"],
       };
 
       await sendChatMessageEvent(chatMessageData);

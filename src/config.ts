@@ -52,72 +52,72 @@ const config: Config = {
   teamName: "The Claw",
   teamMembers: [
     {
-      name: "sadmoody",
-      id: "28493092",
-    },
-    {
-      name: "codingwithluce",
-      id: "199566394",
-    },
-    {
-      name: "thatn00b__",
-      id: "235952406",
-    },
-    {
-      name: "rawrsatbeards",
-      id: "166942660",
-    },
-    {
-      name: "vic10usx",
-      id: "190920462",
-    },
-    {
-      name: "gacbl",
-      id: "120572949",
-    },
-    {
       name: "cadillackjack1",
       id: "501793804",
-    },
-    {
-      name: "jwalter",
-      id: "50911906",
-    },
-    {
-      name: "madhousesteve",
-      id: "76884091",
-    },
-    {
-      name: "sketchni",
-      id: "64115778",
-    },
-    {
-      name: "laylacodesit",
-      id: "260151116",
-    },
-    {
-      name: "greg_holmes",
-      id: "93948214",
     },
     {
       name: "canhorn",
       id: "60218113",
     },
     {
-      name: "ryan_the_rhg",
-      id: "154364425",
+      name: "codejuration",
+      id: "25116716",
+    },
+    {
+      name: "codingwithluce",
+      id: "199566394",
+    },
+    {
+      name: "exegete46",
+      id: "40856022",
+    },
+    {
+      name: "gacbl",
+      id: "120572949",
+    },
+    {
+      name: "jwalter",
+      id: "50911906",
+    },
+    {
+      name: "laylacodesit",
+      id: "260151116",
+    },
+    {
+      name: "madhousesteve",
+      id: "76884091",
+    },
+    {
+      name: "rawrsatbeards",
+      id: "166942660",
     },
     {
       name: "ryantupo",
       id: "158165150",
     },
     {
-      name: "codejuration",
-      id: "25116716",
+      name: "ryan_the_rhg",
+      id: "154364425",
     },
     {
-      name: "exegete46",
-      id: "40856022",
+      name: "sadmoody",
+      id: "28493092",
+    },
+    {
+      name: "sketchni",
+      id: "64115778",
+    },
+    {
+      name: "thatn00b__",
+      id: "235952406",
+    },
+    {
+      name: "greg_holmes",
+      id: "93948214",
+    },
+    {
+      name: "vic10usx",
+      id: "190920462",
     },
   ],
   teamWelcomeMessage: (channel: TwitchChannel): string => {
