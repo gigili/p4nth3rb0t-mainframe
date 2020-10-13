@@ -52,7 +52,7 @@ const config: Config = {
   teamName: "The Claw",
   teamMembers: [
     {
-      name: "cadillackjack1",
+      name: "cadillacjack1",
       id: "501793804",
     },
     {
