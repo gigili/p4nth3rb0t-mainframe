@@ -113,15 +113,9 @@ tmi.on(
     //if no 'command', send a chat message
     if (!foundHandler && !message.startsWith("!")) {
       const badges: Badges = tags.badges || {};
-      const isMod: boolean = badges.moderator
-        ? badges.moderator === "1"
-        : false;
-
+      const isMod: boolean = tags.mod || false;
+      const isSubscriber: boolean = tags.subscriber || false;
       const isVip: boolean = badges.vip ? badges.vip === "1" : false;
-
-      const isSubscriber: boolean =
-        (badges.subscriber ? badges.subscriber === "1" : false) ||
-        (badges.premium ? badges.premium === "1" : false);
 
       const isBroadcaster: boolean = badges.broadcaster
         ? badges.broadcaster === "1"
