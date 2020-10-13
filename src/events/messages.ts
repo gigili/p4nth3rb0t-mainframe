@@ -1,11 +1,17 @@
 import { tmi } from "./../tmi";
 import { wsServer } from "../websocket";
-import { ChatUserstate, Badges } from "tmi.js";
+import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
 import { Packet, TwitchEvent } from "../data/types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
-import { TwitchChannel, Coders, Coder, ChatMessageData } from "../data/types";
+import {
+  TwitchChannel,
+  Coders,
+  Coder,
+  ChatMessageData,
+  MyBadges,
+} from "../data/types";
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 
@@ -112,9 +118,10 @@ tmi.on(
 
     //if no 'command', send a chat message
     if (!foundHandler && !message.startsWith("!")) {
-      const badges: Badges = tags.badges || {};
+      const badges: MyBadges = tags.badges || {};
       const isMod: boolean = tags.mod || false;
-      const isSubscriber: boolean = tags.subscriber || false;
+      const isSubscriber: boolean =
+        tags.subscriber || badges.founder !== undefined || false;
       const isVip: boolean = badges.vip ? badges.vip === "1" : false;
 
       const isBroadcaster: boolean = badges.broadcaster

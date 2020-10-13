@@ -1,3 +1,5 @@
+import { Badges } from "tmi.js";
+
 export enum TwitchEvent {
   sub = "sub",
   dropUser = "dropuser",
@@ -114,4 +116,8 @@ export interface Packet {
     | WeatherTrailData
     | teamMemberJoinData
     | ChatMessageData;
+}
+
+export interface MyBadges extends Badges {
+  founder?: string;
 }
