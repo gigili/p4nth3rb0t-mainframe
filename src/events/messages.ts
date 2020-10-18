@@ -116,7 +116,7 @@ tmi.on(
     const possibleCommand: string = getCommandFromMessage(message);
     const foundHandler = ChatCommands[possibleCommand];
 
-    if (foundHandler) {
+    if (typeof foundHandler === "function") {
       foundHandler(tags, message);
     } else if (!message.startsWith("!")) {
       //if no 'command', send a chat message
