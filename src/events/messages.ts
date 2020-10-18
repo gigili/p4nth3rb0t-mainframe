@@ -60,7 +60,7 @@ const sendteamMemberJoinEvent = async (coder: Coder) => {
 };
 
 tmi.on(
-  "chatmessage",
+  "chat",
   async (
     channel: string,
     tags: ChatUserstate,
