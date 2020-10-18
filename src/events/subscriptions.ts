@@ -6,8 +6,6 @@ import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
-const DEBUG = false;
-
 //According to tmijs docs that is what is happening.
 //Subgif is a gift to someone directly as in 1:1,
 //where as mysterygift can be 1:N number of gifts given
@@ -33,29 +31,10 @@ const sendSubEvent = async (userId: string, messageId: string) => {
   }
 };
 
-if (DEBUG) {
-  tmi.on(
-    "message",
-    async (
-      channel: string,
-      tags: ChatUserstate,
-      message: string,
-      self: boolean
-    ) => {
-      if (message === "test" && tags["username"] === "whitep4nth3r") {
-        sendSubEvent(testConfig.userId, testConfig.userId);
-      }
-    }
-  );
-}
-
 tmi.on(
   "anongiftpaidupgrade",
-  async (channel: string, username: string, userstate: Userstate) => {
-    await sendSubEvent(
-      userstate["user-id"] as string,
-      userstate["id"] as string
-    );
+  (channel: string, username: string, userstate: Userstate) => {
+    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
   }
 );
 
