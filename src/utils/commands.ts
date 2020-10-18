@@ -18,17 +18,17 @@ type Commands = {
 };
 
 const ChatCommands: Commands = {
-  "!start-trail": (tags, message) => {
+  "!start-trail": async (tags, message) => {
     if (tags.username === config.broadcaster) {
       sendWeatherTrailEvent(true);
     }
   },
-  "!end-trail": (tags, message) => {
+  "!end-trail": async (tags, message) => {
     if (tags.username === config.broadcaster) {
       sendWeatherTrailEvent(false);
     }
   },
-  "!bigdrop": (tags, message) => {
+  "!bigdrop": async (tags, message) => {
     // !drop emotes
     if (tags.emotes) {
       sendDropEmotesEvent(
@@ -39,7 +39,7 @@ const ChatCommands: Commands = {
       );
     }
   },
-  "!drop": (tags, message) => {
+  "!drop": async (tags, message) => {
     if (tags.emotes) {
       sendDropEmotesEvent(
         Object.keys(tags.emotes) as [],
@@ -57,22 +57,22 @@ const ChatCommands: Commands = {
       sendDropUserEvent(tags["user-id"] as string, tags["id"] as string);
     }
   },
-  "!rain": (tags, message) => {
+  "!rain": async (tags, message) => {
     sendWeatherEvent("!rain", tags["id"] as string);
   },
-  "!shower": (tags, message) => {
+  "!shower": async (tags, message) => {
     sendWeatherEvent("!shower", tags["id"] as string);
   },
-  "!snow": (tags, message) => {
+  "!snow": async (tags, message) => {
     sendWeatherEvent("!snow", tags["id"] as string);
   },
-  "!hail": (tags, message) => {
+  "!hail": async (tags, message) => {
     sendWeatherEvent("!hail", tags["id"] as string);
   },
-  "!blizzard": (tags, message) => {
+  "!blizzard": async (tags, message) => {
     sendWeatherEvent("!blizzard", tags["id"] as string);
   },
-  "!fire": (tags, message) => {
+  "!fire": async (tags, message) => {
     sendWeatherEvent("!fire", tags["id"] as string);
   },
 };
