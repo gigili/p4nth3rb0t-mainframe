@@ -116,8 +116,10 @@ tmi.on(
     const possibleCommand: string = getCommandFromMessage(message);
     const foundHandler = ChatCommands[possibleCommand];
 
-    //if no 'command', send a chat message
-    if (!foundHandler && !message.startsWith("!")) {
+    if (foundHandler) {
+      foundHandler(tags, message);
+    } else if (!message.startsWith("!")) {
+      //if no 'command', send a chat message
       const badges: MyBadges = tags.badges || {};
       const isMod: boolean = tags.mod || false;
       const isSubscriber: boolean =
@@ -149,9 +151,6 @@ tmi.on(
       };
 
       await sendChatMessageEvent(chatMessageData);
-      return;
     }
-
-    foundHandler(tags, message);
   }
 );
