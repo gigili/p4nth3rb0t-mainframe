@@ -60,7 +60,7 @@ const sendteamMemberJoinEvent = async (coder: Coder) => {
 };
 
 tmi.on(
-  "message",
+  "chatmessage",
   async (
     channel: string,
     tags: ChatUserstate,
@@ -86,7 +86,7 @@ tmi.on(
       }
     }
 
-    if (config.teamShoutoutEnabled) {
+    if (config.teamShoutoutEnabled && process.env.NODE_ENV === "production") {
       const possibleTeamMember = teamMembers.find(
         (member) => member.name === tags.username
       );

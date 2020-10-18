@@ -1,7 +1,7 @@
 import { testConfig } from "./../../testConfig";
 import { wsServer } from "../websocket";
 import { tmi } from "./../tmi";
-import { ChatUserstate } from "tmi.js";
+import { ChatUserstate, Userstate } from "tmi.js";
 import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
@@ -42,26 +42,26 @@ if (DEBUG) {
       message: string,
       self: boolean
     ) => {
-      sendSubEvent(tags["user-id"] as string, tags["id"] as string);
+      if (message === "test" && tags["username"] === "whitep4nth3r") {
+        sendSubEvent(testConfig.userId, testConfig.userId);
+      }
     }
   );
 }
 
 tmi.on(
   "anongiftpaidupgrade",
-  async (channel: string, username: string, userstate: ChatUserstate) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+  async (channel: string, username: string, userstate: Userstate) => {
+    await sendSubEvent(
+      userstate["user-id"] as string,
+      userstate["id"] as string
+    );
   }
 );
 
 tmi.on(
   "giftpaidupgrade",
-  async (
-    channel: string,
-    username: string,
-    sender: string,
-    userstate: ChatUserstate
-  ) => {
+  (channel: string, username: string, sender: string, userstate: Userstate) => {
     sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
   }
 );
@@ -74,9 +74,14 @@ tmi.on(
     streakMonths: number,
     recipient: string,
     methods: {},
-    userstate: ChatUserstate
+    userstate: Userstate
   ) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+    testConfig.connectToFdgt
+      ? sendSubEvent(testConfig.userId, testConfig.userId)
+      : sendSubEvent(
+          userstate["msg-param-recipient-id"] as string,
+          userstate["id"] as string
+        );
   }
 );
 
@@ -87,7 +92,7 @@ tmi.on(
     username: string,
     methods: {},
     message: string,
-    userstate: ChatUserstate
+    userstate: Userstate
   ) => {
     testConfig.connectToFdgt
       ? sendSubEvent(testConfig.userId, testConfig.userId)
@@ -102,21 +107,8 @@ tmi.on(
     username: string,
     months: number,
     message: string,
-    userstate: ChatUserstate,
+    userstate: Userstate,
     methods: {}
-  ) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
-);
-
-tmi.on(
-  "submysterygift",
-  (
-    channel: string,
-    username: string,
-    numbOfSubs: number,
-    methods: {},
-    userstate: ChatUserstate
   ) => {
     sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
   }
