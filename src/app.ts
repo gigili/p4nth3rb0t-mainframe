@@ -21,6 +21,7 @@ async function run() {
         } :)`
       );
     });
+    
     await tmi.connect();
 
     if (testConfig.connectToFdgt) {

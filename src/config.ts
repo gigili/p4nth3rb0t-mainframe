@@ -35,7 +35,6 @@ const config: Config = {
     "baldbeardedbuilder",
     "codingwithluce",
     "madhousesteve",
-    "melkeydev",
     "rawrsatbeards",
     "laylacodesit",
   ],

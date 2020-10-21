@@ -1,5 +1,4 @@
-import { Client, ChatUserstate } from "tmi.js";
-import { wsServer } from "./websocket";
+import { Client } from "tmi.js";
 import { testConfig } from "../testConfig";
 
 import { CHANNELS } from "./env";

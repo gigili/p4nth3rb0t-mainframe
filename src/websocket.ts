@@ -30,7 +30,7 @@ wsServer.on("connection", (ws: ExtWebSocket) => {
     clearInterval(ping);
   });
 
-  //send immediately a feedback to the incoming connection
+  //send feedback to the incoming connection
   ws.send(
     JSON.stringify({ status: 200, msg: "Welcome to the p4nth3rb0t mainframe" })
   );
