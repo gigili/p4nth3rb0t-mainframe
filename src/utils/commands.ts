@@ -80,9 +80,7 @@ const ChatCommands: Commands = {
 
     if (userToYeet[0] === "me" && tags["display-name"]) {
       sendYeetEvent(tags["display-name"], tags["id"] as string);
-    }
-
-    if (userToYeet.length === 1) {
+    } else if (userToYeet.length === 1) {
       sendYeetEvent(userToYeet[0].replace("@", ""), tags["id"] as string);
     }
   },
