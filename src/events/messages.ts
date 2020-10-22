@@ -113,7 +113,9 @@ tmi.on(
       tmi.say(config.channel, config.botResponses.SillyQuestion(tags.username));
     }
 
-    const possibleCommand: string = getCommandFromMessage(message);
+    const possibleCommand: string = getCommandFromMessage(
+      message
+    ).toLowerCase();
     const foundHandler = ChatCommands[possibleCommand];
 
     if (typeof foundHandler === "function") {
