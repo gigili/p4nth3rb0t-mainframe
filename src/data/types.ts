@@ -78,12 +78,12 @@ export interface TwitchChannel {
   title: string;
 }
 
-export interface Coder {
+export interface TeamMember {
   name: string;
   id: string;
 }
 
-export type Coders = Coder[];
+export type TeamMembers = TeamMember[];
 
 export interface TeamResponse {
   data: {

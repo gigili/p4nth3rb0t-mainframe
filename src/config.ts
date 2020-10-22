@@ -1,4 +1,4 @@
-import { TwitchChannel, Coder } from "./data/types";
+import { TwitchChannel, TeamMember } from "./data/types";
 
 interface Config {
   broadcaster: string;
@@ -16,7 +16,7 @@ interface Config {
   botResponses: any;
   teamShoutoutEnabled: boolean;
   teamName: string;
-  teamMembers: Coder[];
+  teamMembers: TeamMember[];
   teamWelcomeMessage: (channel: TwitchChannel) => string;
 }
 
