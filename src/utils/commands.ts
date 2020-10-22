@@ -5,6 +5,7 @@ import {
   sendDropUserEvent,
   sendWeatherEvent,
   sendWeatherTrailEvent,
+  sendYeetEvent,
 } from "../actions/drop";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
@@ -29,7 +30,6 @@ const ChatCommands: Commands = {
     }
   },
   "!bigdrop": async (tags, message) => {
-    // !drop emotes
     if (tags.emotes) {
       sendDropEmotesEvent(
         Object.keys(tags.emotes) as [],
@@ -74,6 +74,17 @@ const ChatCommands: Commands = {
   },
   "!fire": async (tags, message) => {
     sendWeatherEvent("!fire", tags["id"] as string);
+  },
+  "!yeet": async (tags, message) => {
+    const userToYeet = getRestOfMessage(message);
+
+    if (userToYeet[0] === "me" && tags["display-name"]) {
+      sendYeetEvent(tags["display-name"], tags["id"] as string);
+    }
+
+    if (userToYeet.length === 1) {
+      sendYeetEvent(userToYeet[0].replace("@", ""), tags["id"] as string);
+    }
   },
 };
 

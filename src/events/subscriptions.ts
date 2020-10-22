@@ -12,7 +12,7 @@ import { config } from "../config";
 
 const sendSubEvent = async (userId: string, messageId: string) => {
   try {
-    const user = await UserManager.getUser(userId as string);
+    const user = await UserManager.getUserById(userId as string);
 
     const subEvent: Packet = {
       broadcaster: config.broadcaster,

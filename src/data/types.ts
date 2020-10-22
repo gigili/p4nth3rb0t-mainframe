@@ -11,6 +11,7 @@ export enum TwitchEvent {
   weatherTrailEvent = "settrailing",
   teamMemberJoin = "teammemberjoin",
   chatMessage = "chatmessage",
+  yeetUser = "yeetuser",
 }
 
 interface Data {}
@@ -77,12 +78,12 @@ export interface TwitchChannel {
   title: string;
 }
 
-export interface Coder {
+export interface TeamMember {
   name: string;
   id: string;
 }
 
-export type Coders = Coder[];
+export type TeamMembers = TeamMember[];
 
 export interface TeamResponse {
   data: {
@@ -100,6 +101,22 @@ export interface AccessTokenResponse {
   expires_in: number;
   scope: [];
   token_type: string;
+}
+
+export interface UserByLoginResponse {
+  _total: number;
+  users: [
+    {
+      display_name: string;
+      _id: string;
+      name: string;
+      type: "user";
+      bio: string;
+      created_at: string;
+      updated_at: string;
+      logo: string;
+    }
+  ];
 }
 
 export interface Packet {

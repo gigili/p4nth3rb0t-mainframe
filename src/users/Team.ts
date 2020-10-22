@@ -1,6 +1,6 @@
 import axios from "axios";
 import AccessToken from "../classes/AccessToken";
-import { TwitchChannel, TeamResponse, Coders } from "../data/types";
+import { TwitchChannel, TeamResponse, TeamMembers } from "../data/types";
 import { config } from "../config";
 
 const accessTokenUtil = new AccessToken();
@@ -8,7 +8,7 @@ const accessTokenUtil = new AccessToken();
 export default class Team {
   //TODO: some kind of cache expiry
   //TODO: put channels in cache
-  static cache: Coders = config.teamMembers;
+  static cache: TeamMembers = config.teamMembers;
 
   static getWelcomeMessage = (channel: TwitchChannel): string => {
     return config.teamWelcomeMessage(channel);
@@ -40,7 +40,7 @@ export default class Team {
     return undefined;
   }
 
-  static getUserNames(): Coders {
+  static getUserNames(): TeamMembers {
     if (Team.cache.length > 0) {
       return Team.cache;
     }

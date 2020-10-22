@@ -7,8 +7,8 @@ import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
 import {
   TwitchChannel,
-  Coders,
-  Coder,
+  TeamMembers,
+  TeamMember,
   ChatMessageData,
   MyBadges,
 } from "../data/types";
@@ -17,9 +17,9 @@ import Team from "../users/Team";
 
 // import { testConfig } from "../../testConfig";
 
-let possibleTeamMember: Coder;
-const teamMembers: Coders = Team.getUserNames();
-const teamMembersGreeted: Coders = [];
+let possibleTeamMember: TeamMember;
+const teamMembers: TeamMembers = Team.getUserNames();
+const teamMembersGreeted: TeamMembers = [];
 
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
@@ -38,14 +38,14 @@ const sendChatMessageEvent = async (data: ChatMessageData) => {
   }
 };
 
-const sendteamMemberJoinEvent = async (coder: Coder) => {
+const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
   try {
-    const user = await UserManager.getUser(coder.id as string);
+    const user = await UserManager.getUserById(teamMember.id as string);
 
     const teamMemberJoin: Packet = {
       broadcaster: config.broadcaster,
       event: TwitchEvent.teamMemberJoin,
-      id: coder.name + "-" + Date.now(),
+      id: teamMember.name + "-" + Date.now(),
       data: {
         logoUrl: user.logo,
       },
@@ -130,7 +130,7 @@ tmi.on(
         ? badges.broadcaster === "1"
         : false;
 
-      const user = await UserManager.getUser(tags["user-id"] as string);
+      const user = await UserManager.getUserById(tags["user-id"] as string);
 
       const chatMessageData: ChatMessageData = {
         userId: tags["user-id"] as string,
