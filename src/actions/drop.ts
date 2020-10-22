@@ -1,5 +1,5 @@
 import { config } from "../config";
-import { Packet, TwitchEvent } from "../data/types";
+import { Packet, TwitchEvent, UserByLoginResponse } from "../data/types";
 import { wsServer } from "../websocket";
 import UserManager from "../users/UserManager";
 
@@ -24,7 +24,7 @@ export const sendWeatherTrailEvent = async (trailing: boolean) => {
 
 export const sendDropUserEvent = async (userId: string, messageId: string) => {
   try {
-    const user = await UserManager.getUser(userId as string);
+    const user = await UserManager.getUserById(userId as string);
 
     const dropUserEvent: Packet = {
       broadcaster: config.broadcaster,
@@ -87,6 +87,31 @@ export const sendWeatherEvent = (weatherType: string, messageId: string) => {
     wsServer.clients.forEach((client) => {
       client.send(JSON.stringify(weatherEvent));
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendYeetEvent = async (userName: string, messageId: string) => {
+  try {
+    const usersResponse: UserByLoginResponse = await UserManager.getUserByLogin(
+      userName
+    );
+
+    if (usersResponse.users[0].logo) {
+      const yeetUserEvent: Packet = {
+        broadcaster: config.broadcaster,
+        event: TwitchEvent.yeetUser,
+        id: messageId,
+        data: {
+          logoUrl: usersResponse.users[0].logo,
+        },
+      };
+
+      wsServer.clients.forEach((client) => {
+        client.send(JSON.stringify(yeetUserEvent));
+      });
+    }
   } catch (error) {
     console.log(error);
   }

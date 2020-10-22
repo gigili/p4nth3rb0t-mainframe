@@ -5,7 +5,10 @@ import {
   sendDropUserEvent,
   sendWeatherEvent,
   sendWeatherTrailEvent,
+  sendYeetEvent,
 } from "../actions/drop";
+import type { UserByLoginResponse } from "../data/types";
+import UserManager from "../users/UserManager";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -74,6 +77,12 @@ const ChatCommands: Commands = {
   },
   "!fire": async (tags, message) => {
     sendWeatherEvent("!fire", tags["id"] as string);
+  },
+  "!yeet": async (tags, message) => {
+    const userToYeet = getRestOfMessage(message);
+    if (userToYeet.length === 1) {
+      sendYeetEvent(userToYeet[0].replace("@", ""), tags["id"] as string);
+    }
   },
 };
 

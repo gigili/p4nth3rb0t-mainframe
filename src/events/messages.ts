@@ -40,7 +40,7 @@ const sendChatMessageEvent = async (data: ChatMessageData) => {
 
 const sendteamMemberJoinEvent = async (coder: Coder) => {
   try {
-    const user = await UserManager.getUser(coder.id as string);
+    const user = await UserManager.getUserById(coder.id as string);
 
     const teamMemberJoin: Packet = {
       broadcaster: config.broadcaster,
@@ -130,7 +130,7 @@ tmi.on(
         ? badges.broadcaster === "1"
         : false;
 
-      const user = await UserManager.getUser(tags["user-id"] as string);
+      const user = await UserManager.getUserById(tags["user-id"] as string);
 
       const chatMessageData: ChatMessageData = {
         userId: tags["user-id"] as string,
