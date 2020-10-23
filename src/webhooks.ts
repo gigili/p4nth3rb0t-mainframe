@@ -1,5 +1,8 @@
+import { TeamMembers } from "./data/types";
 import axios from "axios";
 import AccessToken from "./classes/AccessToken";
+import { config } from "./config";
+import type { TeamMember } from "./data/types";
 
 const accessTokenUtil = new AccessToken();
 
@@ -32,9 +35,10 @@ async function registerWebhook(topicUrl: string) {
 
 //Example: Subscribe to new followers to a twitch user with id: 469006291 (me)
 registerWebhook(
-  "https://api.twitch.tv/helix/users/follows?first=1&to_id=469006291"
+  `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`
 );
 
 //Register all team member stream listeners
-
-
+config.teamMembers.map((member: TeamMember) => {
+  registerWebhook(`https://api.twitch.tv/helix/streams?user_id=${member.id}`);
+});

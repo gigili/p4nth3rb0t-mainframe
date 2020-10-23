@@ -1,7 +1,10 @@
 import { TwitchChannel, TeamMember } from "./data/types";
 
 interface Config {
-  broadcaster: string;
+  broadcaster: {
+    name: string;
+    id: string;
+  };
   channel: string;
   drop: {
     minAccountAge: number;
@@ -18,10 +21,13 @@ interface Config {
   teamName: string;
   teamMembers: TeamMember[];
   teamWelcomeMessage: (channel: TwitchChannel) => string;
+  discord: {
+    liveAnnouncementsChannelId: string;
+  };
 }
 
 const config: Config = {
-  broadcaster: "whitep4nth3r",
+  broadcaster: { name: "whitep4nth3r", id: "469006291" },
   channel: "#whitep4nth3r",
   drop: {
     minAccountAge: 7 * 24 * 60 * 60 * 1000,
@@ -124,6 +130,9 @@ const config: Config = {
     PEW PEW, @${channel.broadcaster_name}! 
     Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
     | They were last seen streaming ${channel.title} in ${channel.game_name} whitep30PEWPEW`;
+  },
+  discord: {
+    liveAnnouncementsChannelId: "747131453040492605",
   },
 };
 

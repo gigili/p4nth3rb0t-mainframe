@@ -6,7 +6,7 @@ import { config } from "../config";
 const sendSpecialUserJoinEvent = async (username: string) => {
   try {
     const specialUserJoin: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.specialUserJoin,
       id: username + "-" + Date.now(),
       data: {
