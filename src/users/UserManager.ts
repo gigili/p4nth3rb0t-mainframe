@@ -1,9 +1,10 @@
 import axios from "axios";
+import { UserByLoginResponse, UserByIdResponse } from "../data/types";
 
 export default class UserManager {
   static cache = new Map<string, any>();
 
-  static async getUserByLogin(login: string) {
+  static async getUserByLogin(login: string): Promise<UserByLoginResponse> {
     if (this.cache.has(login)) {
       return this.cache.get(login);
     }
@@ -23,7 +24,7 @@ export default class UserManager {
     return response.data;
   }
 
-  static async getUserById(userId: string) {
+  static async getUserById(userId: string): Promise<UserByIdResponse> {
     if (this.cache.has(userId)) {
       return this.cache.get(userId);
     }

@@ -23,6 +23,9 @@ interface Config {
   teamWelcomeMessage: (channel: TwitchChannel) => string;
   discord: {
     liveAnnouncementsChannelId: string;
+    liveAnnouncementsRoleId: string;
+    liveAnnouncementColor: string;
+    liveAnnouncementImageSize: string;
   };
 }
 
@@ -133,6 +136,9 @@ const config: Config = {
   },
   discord: {
     liveAnnouncementsChannelId: "747131453040492605",
+    liveAnnouncementsRoleId: "756956508234842145",
+    liveAnnouncementColor: "#84AE39",
+    liveAnnouncementImageSize: "1280x720"
   },
 };
 

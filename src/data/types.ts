@@ -103,6 +103,17 @@ export interface AccessTokenResponse {
   token_type: string;
 }
 
+export interface UserByIdResponse {
+    display_name: string;
+    _id: string;
+    name: string;
+    type: "user";
+    bio: string;
+    created_at: string;
+    updated_at: string;
+    logo: string;
+}
+
 export interface UserByLoginResponse {
   _total: number;
   users: [
@@ -137,4 +148,8 @@ export interface Packet {
 
 export interface MyBadges extends Badges {
   founder?: string;
+}
+
+export interface GameByIdResponse {
+  name: string;
 }
