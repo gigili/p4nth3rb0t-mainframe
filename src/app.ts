@@ -1,11 +1,14 @@
 import "./env";
 
+import Database from "./data/database";
+
 import { webServer } from "./webserver";
 import { tmi } from "./tmi";
 import { discord } from "./discord";
-
 import { testConfig } from "./../testConfig";
-import Database from "./data/database";
+
+import "./webhooks";
+
 import "./events/subscriptions";
 import "./events/messages";
 import "./events/raids";
