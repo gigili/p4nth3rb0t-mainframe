@@ -20,12 +20,12 @@ type Commands = {
 
 const ChatCommands: Commands = {
   "!start-trail": async (tags, message) => {
-    if (tags.username === config.broadcaster) {
+    if (tags.username === config.broadcaster.name) {
       sendWeatherTrailEvent(true);
     }
   },
   "!end-trail": async (tags, message) => {
-    if (tags.username === config.broadcaster) {
+    if (tags.username === config.broadcaster.name) {
       sendWeatherTrailEvent(false);
     }
   },

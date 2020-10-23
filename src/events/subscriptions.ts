@@ -15,7 +15,7 @@ const sendSubEvent = async (userId: string, messageId: string) => {
     const user = await UserManager.getUserById(userId as string);
 
     const subEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.sub,
       id: messageId,
       data: {

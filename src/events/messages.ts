@@ -24,7 +24,7 @@ const teamMembersGreeted: TeamMembers = [];
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
     const chatMessageEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.chatMessage,
       id: data.messageId,
       data,
@@ -43,7 +43,7 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
     const user = await UserManager.getUserById(teamMember.id as string);
 
     const teamMemberJoin: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.teamMemberJoin,
       id: teamMember.name + "-" + Date.now(),
       data: {
@@ -76,7 +76,7 @@ tmi.on(
       return;
     }
 
-    if (tags.username === config.broadcaster) {
+    if (tags.username === config.broadcaster.name) {
       if (message === "!reset") {
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
         tmi.say(
@@ -94,7 +94,7 @@ tmi.on(
       if (
         possibleTeamMember &&
         !teamMembersGreeted.includes(possibleTeamMember) &&
-        possibleTeamMember.name !== config.broadcaster
+        possibleTeamMember.name !== config.broadcaster.name
       ) {
         const teamMemberChannel = await Team.getChannelById(
           possibleTeamMember.id

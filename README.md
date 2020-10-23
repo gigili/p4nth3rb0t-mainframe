@@ -24,10 +24,49 @@ It also supports the following custom events originally found in [P4nth3rDrop](h
 - !drop me
 - !drop {emotes}
 - !bigdrop {emotes}
+- !yeet me
+- !yeet {user}
 
 // broadcaster only
 - !start-trail
 - !end-trail
+```
+
+## Getting started with development
+
+System requirements:
+
+```
+NodeJs
+Docker
+```
+
+### Environment variables
+
+All environment variables you will need for the application to run are demonstrated for you in the file `env.example`.
+
+### The database
+
+The p4nth3rbot-mainframe uses a MongoDB to store the following:
+
+```
+Twitch API access token
+```
+
+To spin up the docker container and database instance, open terminal and run:
+
+```
+cd path/to/repo
+docker-compose up
+```
+
+### Running the application
+
+In a separate terminal tab, run:
+
+```
+cd path/to/repo
+npm run dev
 ```
 
 ## Testing events with fdgt
@@ -78,6 +117,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://lucecarter.co.uk"><img src="https://avatars2.githubusercontent.com/u/6980734?v=4" width="100px;" alt=""/><br /><sub><b>Luce Carter</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rb0t-mainframe/commits?author=LuceCarter" title="Documentation">📖</a></td>
     <td align="center"><a href="https://isabellabrookes.com"><img src="https://avatars1.githubusercontent.com/u/12928252?v=4" width="100px;" alt=""/><br /><sub><b>Isabella Brookes</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rb0t-mainframe/commits?author=isabellabrookes" title="Code">💻</a></td>
     <td align="center"><a href="https://twitch.tv/MadhouseSteve"><img src="https://avatars1.githubusercontent.com/u/52213009?v=4" width="100px;" alt=""/><br /><sub><b>MadhouseSteve</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rb0t-mainframe/commits?author=MadhouseSteve" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/CadillacJack95"><img src="https://avatars1.githubusercontent.com/u/15073669?v=4" width="100px;" alt=""/><br /><sub><b>Mahmoud</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rb0t-mainframe/commits?author=CadillacJack95" title="Code">💻</a></td>
   </tr>
 </table>
 

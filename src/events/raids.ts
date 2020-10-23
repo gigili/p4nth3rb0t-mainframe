@@ -6,7 +6,7 @@ import { config } from "../config";
 const sendRaidEvent = async (raiderCount: number, username: string) => {
   try {
     const raidEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.raid,
       id: username + "-" + raiderCount,
       data: {

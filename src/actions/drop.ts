@@ -6,7 +6,7 @@ import UserManager from "../users/UserManager";
 export const sendWeatherTrailEvent = async (trailing: boolean) => {
   try {
     const weatherTrailEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.weatherTrailEvent,
       id: "trailing-" + Date.now(),
       data: {
@@ -27,7 +27,7 @@ export const sendDropUserEvent = async (userId: string, messageId: string) => {
     const user = await UserManager.getUserById(userId as string);
 
     const dropUserEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.dropUser,
       id: messageId,
       data: {
@@ -56,7 +56,7 @@ export const sendDropEmotesEvent = (
     );
 
     const emotesEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.dropEmotes,
       id: messageId,
       data: {
@@ -76,7 +76,7 @@ export const sendDropEmotesEvent = (
 export const sendWeatherEvent = (weatherType: string, messageId: string) => {
   try {
     const weatherEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.weather,
       id: messageId,
       data: {
@@ -100,7 +100,7 @@ export const sendYeetEvent = async (userName: string, messageId: string) => {
 
     if (usersResponse.users[0].logo) {
       const yeetUserEvent: Packet = {
-        broadcaster: config.broadcaster,
+        broadcaster: config.broadcaster.name,
         event: TwitchEvent.yeetUser,
         id: messageId,
         data: {
