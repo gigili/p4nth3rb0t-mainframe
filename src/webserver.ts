@@ -3,7 +3,8 @@ import cors from "cors";
 import http from "http";
 import bodyParser from "body-parser";
 
-import { sendLiveAnnouncement } from "./discord";
+import { sendLiveAnnouncement, sendOfflineAnnouncement } from "./discord";
+import { config } from "./config";
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,12 +21,18 @@ if (process.env.NODE_ENV !== "production") {
 //Whenever twitch sends a notification to your subscribed webhook topic
 //it will send it to this endpoint. You have to send back a 200
 //otherwise twitch will think you did not recieve the notification and spam you
-app.post("/webhooks/subscribe", async (req: Request, res: Response) => {
-  console.log("🔔 Notification recieved");
-  console.log("DATA ", req.body.data[0]);
+app.post("/webhooks/subscribe/:member_id", async (req: Request, res: Response) => {
+  const member = config.teamMembers.find((member) => member.id === req.params.member_id);
+  if (!member) {
+    res.sendStatus(404);
+    return;
+  }
 
-  if (req.body.data[0].type === "live") {
-    console.log("WE HAVE A LIVE ANNOUNCEMENT");
+  console.log("🔔 Notification received");
+
+  if (!req.body.data.length) {
+    await sendOfflineAnnouncement(req.params.member_id);
+  } else if (req.body.data[0].type === "live") {
     await sendLiveAnnouncement(req.body.data[0]);
   }
 
@@ -34,9 +41,15 @@ app.post("/webhooks/subscribe", async (req: Request, res: Response) => {
 
 //When Twitch sends a post request to the callback url you provided
 //it will expect a 200 and the 'hub.challenge' query string
-app.get("/webhooks/subscribe", (req: Request, res: Response) => {
+app.get("/webhooks/subscribe/:member_id", (req: Request, res: Response) => {
+  const member = config.teamMembers.find((member) => member.id === req.params.member_id);
+  if (!member) {
+    res.sendStatus(404);
+    return;
+  }
+
   res.status(200).send(req.query["hub.challenge"]);
-  console.log(`↪️  Webhook subscribed! ${req.query["hub.topic"]}`);
+  console.log(`↪️  Webhook subscribed for ${member.name}! ${req.query["hub.topic"]}`);
 });
 
 app.use("/", (req: Request, res: Response) => {

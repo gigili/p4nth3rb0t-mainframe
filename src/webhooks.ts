@@ -6,14 +6,14 @@ import type { TeamMember } from "./data/types";
 
 const accessTokenUtil = new AccessToken();
 
-async function registerWebhook(topicUrl: string) {
+async function registerWebhook(topicUrl: string, member_id: string) {
   const webhooksApiUrl = "https://api.twitch.tv/helix/webhooks/hub";
 
   const accessTokenData = await accessTokenUtil.get();
 
   if (accessTokenData) {
     const data = {
-      "hub.callback": process.env.TWITCH_API_CALLBACK_URL,
+      "hub.callback": `${process.env.TWITCH_API_CALLBACK_URL}/${member_id}`,
       "hub.mode": "subscribe",
       "hub.topic": topicUrl,
       "hub.lease_seconds": 84600,
@@ -35,10 +35,13 @@ async function registerWebhook(topicUrl: string) {
 
 //Example: Subscribe to new followers to a twitch user with id: 469006291 (me)
 registerWebhook(
-  `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`
+  `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`,
+  config.broadcaster.id
 );
 
+const toSubscribeTo = [...config.teamMembers, config.broadcaster].map((member) => member.id);
+
 //Register all team member stream listeners
-config.teamMembers.map((member: TeamMember) => {
-  registerWebhook(`https://api.twitch.tv/helix/streams?user_id=${member.id}`);
+toSubscribeTo.map((member: string) => {
+  registerWebhook(`https://api.twitch.tv/helix/streams?user_id=${member}`, member);
 });

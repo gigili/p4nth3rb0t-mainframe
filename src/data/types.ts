@@ -153,3 +153,10 @@ export interface MyBadges extends Badges {
 export interface GameByIdResponse {
   name: string;
 }
+
+export interface VideoByUserIdResponse {
+  id: string;
+  thumbnail_url: string;
+  duration: string;
+  title: string;
+}

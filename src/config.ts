@@ -24,7 +24,8 @@ interface Config {
   discord: {
     liveAnnouncementsChannelId: string;
     liveAnnouncementsRoleId: string;
-    liveAnnouncementColor: string;
+    liveAnnouncementColorOnline: string;
+    liveAnnouncementColorOffline: string;
     liveAnnouncementImageSize: string;
   };
 }
@@ -137,7 +138,8 @@ const config: Config = {
   discord: {
     liveAnnouncementsChannelId: "747131453040492605",
     liveAnnouncementsRoleId: "756956508234842145",
-    liveAnnouncementColor: "#84AE39",
+    liveAnnouncementColorOnline: "#84AE39",
+    liveAnnouncementColorOffline: "#AE8439",
     liveAnnouncementImageSize: "1280x720"
   },
 };
