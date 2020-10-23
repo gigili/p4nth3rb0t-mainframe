@@ -2,6 +2,8 @@ import "./env";
 
 import { webServer } from "./webserver";
 import { tmi } from "./tmi";
+import { discord } from "./discord";
+
 import { testConfig } from "./../testConfig";
 import Database from "./data/database";
 import "./events/subscriptions";
@@ -21,8 +23,9 @@ async function run() {
         } :)`
       );
     });
-    
+
     await tmi.connect();
+    await discord.login(process.env.DISCORD_TOKEN);
 
     if (testConfig.connectToFdgt) {
       setTimeout(() => {
