@@ -1,9 +1,10 @@
 import Discord, { MessageEmbed } from "discord.js";
-import type { Channel, TextChannel } from "discord.js";
+import type { TextChannel } from "discord.js";
 import { config } from "./config";
 import UserManager from "./users/UserManager";
 import { fetchGameById, fetchVideoByUserId } from "./utils/twitchUtils";
 import DiscordAnnouncementModel from "./data/models/DiscordAnnouncement";
+import type { StreamInfo } from './data/types';
 
 export const discord = new Discord.Client();
 let announcementsChannel: TextChannel;
@@ -16,19 +17,7 @@ discord.on("ready", async () => {
   )) as TextChannel;
 });
 
-interface StreamInfo {
-  "game_id": string,
-  "id": string,
-  "language": string,
-  "started_at": string,
-  "tag_ids": string[],
-  "thumbnail_url": string,
-  "title": string,
-  "type": string,
-  "user_id": string,
-  "user_name": string,
-  "viewer_count": number
-};
+
 
 export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
   if (announcementsChannel) {
