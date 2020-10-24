@@ -104,14 +104,14 @@ export interface AccessTokenResponse {
 }
 
 export interface UserByIdResponse {
-    display_name: string;
-    _id: string;
-    name: string;
-    type: "user";
-    bio: string;
-    created_at: string;
-    updated_at: string;
-    logo: string;
+  display_name: string;
+  _id: string;
+  name: string;
+  type: "user";
+  bio: string;
+  created_at: string;
+  updated_at: string;
+  logo: string;
 }
 
 export interface UserByLoginResponse {
@@ -162,15 +162,15 @@ export interface VideoByUserIdResponse {
 }
 
 export interface StreamInfo {
-  "game_id": string,
-  "id": string,
-  "language": string,
-  "started_at": string,
-  "tag_ids": string[],
-  "thumbnail_url": string,
-  "title": string,
-  "type": string,
-  "user_id": string,
-  "user_name": string,
-  "viewer_count": number
+  game_id: string;
+  id: string;
+  language: string;
+  started_at: string;
+  tag_ids: string[];
+  thumbnail_url: string;
+  title: string;
+  type: string;
+  user_id: string;
+  user_name: string;
+  viewer_count: number;
 }

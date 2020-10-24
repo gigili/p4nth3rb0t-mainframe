@@ -5,11 +5,16 @@ export interface DiscordAnnouncementData {
   messageId: string;
 }
 
-export interface DiscordAnnouncementDoc extends Document, DiscordAnnouncementData {}
+export interface DiscordAnnouncementDoc
+  extends Document,
+    DiscordAnnouncementData {}
 
 export const DiscordAnnouncementSchema: Schema = new mongoose.Schema({
-  memberId: { type: String, required: true },
-  messageId: { type: String, required: true }
+  memberId: { type: String, required: true, unique: true },
+  messageId: { type: String, required: true },
 });
 
-export default mongoose.model<DiscordAnnouncementDoc>("DiscordAnnouncement", DiscordAnnouncementSchema);
+export default mongoose.model<DiscordAnnouncementDoc>(
+  "DiscordAnnouncement",
+  DiscordAnnouncementSchema
+);

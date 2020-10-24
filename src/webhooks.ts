@@ -39,9 +39,14 @@ registerWebhook(
   config.broadcaster.id
 );
 
-const toSubscribeTo = [...config.teamMembers, config.broadcaster].map((member) => member.id);
+const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
+  (member) => member.id
+);
 
 //Register all team member stream listeners
 toSubscribeTo.map((member: string) => {
-  registerWebhook(`https://api.twitch.tv/helix/streams?user_id=${member}`, member);
+  registerWebhook(
+    `https://api.twitch.tv/helix/streams?user_id=${member}`,
+    member
+  );
 });

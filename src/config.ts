@@ -140,7 +140,7 @@ const config: Config = {
     liveAnnouncementsRoleId: "756956508234842145",
     liveAnnouncementColorOnline: "#84AE39",
     liveAnnouncementColorOffline: "#AE8439",
-    liveAnnouncementImageSize: "1280x720"
+    liveAnnouncementImageSize: "1280x720",
   },
 };
 
