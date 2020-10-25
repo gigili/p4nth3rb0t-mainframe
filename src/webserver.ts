@@ -44,9 +44,14 @@ app.post(
 //When Twitch sends a post request to the callback url you provided
 //it will expect a 200 and the 'hub.challenge' query string
 app.get("/webhooks/subscribe/:member_id", (req: Request, res: Response) => {
-  const member = config.teamMembers.find(
+  const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
+    (member) => member
+  );
+
+  const member = toSubscribeTo.find(
     (member) => member.id === req.params.member_id
   );
+
   if (!member) {
     res.sendStatus(404);
     return;
