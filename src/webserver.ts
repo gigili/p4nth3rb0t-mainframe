@@ -3,6 +3,7 @@ import cors from "cors";
 import http from "http";
 import bodyParser from "body-parser";
 
+import asyncWrapper from "./utils/asyncWrapper";
 import { sendLiveAnnouncement, sendOfflineAnnouncement } from "./discord";
 import { config } from "./config";
 
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV !== "production") {
 
 app.post(
   "/webhooks/subscribe/:member_id",
-  async (req: Request, res: Response) => {
+  asyncWrapper(async (req: Request, res: Response) => {
     const member = config.teamMembers.find(
       (member) => member.id === req.params.member_id
     );
@@ -38,7 +39,7 @@ app.post(
     }
 
     return res.status(200).send();
-  }
+  })
 );
 
 //When Twitch sends a post request to the callback url you provided

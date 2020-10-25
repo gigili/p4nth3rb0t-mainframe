@@ -28,6 +28,7 @@ async function registerWebhook(topicUrl: string, member_id: string) {
         },
       });
     } catch (err) {
+      //do we want to handle this?
       console.error(err);
     }
   }
