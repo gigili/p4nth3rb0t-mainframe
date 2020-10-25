@@ -1,7 +1,7 @@
 import { TwitchChannel, TeamMember } from "./data/types";
 
 interface Config {
-  broadcaster: string;
+  broadcaster: TeamMember;
   channel: string;
   drop: {
     minAccountAge: number;
@@ -18,10 +18,17 @@ interface Config {
   teamName: string;
   teamMembers: TeamMember[];
   teamWelcomeMessage: (channel: TwitchChannel) => string;
+  discord: {
+    liveAnnouncementsChannelId: string;
+    liveAnnouncementsRoleId: string;
+    liveAnnouncementColorOnline: string;
+    liveAnnouncementColorOffline: string;
+    liveAnnouncementImageSize: string;
+  };
 }
 
 const config: Config = {
-  broadcaster: "whitep4nth3r",
+  broadcaster: { name: "whitep4nth3r", id: "469006291" },
   channel: "#whitep4nth3r",
   drop: {
     minAccountAge: 7 * 24 * 60 * 60 * 1000,
@@ -65,6 +72,10 @@ const config: Config = {
     {
       name: "codingwithluce",
       id: "199566394",
+    },
+    {
+      name: "cowboy_salmon",
+      id: "113485816",
     },
     {
       name: "exegete46",
@@ -124,6 +135,13 @@ const config: Config = {
     PEW PEW, @${channel.broadcaster_name}! 
     Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
     | They were last seen streaming ${channel.title} in ${channel.game_name} whitep30PEWPEW`;
+  },
+  discord: {
+    liveAnnouncementsChannelId: "747131453040492605",
+    liveAnnouncementsRoleId: "756956508234842145",
+    liveAnnouncementColorOnline: "#84AE39",
+    liveAnnouncementColorOffline: "#AE8439",
+    liveAnnouncementImageSize: "1280x720",
   },
 };
 

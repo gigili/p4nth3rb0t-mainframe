@@ -7,6 +7,7 @@
     "npm": "6.14.8"
   },
   "scripts": {
+    "test": "jest",
     "start": "node build/src/app.js",
     "build": "tsc",
     "dev": "nodemon",
@@ -14,6 +15,9 @@
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "author": "whitep4nth3r",
+  "contributors": [
+    "MadhouseSteve"
+  ],
   "license": "MIT",
   "dependencies": {
     "@types/cors": "^2.8.7",
@@ -24,7 +28,9 @@
     "@types/tmi.js": "^1.4.1",
     "@types/ws": "^7.2.6",
     "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "discord.js": "^12.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jest": "^26.4.2",

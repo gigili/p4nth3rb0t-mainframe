@@ -32,6 +32,9 @@ wsServer.on("connection", (ws: ExtWebSocket) => {
 
   //send feedback to the incoming connection
   ws.send(
-    JSON.stringify({ status: 200, msg: "Welcome to the p4nth3rb0t mainframe" })
+    JSON.stringify({
+      status: 200,
+      msg: "🔥 Welcome to the p4nth3rb0t mainframe",
+    })
   );
 });

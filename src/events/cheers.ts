@@ -7,7 +7,7 @@ import { ChatUserstate } from "tmi.js";
 const sendCheerEvent = async (bitCount: string, messageId: string) => {
   try {
     const cheerEvent: Packet = {
-      broadcaster: config.broadcaster,
+      broadcaster: config.broadcaster.name,
       event: TwitchEvent.cheer,
       id: messageId,
       data: {
