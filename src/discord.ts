@@ -1,9 +1,9 @@
-import Discord, { MessageEmbed } from "discord.js";
-import type { TextChannel } from "discord.js";
-import { config } from "./config";
 import UserManager from "./users/UserManager";
-import { fetchGameById, fetchVideoByUserId } from "./utils/twitchUtils";
 import DiscordAnnouncementModel from "./data/models/DiscordAnnouncement";
+import Discord, { MessageEmbed } from "discord.js";
+import { config } from "./config";
+import { fetchGameById, fetchVideoByUserId } from "./utils/twitchUtils";
+import type { TextChannel } from "discord.js";
 import type { StreamInfo } from "./data/types";
 
 export const discord = new Discord.Client();
@@ -20,31 +20,27 @@ discord.on("ready", async () => {
 export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
   if (announcementsChannel) {
     const user = await UserManager.getUserById(streamInfo.user_id);
-
-    const embed = new MessageEmbed();
-    embed.setAuthor(user.display_name, user.logo);
-    embed.setTitle(`${streamInfo.title}`);
-    embed.setURL(`https://twitch.tv/${streamInfo.user_name}`);
-    embed.setThumbnail(user.logo);
-    embed.setDescription(
-      `Category\n**${(await fetchGameById(streamInfo.game_id))?.name}**`
-    );
-    embed.setImage(
-      streamInfo.thumbnail_url.replace(
-        "{width}x{height}",
-        config.discord.liveAnnouncementImageSize
-      )
-    );
-    embed.setColor(config.discord.liveAnnouncementColorOnline);
     const started_at = new Date(streamInfo.started_at);
-    embed.setFooter(
+
+    const embed = buildDiscordEmbed(
+      true,
+      user.display_name,
+      user.logo,
+      streamInfo.title,
+      streamInfo.thumbnail_url,
       `Started streaming • Today at ${started_at.toTimeString()}`
     );
 
+    const onlineAnnouncementPrefix: string =
+      process.env.NODE_ENV === "production"
+        ? `<@&${config.discord.liveAnnouncementsRoleId}> `
+        : "";
+
     const message = await announcementsChannel.send({
-      content: `<@&${config.discord.liveAnnouncementsRoleId}> ${streamInfo.user_name} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+      content: `${onlineAnnouncementPrefix}${streamInfo.user_name} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
       embed,
     });
+
     await DiscordAnnouncementModel.update(
       { memberId: streamInfo.user_id },
       {
@@ -58,34 +54,34 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
 
 export const sendOfflineAnnouncement = async (member_id: string) => {
   const video = await fetchVideoByUserId(member_id);
+
   if (!video) {
     return;
   }
+
   const saved_message = await DiscordAnnouncementModel.findOne({
     memberId: member_id,
   });
+
   if (!saved_message) {
     return;
   }
+
   const message = await announcementsChannel.messages.fetch(
     `${saved_message.messageId}`
   );
 
   const user = await UserManager.getUserById(member_id);
 
-  const embed = new MessageEmbed();
-  embed.setAuthor(user.display_name, user.logo);
-  embed.setTitle(video.title);
-  embed.setURL(`https://twitch.tv/videos/${video.id}`);
-  embed.setThumbnail(user.logo);
-  embed.setImage(
-    video.thumbnail_url.replace(
-      "%{width}x%{height}",
-      config.discord.liveAnnouncementImageSize
-    )
+  const embed = buildDiscordEmbed(
+    false,
+    user.display_name,
+    user.logo,
+    video.title,
+    video.thumbnail_url,
+    `Finished streaming • Streamed for ${video.duration}`,
+    video.id
   );
-  embed.setColor(config.discord.liveAnnouncementColorOffline);
-  embed.setFooter(`Finished streaming • Streamed for ${video.duration}`);
 
   await message.edit({
     content: `${user.display_name} was online!`,
@@ -93,4 +89,45 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
   });
 
   await DiscordAnnouncementModel.deleteOne({ memberId: member_id });
+};
+
+const buildDiscordEmbed = (
+  online: boolean,
+  userDisplayName: string,
+  userLogo: string,
+  streamTitle: string,
+  imageUrl: string,
+  footer: string,
+  videoId?: string
+) => {
+  const embed = new MessageEmbed();
+
+  console.log("test");
+
+  embed.setAuthor(userDisplayName, userLogo);
+  embed.setTitle(streamTitle);
+  embed.setThumbnail(userLogo);
+
+  embed.setURL(
+    online
+      ? `https://twitch.tv/${userDisplayName}`
+      : `https://twitch.tv/videos/${videoId}`
+  );
+
+  embed.setImage(
+    imageUrl.replace(
+      "%{width}x%{height}",
+      config.discord.liveAnnouncementImageSize
+    )
+  );
+
+  embed.setColor(
+    online
+      ? config.discord.liveAnnouncementColorOnline
+      : config.discord.liveAnnouncementColorOffline
+  );
+
+  embed.setFooter(footer);
+
+  return embed;
 };

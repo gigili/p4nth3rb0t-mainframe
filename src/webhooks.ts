@@ -34,10 +34,10 @@ async function registerWebhook(topicUrl: string, member_id: string) {
 }
 
 //Example: Subscribe to new followers to a twitch user with id: 469006291 (me)
-registerWebhook(
-  `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`,
-  config.broadcaster.id
-);
+// registerWebhook(
+//   `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`,
+//   config.broadcaster.id
+// );
 
 const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
   (member) => member.id

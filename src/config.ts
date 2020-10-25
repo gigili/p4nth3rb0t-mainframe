@@ -1,10 +1,7 @@
 import { TwitchChannel, TeamMember } from "./data/types";
 
 interface Config {
-  broadcaster: {
-    name: string;
-    id: string;
-  };
+  broadcaster: TeamMember;
   channel: string;
   drop: {
     minAccountAge: number;

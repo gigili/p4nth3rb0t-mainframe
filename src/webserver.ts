@@ -18,9 +18,6 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-//Whenever twitch sends a notification to your subscribed webhook topic
-//it will send it to this endpoint. You have to send back a 200
-//otherwise twitch will think you did not recieve the notification and spam you
 app.post(
   "/webhooks/subscribe/:member_id",
   async (req: Request, res: Response) => {
