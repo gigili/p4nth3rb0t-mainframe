@@ -102,8 +102,6 @@ const buildDiscordEmbed = (
 ) => {
   const embed = new MessageEmbed();
 
-  console.log("test");
-
   embed.setAuthor(userDisplayName, userLogo);
   embed.setTitle(streamTitle);
   embed.setThumbnail(userLogo);
