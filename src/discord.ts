@@ -24,6 +24,7 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
 
     const embed = buildDiscordEmbed(
       true,
+      user.name,
       user.display_name,
       user.logo,
       streamInfo.title,
@@ -75,6 +76,7 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
 
   const embed = buildDiscordEmbed(
     false,
+    user.name,
     user.display_name,
     user.logo,
     video.title,
@@ -93,6 +95,7 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
 
 const buildDiscordEmbed = (
   online: boolean,
+  userName: string,
   userDisplayName: string,
   userLogo: string,
   streamTitle: string,
@@ -108,7 +111,7 @@ const buildDiscordEmbed = (
 
   embed.setURL(
     online
-      ? `https://twitch.tv/${userDisplayName}`
+      ? `https://twitch.tv/${userName}`
       : `https://twitch.tv/videos/${videoId}`
   );
 
