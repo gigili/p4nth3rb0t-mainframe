@@ -22,9 +22,14 @@ if (process.env.NODE_ENV !== "production") {
 app.post(
   "/webhooks/subscribe/:member_id",
   asyncWrapper(async (req: Request, res: Response) => {
-    const member = config.teamMembers.find(
+    const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
+      (member) => member
+    );
+
+    const member = toSubscribeTo.find(
       (member) => member.id === req.params.member_id
     );
+
     if (!member) {
       res.sendStatus(404);
       return;
