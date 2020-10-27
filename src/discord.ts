@@ -38,7 +38,7 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
         : "";
 
     const message = await announcementsChannel.send({
-      content: `${onlineAnnouncementPrefix}${streamInfo.user_name} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(streamInfo.user_name)} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
       embed,
     });
 
