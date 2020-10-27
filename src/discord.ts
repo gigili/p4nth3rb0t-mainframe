@@ -3,6 +3,7 @@ import DiscordAnnouncementModel from "./data/models/DiscordAnnouncement";
 import Discord, { MessageEmbed } from "discord.js";
 import { config } from "./config";
 import { fetchGameById, fetchVideoByUserId } from "./utils/twitchUtils";
+import { escapeMarkdown } from "./utils/discordUtils";
 import type { TextChannel } from "discord.js";
 import type { StreamInfo } from "./data/types";
 
@@ -38,7 +39,7 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
         : "";
 
     const message = await announcementsChannel.send({
-      content: `${onlineAnnouncementPrefix}${streamInfo.user_name} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+        content: `${onlineAnnouncementPrefix}${escapeMarkdown(streamInfo.user_name)} is now live on Twitch! https://twitch.tv/${escapeMarkdown(streamInfo.user_name)}`,
       embed,
     });
 
