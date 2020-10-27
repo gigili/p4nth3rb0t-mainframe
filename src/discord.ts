@@ -112,9 +112,11 @@ const buildDiscordEmbed = (
       : `https://twitch.tv/videos/${videoId}`
   );
 
+  const imageReplaceString = online ? "{width}x{height}" : "%{width}x%{height}";
+
   embed.setImage(
     imageUrl.replace(
-      "%{width}x%{height}",
+      imageReplaceString,
       config.discord.liveAnnouncementImageSize
     )
   );
