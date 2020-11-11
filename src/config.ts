@@ -42,7 +42,7 @@ const config: Config = {
     "baldbeardedbuilder",
     "codingwithluce",
     "madhousesteve",
-    "rawrsatbeards",
+    "rawwwrs",
     "laylacodesit",
   ],
   ignoredUsers: ["nightbot", "pretzelrocks", "p4nth3rb0t"],
@@ -98,7 +98,7 @@ const config: Config = {
       id: "76884091",
     },
     {
-      name: "rawrsatbeards",
+      name: "rawwwrs",
       id: "166942660",
     },
     {
