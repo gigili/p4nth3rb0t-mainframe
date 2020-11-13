@@ -22,6 +22,12 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
     const user = await UserManager.getUserById(streamInfo.user_id);
     const started_at = new Date(streamInfo.started_at);
 
+    // Fetch category name
+    let category = await fetchGameById(streamInfo.game_id);
+    if (!category) {
+      category = { name: "" };
+    }
+
     const embed = buildDiscordEmbed(
       true,
       user.name,
@@ -29,7 +35,8 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
       user.logo,
       streamInfo.title,
       streamInfo.thumbnail_url,
-      `Started streaming • Today at ${started_at.toTimeString()}`
+      `Started streaming • Today at ${started_at.toTimeString()}`,
+      category.name
     );
 
     const onlineAnnouncementPrefix: string =
@@ -37,16 +44,36 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
         ? `<@&${config.discord.liveAnnouncementsRoleId}> `
         : "";
 
-    const message = await announcementsChannel.send({
-        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(streamInfo.user_name)} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
-      embed,
+    const existing = await DiscordAnnouncementModel.findOne({
+      streamId: streamInfo.id,
     });
+    let message;
+    if (existing) {
+      message = await announcementsChannel.messages.fetch(
+        `${existing.messageId}`
+      );
+      await message.edit({
+        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(
+          streamInfo.user_name
+        )} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+        embed,
+      });
+    } else {
+      message = await announcementsChannel.send({
+        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(
+          streamInfo.user_name
+        )} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+        embed,
+      });
+    }
 
-    await DiscordAnnouncementModel.update(
+    await DiscordAnnouncementModel.updateOne(
       { memberId: streamInfo.user_id },
       {
         memberId: streamInfo.user_id,
         messageId: message.id,
+        streamId: streamInfo.id,
+        category: category.name,
       },
       { upsert: true }
     );
@@ -82,6 +109,7 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
     video.title,
     video.thumbnail_url,
     `Finished streaming • Streamed for ${video.duration}`,
+    saved_message.category,
     video.id
   );
 
@@ -101,6 +129,7 @@ const buildDiscordEmbed = (
   streamTitle: string,
   imageUrl: string,
   footer: string,
+  gameName: string,
   videoId?: string
 ) => {
   const embed = new MessageEmbed();
@@ -131,6 +160,10 @@ const buildDiscordEmbed = (
   );
 
   embed.setFooter(footer);
+
+  if (gameName.length) {
+    embed.setDescription(gameName);
+  }
 
   return embed;
 };
