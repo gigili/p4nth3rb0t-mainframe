@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface DiscordAnnouncementData {
   memberId: string;
   messageId: string;
+  streamId: string;
 }
 
 export interface DiscordAnnouncementDoc
@@ -12,6 +13,7 @@ export interface DiscordAnnouncementDoc
 export const DiscordAnnouncementSchema: Schema = new mongoose.Schema({
   memberId: { type: String, required: true, unique: true },
   messageId: { type: String, required: true },
+  streamId: { type: String },
 });
 
 export default mongoose.model<DiscordAnnouncementDoc>(

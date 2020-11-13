@@ -37,16 +37,35 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
         ? `<@&${config.discord.liveAnnouncementsRoleId}> `
         : "";
 
-    const message = await announcementsChannel.send({
-        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(streamInfo.user_name)} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
-      embed,
+    const existing = await DiscordAnnouncementModel.findOne({
+      streamId: streamInfo.id,
     });
+    let message;
+    if (existing) {
+      message = await announcementsChannel.messages.fetch(
+        `${existing.messageId}`
+      );
+      await message.edit({
+        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(
+          streamInfo.user_name
+        )} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+        embed,
+      });
+    } else {
+      message = await announcementsChannel.send({
+        content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(
+          streamInfo.user_name
+        )} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+        embed,
+      });
+    }
 
-    await DiscordAnnouncementModel.update(
+    await DiscordAnnouncementModel.updateOne(
       { memberId: streamInfo.user_id },
       {
         memberId: streamInfo.user_id,
         messageId: message.id,
+        streamId: streamInfo.id,
       },
       { upsert: true }
     );
