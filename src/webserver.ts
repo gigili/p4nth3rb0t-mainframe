@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 
 import asyncWrapper from "./utils/asyncWrapper";
 import { sendLiveAnnouncement, sendOfflineAnnouncement } from "./discord";
+import { sendBroadcasterFollowEvent } from "./events/follows";
 import { config } from "./config";
 
 const app = express();
@@ -64,10 +65,52 @@ app.get("/webhooks/subscribe/:member_id", (req: Request, res: Response) => {
   }
 
   res.status(200).send(req.query["hub.challenge"]);
+
   console.log(
     `↪️  Webhook subscribed for ${member.name}! ${req.query["hub.topic"]}`
   );
 });
+
+app.post(
+  "/webhooks/subscribe/broadcasterfollow",
+  asyncWrapper(async (req: Request, res: Response) => {
+    console.log("🔔 Broadcaster follow received");
+
+    //todo - get follower name from data
+
+    //   {
+    //     "data": [
+    //         {
+    //             "followed_at": "2020-11-20T20:37:07Z",
+    //             "from_id": "40856022",
+    //             "from_name": "exegete46",
+    //             "to_id": "469006291",
+    //             "to_name": "whitep4nth3r"
+    //         }
+    //     ]
+    // }
+
+    if (req.body.data.length) {
+      //req.params.something...
+      // await sendBroadcasterFollowEvent(req.body.data[0].from_name, req.body.data[0].from_id);
+    }
+
+    return res.status(200).send();
+  })
+);
+
+app.get(
+  "/webhooks/subscribe/broadcasterfollow",
+  (req: Request, res: Response) => {
+    console.log("we are here");
+
+    res.status(200).send(req.query["hub.challenge"]);
+
+    console.log(
+      `💘  Webhook subscribed for broadcaster follows! ${req.query["hub.topic"]}`
+    );
+  }
+);
 
 app.use("/", (req: Request, res: Response) => {
   res.send("🔥 Welcome to the p4nth3rb0t mainframe");

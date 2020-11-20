@@ -12,6 +12,7 @@ export enum TwitchEvent {
   teamMemberJoin = "teammemberjoin",
   chatMessage = "chatmessage",
   yeetUser = "yeetuser",
+  broadcasterFollow = "broadcasterfollow", //todo from webhooks
 }
 
 interface Data {}
@@ -49,6 +50,12 @@ interface WeatherTrailData extends Data {
 interface RaidData extends Data {
   raiderCount: number;
   raider: string;
+}
+
+interface BroadcasterFollowData extends Data {
+  followerName: string;
+  logoUrl: string;
+  followerUserId: string;
 }
 
 export interface ChatMessageData extends Data {
@@ -143,7 +150,8 @@ export interface Packet {
     | WeatherData
     | WeatherTrailData
     | teamMemberJoinData
-    | ChatMessageData;
+    | ChatMessageData
+    | BroadcasterFollowData;
 }
 
 export interface MyBadges extends Badges {
