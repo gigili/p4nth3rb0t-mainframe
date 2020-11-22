@@ -12,7 +12,7 @@ const enum WebhookType {
 async function registerWebhook(
   topicUrl: string,
   member_id: string,
-  webhookType: WebhookType
+  webhookType: WebhookType,
 ) {
   const webhooksApiUrl = "https://api.twitch.tv/helix/webhooks/hub";
 
@@ -22,10 +22,10 @@ async function registerWebhook(
 
   switch (webhookType) {
     case WebhookType.StreamAnnouncement:
-      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/${member_id}`;
+      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/team/${member_id}`;
       break;
     case WebhookType.BroadcasterFollow:
-      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/broadcasterfollow`;
+      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/broadcaster/follow`;
       break;
     default:
       `${process.env.TWITCH_API_CALLBACK_URL}`;
@@ -57,11 +57,11 @@ async function registerWebhook(
 registerWebhook(
   `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`,
   config.broadcaster.id,
-  WebhookType.BroadcasterFollow
+  WebhookType.BroadcasterFollow,
 );
 
 const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
-  (member) => member.id
+  (member) => member.id,
 );
 
 //Register all team member stream listeners
@@ -69,6 +69,6 @@ toSubscribeTo.map((member: string) => {
   registerWebhook(
     `https://api.twitch.tv/helix/streams?user_id=${member}`,
     member,
-    WebhookType.StreamAnnouncement
+    WebhookType.StreamAnnouncement,
   );
 });

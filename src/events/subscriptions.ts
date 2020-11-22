@@ -1,7 +1,7 @@
 import { testConfig } from "./../../testConfig";
-import { wsServer } from "../websocket";
+import WebSocketServer from "../websocket";
 import { tmi } from "./../tmi";
-import { ChatUserstate, Userstate } from "tmi.js";
+import { Userstate } from "tmi.js";
 import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
@@ -23,9 +23,7 @@ const sendSubEvent = async (userId: string, messageId: string) => {
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(subEvent));
-    });
+    WebSocketServer.sendDataOverWebsocket(subEvent);
   } catch (error) {
     console.log(error);
   }
@@ -35,14 +33,14 @@ tmi.on(
   "anongiftpaidupgrade",
   (channel: string, username: string, userstate: Userstate) => {
     sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
+  },
 );
 
 tmi.on(
   "giftpaidupgrade",
   (channel: string, username: string, sender: string, userstate: Userstate) => {
     sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
+  },
 );
 
 tmi.on(
@@ -53,15 +51,15 @@ tmi.on(
     streakMonths: number,
     recipient: string,
     methods: {},
-    userstate: Userstate
+    userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
       ? sendSubEvent(testConfig.userId, testConfig.userId)
       : sendSubEvent(
           userstate["msg-param-recipient-id"] as string,
-          userstate["id"] as string
+          userstate["id"] as string,
         );
-  }
+  },
 );
 
 tmi.on(
@@ -71,12 +69,12 @@ tmi.on(
     username: string,
     methods: {},
     message: string,
-    userstate: Userstate
+    userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
       ? sendSubEvent(testConfig.userId, testConfig.userId)
       : sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
+  },
 );
 
 tmi.on(
@@ -87,8 +85,8 @@ tmi.on(
     months: number,
     message: string,
     userstate: Userstate,
-    methods: {}
+    methods: {},
   ) => {
     sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
+  },
 );

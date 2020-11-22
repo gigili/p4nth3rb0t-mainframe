@@ -1,11 +1,11 @@
-import { wsServer } from "../websocket";
+import WebsocketServer from "../websocket";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 import UserManager from "../users/UserManager";
 
 export const sendBroadcasterFollowEvent = async (
   followerName: string,
-  followerUserId: string
+  followerUserId: string,
 ) => {
   const user = await UserManager.getUserById(followerUserId as string);
 
@@ -21,9 +21,7 @@ export const sendBroadcasterFollowEvent = async (
       },
     };
 
-    // wsServer.clients.forEach((client) => {
-    //   client.send(JSON.stringify(broadcasterFollowEvent));
-    // });
+    WebsocketServer.sendDataOverWebsocket(broadcasterFollowEvent);
   } catch (error) {
     console.log(error);
   }
