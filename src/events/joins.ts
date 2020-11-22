@@ -1,5 +1,5 @@
 import { tmi } from "../tmi";
-import WebSocketServer from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
@@ -14,7 +14,7 @@ const sendSpecialUserJoinEvent = async (username: string) => {
       },
     };
 
-    WebSocketServer.sendDataOverWebsocket(specialUserJoin);
+    WebSocketServer.sendData(specialUserJoin);
   } catch (error) {
     console.log(error);
   }

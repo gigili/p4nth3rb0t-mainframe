@@ -1,5 +1,5 @@
 import { tmi } from "./../tmi";
-import WebSocketServer from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
@@ -15,7 +15,7 @@ const sendRaidEvent = async (raiderCount: number, username: string) => {
       },
     };
 
-    WebSocketServer.sendDataOverWebsocket(raidEvent);
+    WebSocketServer.sendData(raidEvent);
   } catch (error) {
     console.log(error);
   }

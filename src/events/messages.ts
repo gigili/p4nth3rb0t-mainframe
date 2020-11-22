@@ -1,5 +1,5 @@
 import { tmi } from "./../tmi";
-import WebSocketServer from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
 import { Packet, TwitchEvent } from "../data/types";
@@ -30,7 +30,7 @@ const sendChatMessageEvent = async (data: ChatMessageData) => {
       data,
     };
 
-    WebSocketServer.sendDataOverWebsocket(chatMessageEvent);
+    WebSocketServer.sendData(chatMessageEvent);
   } catch (error) {
     console.log(error);
   }
@@ -49,7 +49,7 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
       },
     };
 
-    WebSocketServer.sendDataOverWebsocket(teamMemberJoin);
+    WebSocketServer.sendData(teamMemberJoin);
   } catch (error) {
     console.log(error);
   }

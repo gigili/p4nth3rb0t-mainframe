@@ -50,7 +50,7 @@ export default class WebsocketServer {
     return this.wsServer;
   }
 
-  static sendDataOverWebsocket(data: Packet) {
+  static sendData(data: Packet) {
     this.wsServer.clients.forEach((client) => {
       client.send(JSON.stringify(data));
     });

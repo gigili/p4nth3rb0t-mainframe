@@ -1,5 +1,5 @@
 import { testConfig } from "./../../testConfig";
-import WebSocketServer from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { tmi } from "./../tmi";
 import { Userstate } from "tmi.js";
 import UserManager from "../users/UserManager";
@@ -23,7 +23,7 @@ const sendSubEvent = async (userId: string, messageId: string) => {
       },
     };
 
-    WebSocketServer.sendDataOverWebsocket(subEvent);
+    WebSocketServer.sendData(subEvent);
   } catch (error) {
     console.log(error);
   }

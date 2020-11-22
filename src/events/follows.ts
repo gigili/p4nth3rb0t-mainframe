@@ -1,4 +1,4 @@
-import WebsocketServer from "../websocket";
+import WebsocketServer from "../WebSocketServer";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 import UserManager from "../users/UserManager";
@@ -21,7 +21,7 @@ export const sendBroadcasterFollowEvent = async (
       },
     };
 
-    WebsocketServer.sendDataOverWebsocket(broadcasterFollowEvent);
+    WebsocketServer.sendData(broadcasterFollowEvent);
   } catch (error) {
     console.log(error);
   }

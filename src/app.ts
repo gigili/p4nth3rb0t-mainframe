@@ -3,7 +3,7 @@ import "./env";
 import Database from "./data/database";
 
 import { webServer } from "./webserver";
-import WebSocketServer from "./websocket";
+import WebSocketServer from "./WebSocketServer";
 import { tmi } from "./tmi";
 import { discord } from "./discord";
 import { testConfig } from "./../testConfig";
