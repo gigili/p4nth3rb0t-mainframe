@@ -64,7 +64,7 @@ app.get(
     }
 
     res.status(200).send(req.query["hub.challenge"]);
-    console.log(`↪️  Webhook subscribed for ${member.name} streams!}`);
+    console.log(`↪️  Webhook subscribed for ${member.name} streams!`);
   },
 );
 
