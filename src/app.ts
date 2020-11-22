@@ -14,6 +14,7 @@ import "./events/messages";
 import "./events/raids";
 import "./events/cheers";
 import "./events/joins";
+import "./events/follows";
 
 Database.connect();
 

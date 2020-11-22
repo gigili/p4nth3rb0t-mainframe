@@ -22,7 +22,9 @@ wsServer.on("connection", (ws: ExtWebSocket) => {
       if (!ws.isAlive) return ws.terminate();
 
       ws.isAlive = false;
-      ws.ping(() => {});
+      ws.ping(() => {
+        return true;
+      });
     });
   }, 10000);
 

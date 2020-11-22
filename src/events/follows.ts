@@ -21,9 +21,9 @@ export const sendBroadcasterFollowEvent = async (
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(broadcasterFollowEvent));
-    });
+    // wsServer.clients.forEach((client) => {
+    //   client.send(JSON.stringify(broadcasterFollowEvent));
+    // });
   } catch (error) {
     console.log(error);
   }

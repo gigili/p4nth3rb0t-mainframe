@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import http from "http";
 import bodyParser from "body-parser";
-
 import asyncWrapper from "./utils/asyncWrapper";
 import { sendLiveAnnouncement, sendOfflineAnnouncement } from "./discord";
 import { sendBroadcasterFollowEvent } from "./events/follows";
@@ -48,29 +47,6 @@ app.post(
   })
 );
 
-//When Twitch sends a post request to the callback url you provided
-//it will expect a 200 and the 'hub.challenge' query string
-app.get("/webhooks/subscribe/:member_id", (req: Request, res: Response) => {
-  const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
-    (member) => member
-  );
-
-  const member = toSubscribeTo.find(
-    (member) => member.id === req.params.member_id
-  );
-
-  if (!member) {
-    res.sendStatus(404);
-    return;
-  }
-
-  res.status(200).send(req.query["hub.challenge"]);
-
-  console.log(
-    `↪️  Webhook subscribed for ${member.name}! ${req.query["hub.topic"]}`
-  );
-});
-
 app.post(
   "/webhooks/subscribe/broadcasterfollow",
   asyncWrapper(async (req: Request, res: Response) => {
@@ -91,8 +67,10 @@ app.post(
     // }
 
     if (req.body.data.length) {
-      //req.params.something...
-      // await sendBroadcasterFollowEvent(req.body.data[0].from_name, req.body.data[0].from_id);
+      await sendBroadcasterFollowEvent(
+        req.body.data[0].from_name,
+        req.body.data[0].from_id
+      );
     }
 
     return res.status(200).send();
@@ -106,15 +84,31 @@ app.get(
 
     res.status(200).send(req.query["hub.challenge"]);
 
-    console.log(
-      `💘  Webhook subscribed for broadcaster follows! ${req.query["hub.topic"]}`
-    );
+    console.log(`💘  Webhook subscribed for broadcaster follows!`);
   }
 );
+
+app.get("/webhooks/subscribe/:member_id", (req: Request, res: Response) => {
+  const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
+    (member) => member
+  );
+
+  const member = toSubscribeTo.find(
+    (member) => member.id === req.params.member_id
+  );
+
+  if (!member) {
+    res.sendStatus(404);
+    return;
+  }
+
+  res.status(200).send(req.query["hub.challenge"]);
+
+  console.log(`↪️  Webhook subscribed for ${member.name} streams!}`);
+});
 
 app.use("/", (req: Request, res: Response) => {
   res.send("🔥 Welcome to the p4nth3rb0t mainframe");
 });
 
-//initialize a simple http server
 export const webServer = http.createServer(app);
