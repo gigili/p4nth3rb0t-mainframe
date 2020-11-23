@@ -12,7 +12,7 @@ export enum TwitchEvent {
   teamMemberJoin = "teammemberjoin",
   chatMessage = "chatmessage",
   yeetUser = "yeetuser",
-  broadcasterFollow = "broadcasterfollow", //todo from webhooks
+  broadcasterFollow = "follow",
 }
 
 interface Data {}
@@ -98,7 +98,7 @@ export interface TeamResponse {
       {
         name: string;
         _id: string;
-      }
+      },
     ];
   };
 }
@@ -133,7 +133,7 @@ export interface UserByLoginResponse {
       created_at: string;
       updated_at: string;
       logo: string;
-    }
+    },
   ];
 }
 
