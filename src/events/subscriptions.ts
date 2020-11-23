@@ -6,11 +6,46 @@ import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
-//According to tmijs docs that is what is happening.
-//Subgif is a gift to someone directly as in 1:1,
-//where as mysterygift can be 1:N number of gifts given
+const sendGiftSubEvent = async (
+  userId: string,
+  messageId: string,
+  subscriberUsername: string,
+  subTier: string,
+  gifterUsername?: string,
+) => {
+  const gifter = !gifterUsername ? "" : gifterUsername;
 
-const sendSubEvent = async (userId: string, messageId: string) => {
+  try {
+    const user = await UserManager.getUserById(userId as string);
+
+    const giftSubEvent: Packet = {
+      broadcaster: config.broadcaster.name,
+      event: TwitchEvent.sub,
+      id: messageId,
+      data: {
+        logoUrl: user.logo as string,
+        subscriberUsername,
+        gifterUsername: gifter,
+        subTier,
+      },
+    };
+
+    console.log(giftSubEvent);
+
+    WebSocketServer.sendData(giftSubEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const sendSubEvent = async (
+  userId: string,
+  username: string,
+  messageId: string,
+  message: string,
+  subTier: string,
+  months?: number,
+) => {
   try {
     const user = await UserManager.getUserById(userId as string);
 
@@ -19,7 +54,11 @@ const sendSubEvent = async (userId: string, messageId: string) => {
       event: TwitchEvent.sub,
       id: messageId,
       data: {
-        logoUrl: user.logo as string,
+        logoUrl: user.logo,
+        subscriberUsername: username,
+        subTier,
+        message,
+        months,
       },
     };
 
@@ -29,17 +68,32 @@ const sendSubEvent = async (userId: string, messageId: string) => {
   }
 };
 
+//TODO ADD MYSTERY GIFT?
+//According to tmijs docs that is what is happening.
+//Subgif is a gift to someone directly as in 1:1,
+//where as mysterygift can be 1:N number of gifts given
+
 tmi.on(
   "anongiftpaidupgrade",
   (channel: string, username: string, userstate: Userstate) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+    sendGiftSubEvent(
+      userstate["user-id"] as string,
+      userstate["id"] as string,
+      userstate["msg-param-recipient-user-name"],
+      "subtier",
+    );
   },
 );
 
 tmi.on(
   "giftpaidupgrade",
   (channel: string, username: string, sender: string, userstate: Userstate) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+    sendGiftSubEvent(
+      userstate["user-id"] as string,
+      userstate["id"] as string,
+      userstate["msg-param-recipient-user-name"],
+      "subtier",
+    );
   },
 );
 
@@ -54,10 +108,17 @@ tmi.on(
     userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
-      ? sendSubEvent(testConfig.userId, testConfig.userId)
-      : sendSubEvent(
-          userstate["msg-param-recipient-id"] as string,
+      ? sendGiftSubEvent(
+          testConfig.userId,
+          testConfig.username,
+          testConfig.userId,
+          "1",
+        )
+      : sendGiftSubEvent(
+          userstate["user-id"] as string,
           userstate["id"] as string,
+          userstate["msg-param-recipient-user-name"],
+          "subtier",
         );
   },
 );
@@ -72,8 +133,20 @@ tmi.on(
     userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
-      ? sendSubEvent(testConfig.userId, testConfig.userId)
-      : sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+      ? sendSubEvent(
+          testConfig.userId,
+          testConfig.username,
+          testConfig.userId,
+          "test message",
+          "1",
+        )
+      : sendSubEvent(
+          userstate["user-id"] as string,
+          userstate["username"] as string,
+          userstate["id"] as string,
+          message,
+          "1",
+        );
   },
 );
 
@@ -87,6 +160,13 @@ tmi.on(
     userstate: Userstate,
     methods: {},
   ) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
+    sendSubEvent(
+      userstate["user-id"] as string,
+      userstate["username"] as string,
+      userstate["id"] as string,
+      message,
+      "1",
+      months,
+    );
   },
 );
