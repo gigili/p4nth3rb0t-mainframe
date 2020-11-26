@@ -88,6 +88,7 @@ export interface ChatMessageData extends Data {
     [emoteid: string]: string[];
   };
   type: string | undefined;
+  id: string | undefined;
 }
 
 export interface TwitchChannel {

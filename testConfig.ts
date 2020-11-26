@@ -1,8 +1,9 @@
 const testConfig = {
   connectToFdgt: false,
-  userId: "",
+  userId: "469006291",
   channel: "#channel",
-  command: "--bitscount 999999 Woohoo!",
+  username: "whitep4nth3r",
+  command: "subgift --tier 1 --username thatn00b__",
 };
 
 export { testConfig };

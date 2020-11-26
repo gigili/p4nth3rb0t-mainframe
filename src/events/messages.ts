@@ -55,6 +55,14 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
   }
 };
 
+//TODO do actions
+// client.on("action", (channel, userstate, message, self) => {
+//   // Don't listen to my own messages..
+//   if (self) return;
+
+//   // Do your stuff.
+// });
+
 tmi.on(
   "chat",
   async (
@@ -146,6 +154,7 @@ tmi.on(
           : false,
         emotes: tags.emotes,
         type: tags["message-type"],
+        id: tags["id"],
       };
 
       await sendChatMessageEvent(chatMessageData);
