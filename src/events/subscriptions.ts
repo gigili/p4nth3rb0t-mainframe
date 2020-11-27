@@ -6,49 +6,17 @@ import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
-// I'm confused
-// I don't think we want this
-const sendGiftSubEvent = async (
-  userId: string,
-  messageId: string,
-  subscriberUsername: string,
-  subTier: string,
-  gifterUsername?: string,
-) => {
-  const gifter = !gifterUsername ? "" : gifterUsername;
-
-  try {
-    const user = await UserManager.getUserById(userId as string);
-
-    const giftSubEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.sub,
-      id: messageId,
-      data: {
-        logoUrl: user.logo as string,
-        subscriberUsername,
-        gifterUsername: gifter,
-        subTier,
-      },
-    };
-
-    WebSocketServer.sendData(giftSubEvent);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const sendSubEvent = async (
+// TODO: fix p4nth3rdrop data validation before releasing this!
+export const sendSubEvent = async (
   userId: string,
   username: string,
   messageId: string,
   message: string,
   subTier: string,
-  months?: number,
+  months: number = 0,
 ) => {
   try {
     const user = await UserManager.getUserById(userId as string);
-
     const subEvent: Packet = {
       broadcaster: config.broadcaster.name,
       event: TwitchEvent.sub,
@@ -73,29 +41,29 @@ const sendSubEvent = async (
 //Subgif is a gift to someone directly as in 1:1,
 //where as mysterygift can be 1:N number of gifts given
 
-tmi.on(
-  "anongiftpaidupgrade",
-  (channel: string, username: string, userstate: Userstate) => {
-    sendGiftSubEvent(
-      userstate["user-id"] as string,
-      userstate["id"] as string,
-      userstate["msg-param-recipient-user-name"],
-      "subtier",
-    );
-  },
-);
+// tmi.on(
+//   "anongiftpaidupgrade",
+//   (channel: string, username: string, userstate: Userstate) => {
+//     sendGiftSubEvent(
+//       userstate["user-id"] as string,
+//       userstate["id"] as string,
+//       userstate["msg-param-recipient-user-name"],
+//       "subtier",
+//     );
+//   },
+// );
 
-tmi.on(
-  "giftpaidupgrade",
-  (channel: string, username: string, sender: string, userstate: Userstate) => {
-    sendGiftSubEvent(
-      userstate["user-id"] as string,
-      userstate["id"] as string,
-      userstate["msg-param-recipient-user-name"],
-      "subtier",
-    );
-  },
-);
+// tmi.on(
+//   "giftpaidupgrade",
+//   (channel: string, username: string, sender: string, userstate: Userstate) => {
+//     sendGiftSubEvent(
+//       userstate["user-id"] as string,
+//       userstate["id"] as string,
+//       userstate["msg-param-recipient-user-name"],
+//       "subtier",
+//     );
+//   },
+// );
 
 tmi.on(
   "subgift",
@@ -108,16 +76,18 @@ tmi.on(
     userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
-      ? sendGiftSubEvent(
+      ? sendSubEvent(
           testConfig.userId,
           testConfig.username,
           testConfig.userId,
+          'this is a message',
           "1",
         )
-      : sendGiftSubEvent(
+      : sendSubEvent(
           userstate["user-id"] as string,
           userstate["id"] as string,
           userstate["msg-param-recipient-user-name"],
+          '', 
           "subtier",
         );
   },
@@ -145,7 +115,7 @@ tmi.on(
           userstate["username"] as string,
           userstate["id"] as string,
           message,
-          "1",
+          userstate['msg-param-sub-plan'] === 'Prime' ? 'Prime': (userstate['msg-param-sub-plan']/1000).toString(),
         );
   },
 );
@@ -160,12 +130,13 @@ tmi.on(
     userstate: Userstate,
     methods: {},
   ) => {
+    console.log("resub", userstate);
     sendSubEvent(
       userstate["user-id"] as string,
       userstate["username"] as string,
       userstate["id"] as string,
       message,
-      "1",
+      userstate['msg-param-sub-plan'] === 'Prime' ? 'Prime': (userstate['msg-param-sub-plan']/1000).toString(),
       months,
     );
   },

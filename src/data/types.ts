@@ -2,7 +2,6 @@ import { Badges } from "tmi.js";
 
 export enum TwitchEvent {
   sub = "sub",
-  giftSub = "giftsub", // this will break p4nth3rdrop
   dropUser = "dropuser",
   weather = "weather",
   dropEmotes = "dropemotes",
@@ -36,13 +35,6 @@ interface SpecialUserJoinData extends Data {
 
 interface teamMemberJoinData extends Data {
   logoUrl: string;
-}
-
-interface GiftSubData extends Data {
-  logoUrl: string;
-  subscriberUsername: string;
-  gifterUsername: string;
-  subTier: string;
 }
 
 interface SubData extends Data {
@@ -163,7 +155,6 @@ export interface Packet {
     | SpecialUserJoinData
     | RaidData
     | SubData
-    | GiftSubData
     | WeatherData
     | WeatherTrailData
     | teamMemberJoinData
