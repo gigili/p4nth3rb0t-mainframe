@@ -64,6 +64,7 @@ interface WeatherTrailData extends Data {
 interface RaidData extends Data {
   raiderCount: number;
   raider: string;
+  logoUrl: string;
 }
 
 interface BroadcasterFollowData extends Data {

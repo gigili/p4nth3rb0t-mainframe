@@ -6,6 +6,8 @@ import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
+// I'm confused
+// I don't think we want this
 const sendGiftSubEvent = async (
   userId: string,
   messageId: string,
@@ -29,8 +31,6 @@ const sendGiftSubEvent = async (
         subTier,
       },
     };
-
-    console.log(giftSubEvent);
 
     WebSocketServer.sendData(giftSubEvent);
   } catch (error) {
