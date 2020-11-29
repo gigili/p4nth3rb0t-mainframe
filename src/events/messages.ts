@@ -1,5 +1,5 @@
 import { tmi } from "./../tmi";
-import { wsServer } from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
 import { Packet, TwitchEvent } from "../data/types";
@@ -15,8 +15,6 @@ import {
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 
-// import { testConfig } from "../../testConfig";
-
 let possibleTeamMember: TeamMember;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
@@ -30,9 +28,7 @@ const sendChatMessageEvent = async (data: ChatMessageData) => {
       data,
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(chatMessageEvent));
-    });
+    WebSocketServer.sendData(chatMessageEvent);
   } catch (error) {
     console.log(error);
   }
@@ -51,9 +47,7 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(teamMemberJoin));
-    });
+    WebSocketServer.sendData(teamMemberJoin);
   } catch (error) {
     console.log(error);
   }
@@ -65,13 +59,12 @@ tmi.on(
     channel: string,
     tags: ChatUserstate,
     message: string,
-    self: boolean
+    self: boolean,
   ) => {
     if (config.ignoredUsers.includes(tags.username as string)) {
       return;
     }
 
-    //todo - make into regex
     if (config.ignoredMessages.includes(message)) {
       return;
     }
@@ -81,14 +74,14 @@ tmi.on(
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
         tmi.say(
           config.channel,
-          `${config.teamName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`
+          `${config.teamName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`,
         );
       }
     }
 
     if (config.teamShoutoutEnabled && process.env.NODE_ENV === "production") {
       const possibleTeamMember = teamMembers.find(
-        (member) => member.name === tags.username
+        (member) => member.name === tags.username,
       );
 
       if (
@@ -97,12 +90,12 @@ tmi.on(
         possibleTeamMember.name !== config.broadcaster.name
       ) {
         const teamMemberChannel = await Team.getChannelById(
-          possibleTeamMember.id
+          possibleTeamMember.id,
         );
 
         tmi.say(
           config.channel,
-          Team.getWelcomeMessage(teamMemberChannel as TwitchChannel)
+          Team.getWelcomeMessage(teamMemberChannel as TwitchChannel),
         );
         teamMembersGreeted.push(possibleTeamMember);
         sendteamMemberJoinEvent(possibleTeamMember);
@@ -114,7 +107,7 @@ tmi.on(
     }
 
     const possibleCommand: string = getCommandFromMessage(
-      message
+      message,
     ).toLowerCase();
     const foundHandler = ChatCommands[possibleCommand];
 
@@ -150,9 +143,10 @@ tmi.on(
           : false,
         emotes: tags.emotes,
         type: tags["message-type"],
+        id: tags["id"],
       };
 
       await sendChatMessageEvent(chatMessageData);
     }
-  }
+  },
 );

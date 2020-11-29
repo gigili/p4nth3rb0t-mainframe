@@ -1,19 +1,39 @@
-import { TeamMembers } from "./data/types";
 import axios from "axios";
 import AccessToken from "./classes/AccessToken";
 import { config } from "./config";
-import type { TeamMember } from "./data/types";
 
 const accessTokenUtil = new AccessToken();
 
-async function registerWebhook(topicUrl: string, member_id: string) {
+const enum WebhookType {
+  StreamAnnouncement = "StreamAnnouncement",
+  BroadcasterFollow = "BroadcasterFollow",
+}
+
+async function registerWebhook(
+  topicUrl: string,
+  member_id: string,
+  webhookType: WebhookType,
+) {
   const webhooksApiUrl = "https://api.twitch.tv/helix/webhooks/hub";
 
   const accessTokenData = await accessTokenUtil.get();
 
+  let hubCallback;
+
+  switch (webhookType) {
+    case WebhookType.StreamAnnouncement:
+      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/team/${member_id}`;
+      break;
+    case WebhookType.BroadcasterFollow:
+      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/broadcaster/follow`;
+      break;
+    default:
+      `${process.env.TWITCH_API_CALLBACK_URL}`;
+  }
+
   if (accessTokenData) {
     const data = {
-      "hub.callback": `${process.env.TWITCH_API_CALLBACK_URL}/${member_id}`,
+      "hub.callback": hubCallback,
       "hub.mode": "subscribe",
       "hub.topic": topicUrl,
       "hub.lease_seconds": 84600,
@@ -28,26 +48,27 @@ async function registerWebhook(topicUrl: string, member_id: string) {
         },
       });
     } catch (err) {
-      //do we want to handle this?
       console.error(err);
     }
   }
 }
 
-//Example: Subscribe to new followers to a twitch user with id: 469006291 (me)
-// registerWebhook(
-//   `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`,
-//   config.broadcaster.id
-// );
+//Subscribe to new followers for broadcaster
+registerWebhook(
+  `https://api.twitch.tv/helix/users/follows?first=1&to_id=${config.broadcaster.id}`,
+  config.broadcaster.id,
+  WebhookType.BroadcasterFollow,
+);
 
 const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
-  (member) => member.id
+  (member) => member.id,
 );
 
 //Register all team member stream listeners
 toSubscribeTo.map((member: string) => {
   registerWebhook(
     `https://api.twitch.tv/helix/streams?user_id=${member}`,
-    member
+    member,
+    WebhookType.StreamAnnouncement,
   );
 });

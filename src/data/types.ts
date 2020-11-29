@@ -12,12 +12,15 @@ export enum TwitchEvent {
   teamMemberJoin = "teammemberjoin",
   chatMessage = "chatmessage",
   yeetUser = "yeetuser",
+  broadcasterFollow = "follow",
 }
 
 interface Data {}
 
 interface CheerData extends Data {
   bitCount: string;
+  cheererName: string;
+  logoUrl: string;
 }
 
 interface DropData extends Data {
@@ -36,6 +39,10 @@ interface teamMemberJoinData extends Data {
 
 interface SubData extends Data {
   logoUrl: string;
+  subscriberUsername: string;
+  subTier: string;
+  message: string;
+  months: number;
 }
 
 interface WeatherData extends Data {
@@ -49,6 +56,13 @@ interface WeatherTrailData extends Data {
 interface RaidData extends Data {
   raiderCount: number;
   raider: string;
+  logoUrl: string;
+}
+
+interface BroadcasterFollowData extends Data {
+  followerName: string;
+  logoUrl: string;
+  followerUserId: string;
 }
 
 export interface ChatMessageData extends Data {
@@ -67,6 +81,7 @@ export interface ChatMessageData extends Data {
     [emoteid: string]: string[];
   };
   type: string | undefined;
+  id: string | undefined;
 }
 
 export interface TwitchChannel {
@@ -91,7 +106,7 @@ export interface TeamResponse {
       {
         name: string;
         _id: string;
-      }
+      },
     ];
   };
 }
@@ -126,7 +141,7 @@ export interface UserByLoginResponse {
       created_at: string;
       updated_at: string;
       logo: string;
-    }
+    },
   ];
 }
 
@@ -143,7 +158,8 @@ export interface Packet {
     | WeatherData
     | WeatherTrailData
     | teamMemberJoinData
-    | ChatMessageData;
+    | ChatMessageData
+    | BroadcasterFollowData;
 }
 
 export interface MyBadges extends Badges {

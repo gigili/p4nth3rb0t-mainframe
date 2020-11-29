@@ -1,49 +1,68 @@
 import { testConfig } from "./../../testConfig";
-import { wsServer } from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { tmi } from "./../tmi";
-import { ChatUserstate, Userstate } from "tmi.js";
+import { Userstate } from "tmi.js";
 import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
-//According to tmijs docs that is what is happening.
-//Subgif is a gift to someone directly as in 1:1,
-//where as mysterygift can be 1:N number of gifts given
-
-const sendSubEvent = async (userId: string, messageId: string) => {
+export const sendSubEvent = async (
+  userId: string,
+  username: string,
+  messageId: string,
+  message: string,
+  subTier: string,
+  months: number = 0,
+) => {
   try {
     const user = await UserManager.getUserById(userId as string);
-
     const subEvent: Packet = {
       broadcaster: config.broadcaster.name,
       event: TwitchEvent.sub,
       id: messageId,
       data: {
-        logoUrl: user.logo as string,
+        logoUrl: user.logo,
+        subscriberUsername: username,
+        subTier,
+        message,
+        months,
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(subEvent));
-    });
+    WebSocketServer.sendData(subEvent);
   } catch (error) {
     console.log(error);
   }
 };
 
-tmi.on(
-  "anongiftpaidupgrade",
-  (channel: string, username: string, userstate: Userstate) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
-);
+//TODO ADD MYSTERY GIFT?
+//According to tmijs docs that is what is happening.
+//Subgif is a gift to someone directly as in 1:1,
+//where as mysterygift can be 1:N number of gifts given
 
-tmi.on(
-  "giftpaidupgrade",
-  (channel: string, username: string, sender: string, userstate: Userstate) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
-);
+// tmi.on(
+//   "anongiftpaidupgrade",
+//   (channel: string, username: string, userstate: Userstate) => {
+//     sendGiftSubEvent(
+//       userstate["user-id"] as string,
+//       userstate["id"] as string,
+//       userstate["msg-param-recipient-user-name"],
+//       "subtier",
+//     );
+//   },
+// );
+
+// tmi.on(
+//   "giftpaidupgrade",
+//   (channel: string, username: string, sender: string, userstate: Userstate) => {
+//     sendGiftSubEvent(
+//       userstate["user-id"] as string,
+//       userstate["id"] as string,
+//       userstate["msg-param-recipient-user-name"],
+//       "subtier",
+//     );
+//   },
+// );
 
 tmi.on(
   "subgift",
@@ -53,15 +72,24 @@ tmi.on(
     streakMonths: number,
     recipient: string,
     methods: {},
-    userstate: Userstate
+    userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
-      ? sendSubEvent(testConfig.userId, testConfig.userId)
+      ? sendSubEvent(
+          testConfig.userId,
+          testConfig.username,
+          testConfig.userId,
+          "this is a message",
+          "1",
+        )
       : sendSubEvent(
-          userstate["msg-param-recipient-id"] as string,
-          userstate["id"] as string
+          userstate["user-id"] as string,
+          userstate["id"] as string,
+          userstate["msg-param-recipient-user-name"],
+          "",
+          "subtier",
         );
-  }
+  },
 );
 
 tmi.on(
@@ -71,12 +99,26 @@ tmi.on(
     username: string,
     methods: {},
     message: string,
-    userstate: Userstate
+    userstate: Userstate,
   ) => {
     testConfig.connectToFdgt
-      ? sendSubEvent(testConfig.userId, testConfig.userId)
-      : sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
+      ? sendSubEvent(
+          testConfig.userId,
+          testConfig.username,
+          testConfig.userId,
+          "test message",
+          "1",
+        )
+      : sendSubEvent(
+          userstate["user-id"] as string,
+          userstate["username"] as string,
+          userstate["id"] as string,
+          message,
+          userstate["msg-param-sub-plan"] === "Prime"
+            ? "Prime"
+            : (userstate["msg-param-sub-plan"] / 1000).toString(),
+        );
+  },
 );
 
 tmi.on(
@@ -87,8 +129,18 @@ tmi.on(
     months: number,
     message: string,
     userstate: Userstate,
-    methods: {}
+    methods: {},
   ) => {
-    sendSubEvent(userstate["user-id"] as string, userstate["id"] as string);
-  }
+    console.log("resub", userstate);
+    sendSubEvent(
+      userstate["user-id"] as string,
+      userstate["username"] as string,
+      userstate["id"] as string,
+      message,
+      userstate["msg-param-sub-plan"] === "Prime"
+        ? "Prime"
+        : (userstate["msg-param-sub-plan"] / 1000).toString(),
+      months,
+    );
+  },
 );

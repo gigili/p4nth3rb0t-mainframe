@@ -1,9 +1,12 @@
 import { tmi } from "./../tmi";
-import { wsServer } from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
+import UserManager from "../users/UserManager";
 
 const sendRaidEvent = async (raiderCount: number, username: string) => {
+  const user = await UserManager.getUserByLogin(username as string);
+
   try {
     const raidEvent: Packet = {
       broadcaster: config.broadcaster.name,
@@ -12,12 +15,11 @@ const sendRaidEvent = async (raiderCount: number, username: string) => {
       data: {
         raiderCount: raiderCount,
         raider: username,
+        logoUrl: user.users[0].logo,
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(raidEvent));
-    });
+    WebSocketServer.sendData(raidEvent);
   } catch (error) {
     console.log(error);
   }

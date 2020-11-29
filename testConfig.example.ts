@@ -1,5 +1,5 @@
 const testConfigExample = {
-  connectToFdgt: true,
+  connectToFdgt: false,
   userId: "",
   channel: "#channel",
   command: "subscription",

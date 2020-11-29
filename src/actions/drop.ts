@@ -1,6 +1,6 @@
 import { config } from "../config";
 import { Packet, TwitchEvent, UserByLoginResponse } from "../data/types";
-import { wsServer } from "../websocket";
+import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
 
 export const sendWeatherTrailEvent = async (trailing: boolean) => {
@@ -14,9 +14,7 @@ export const sendWeatherTrailEvent = async (trailing: boolean) => {
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(weatherTrailEvent));
-    });
+    WebSocketServer.sendData(weatherTrailEvent);
   } catch (error) {
     console.log(Error);
   }
@@ -35,9 +33,7 @@ export const sendDropUserEvent = async (userId: string, messageId: string) => {
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(dropUserEvent));
-    });
+    WebSocketServer.sendData(dropUserEvent);
   } catch (error) {
     console.log(error);
   }
@@ -47,12 +43,12 @@ export const sendDropEmotesEvent = (
   emoteIds: [],
   bigEmotes: boolean,
   messageId: string,
-  dropType: string
+  dropType: string,
 ) => {
   const imgSize = bigEmotes ? config.emotes.sizes[2] : config.emotes.sizes[1];
   try {
     const urls = emoteIds.map(
-      (emoteId) => `${config.emotes.baseUrl}${emoteId}/${imgSize}`
+      (emoteId) => `${config.emotes.baseUrl}${emoteId}/${imgSize}`,
     );
 
     const emotesEvent: Packet = {
@@ -65,9 +61,7 @@ export const sendDropEmotesEvent = (
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(emotesEvent));
-    });
+    WebSocketServer.sendData(emotesEvent);
   } catch (error) {
     console.log(error);
   }
@@ -84,9 +78,7 @@ export const sendWeatherEvent = (weatherType: string, messageId: string) => {
       },
     };
 
-    wsServer.clients.forEach((client) => {
-      client.send(JSON.stringify(weatherEvent));
-    });
+    WebSocketServer.sendData(weatherEvent);
   } catch (error) {
     console.log(error);
   }
@@ -95,7 +87,7 @@ export const sendWeatherEvent = (weatherType: string, messageId: string) => {
 export const sendYeetEvent = async (userName: string, messageId: string) => {
   try {
     const usersResponse: UserByLoginResponse = await UserManager.getUserByLogin(
-      userName
+      userName,
     );
 
     if (usersResponse.users[0].logo) {
@@ -108,9 +100,7 @@ export const sendYeetEvent = async (userName: string, messageId: string) => {
         },
       };
 
-      wsServer.clients.forEach((client) => {
-        client.send(JSON.stringify(yeetUserEvent));
-      });
+      WebSocketServer.sendData(yeetUserEvent);
     }
   } catch (error) {
     console.log(error);
