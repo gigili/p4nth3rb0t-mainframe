@@ -3,7 +3,7 @@ const testConfig = {
   userId: "469006291",
   channel: "#channel",
   username: "whitep4nth3r",
-  command: "subgift --tier 1 --username thatn00b__",
+  command: "raid --username madhousesteve --viewercount 10000",
 };
 
 export { testConfig };

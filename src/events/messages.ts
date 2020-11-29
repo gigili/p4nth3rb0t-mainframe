@@ -15,9 +15,6 @@ import {
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 
-// import {testConfig} from '../../testConfig'
-// import {sendSubEvent} from './subscriptions'
-
 let possibleTeamMember: TeamMember;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
@@ -72,18 +69,7 @@ tmi.on(
       return;
     }
 
-    // if (tags.username === 'whitep4nth3r' && message === 'test') {
-    //     await sendSubEvent(
-    //       testConfig.userId,
-    //       testConfig.username,
-    //       '123',
-    //       "test message",
-    //       "3",
-    //       1)
-    // }
-
     if (tags.username === config.broadcaster.name) {
-    
       if (message === "!reset") {
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
         tmi.say(
