@@ -34,7 +34,7 @@ async function registerWebhook(
   if (accessTokenData) {
     const data = {
       "hub.callback": hubCallback,
-      "hub.mode": "unsubscribe",
+      "hub.mode": "subscribe",
       "hub.topic": topicUrl,
       "hub.lease_seconds": 84600,
     };
