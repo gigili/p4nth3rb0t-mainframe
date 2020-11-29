@@ -84,8 +84,8 @@ tmi.on(
         )
       : sendSubEvent(
           userstate["user-id"] as string,
-          userstate["id"] as string,
           userstate["msg-param-recipient-user-name"],
+          userstate["id"] as string,
           "",
           "subtier",
         );
