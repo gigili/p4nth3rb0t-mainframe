@@ -15,7 +15,7 @@ import {
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 
-let possibleTeamMember: TeamMember;
+let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
 
@@ -80,7 +80,7 @@ tmi.on(
     }
 
     if (config.teamShoutoutEnabled && process.env.NODE_ENV === "production") {
-      const possibleTeamMember = teamMembers.find(
+      possibleTeamMember = teamMembers.find(
         (member) => member.name === tags.username,
       );
 
@@ -139,7 +139,7 @@ tmi.on(
         isSubscriber,
         isBroadcaster,
         isTeamMember: config.teamShoutoutEnabled
-          ? possibleTeamMember !== undefined
+          ? possibleTeamMember !== undefined || isBroadcaster
           : false,
         emotes: tags.emotes,
         type: tags["message-type"],
