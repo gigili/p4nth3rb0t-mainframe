@@ -12,8 +12,6 @@ const sendCheerEvent = async (
 ) => {
   const user = await UserManager.getUserByLogin(username);
 
-  //will I need to update p4nth3rdrop to accept this new cheer event
-  //due to the validation we have on it?
   try {
     const cheerEvent: Packet = {
       broadcaster: config.broadcaster.name,
