@@ -6,7 +6,6 @@ import UserManager from "../users/UserManager";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
 
-// TODO: fix p4nth3rdrop data validation before releasing this!
 export const sendSubEvent = async (
   userId: string,
   username: string,
@@ -80,14 +79,14 @@ tmi.on(
           testConfig.userId,
           testConfig.username,
           testConfig.userId,
-          'this is a message',
+          "this is a message",
           "1",
         )
       : sendSubEvent(
           userstate["user-id"] as string,
           userstate["id"] as string,
           userstate["msg-param-recipient-user-name"],
-          '', 
+          "",
           "subtier",
         );
   },
@@ -115,7 +114,9 @@ tmi.on(
           userstate["username"] as string,
           userstate["id"] as string,
           message,
-          userstate['msg-param-sub-plan'] === 'Prime' ? 'Prime': (userstate['msg-param-sub-plan']/1000).toString(),
+          userstate["msg-param-sub-plan"] === "Prime"
+            ? "Prime"
+            : (userstate["msg-param-sub-plan"] / 1000).toString(),
         );
   },
 );
@@ -136,7 +137,9 @@ tmi.on(
       userstate["username"] as string,
       userstate["id"] as string,
       message,
-      userstate['msg-param-sub-plan'] === 'Prime' ? 'Prime': (userstate['msg-param-sub-plan']/1000).toString(),
+      userstate["msg-param-sub-plan"] === "Prime"
+        ? "Prime"
+        : (userstate["msg-param-sub-plan"] / 1000).toString(),
       months,
     );
   },
