@@ -16,7 +16,8 @@
   },
   "author": "whitep4nth3r",
   "contributors": [
-    "MadhouseSteve"
+    "MadhouseSteve",
+    "isabellabrookes"
   ],
   "license": "MIT",
   "dependencies": {
@@ -29,32 +30,26 @@
     "@types/websocket": "^1.0.1",
     "@types/ws": "^7.2.6",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "discord.js": "^12.4.0",
     "dotenv": "^8.2.0",
+    "eslint": "^7.14.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-import-resolver-typescript": "^2.3.0",
     "express": "^4.17.1",
     "jest": "^26.4.2",
     "mongoose": "^5.10.7",
+    "npm": "^6.14.9",
     "prettier-eslint": "^12.0.0",
     "tmi.js": "^1.5.0",
     "ts-jest": "^26.4.0",
-    "ws": "^7.3.1"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.14",
-    "@typescript-eslint/parser": "^4.8.1",
-    "eslint": "^7.14.0",
-    "eslint-import-resolver-typescript": "^2.3.0",
-    "eslint-plugin-import": "^2.22.1",
-    "i": "^0.3.6",
-    "jest": "^26.4.2",
-    "npm": "^6.14.9",
-    "ts-jest": "^26.4.0",
     "ts-node": "^9.0.0",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "ws": "^7.3.1"
   }
 }
