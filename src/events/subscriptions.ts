@@ -111,7 +111,7 @@ tmi.on(
         )
       : sendSubEvent(
           userstate["user-id"] as string,
-          userstate["username"] as string,
+          userstate["display-name"] as string,
           userstate["id"] as string,
           message,
           userstate["msg-param-sub-plan"] === "Prime"
