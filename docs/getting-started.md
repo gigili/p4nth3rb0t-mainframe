@@ -22,6 +22,8 @@ cd path/to/repo
 docker-compose up
 ```
 
+Access the database UI at: `http://localhost:8081/db/p4nth3rb0t/`
+
 ### Running the application
 
 In a separate terminal tab, run:
