@@ -1,18 +1,20 @@
 # Welcome to the p4nth3rb0t MAINFRAME
 
-P4nth3rb0t MAINFRAME provides Twitch chat and Discord server functionality and is aimed at Science and Technology streamers and their communities.
+The P4nth3rb0t mainframe provides Twitch chat and Discord server functionality and is aimed at helping Science and Technology streamers and their communities.
 
 - [Getting started with development](./docs/getting-started.md)
 - [Twitch events](./docs/twitch-events.md)
+- [Twitch webhooks](./docs/twitch-webhooks.md)
 - [Twitch chat commands](./docs/chat-commands.md)
 - [Setting up your stream team]('./docs/stream-team.md)
 - [Testing Twitch events with fdgt](./docs/testing-with-fdgt.md)
-- [Discord announcements](./docs/discord-announcements.md)
 
 ---
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Contributors ✨
@@ -35,6 +37,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

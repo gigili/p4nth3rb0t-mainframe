@@ -1,10 +1,22 @@
 # Twitch events
 
-The following events are received from Twitch, handled and broadcasted over a websocket connection:
+## Using tmi.js
+
+The following events are received from Twitch via tmi.js, handled and broadcasted over a websocket connection:
 
 ```
-- Subscriptions - All tiers, gift subs, resubs and sub upgrades
+- Subscriptions - All tiers, gift subs and resubs
 - Raids
-- Bits
+- Cheers
 - Chat messages and commands
 ```
+
+## Using Twitch webhooks
+
+The following events are received from Twitch via webhooks, handled and broadcasted over a websocket connection:
+
+```
+- Stream team go live/offline changes
+- Broadcaster Twitch follows
+```
+

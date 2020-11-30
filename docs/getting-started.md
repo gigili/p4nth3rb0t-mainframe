@@ -13,11 +13,7 @@ All environment variables you will need for the application to run are demonstra
 
 ### The database
 
-The p4nth3rbot-mainframe uses a MongoDB to store the following:
-
-```
-Twitch API access token
-```
+The p4nth3rbot-mainframe uses a MongoDB to store non-relational documents.
 
 To spin up the docker container and database instance, open terminal and run:
 

@@ -1,19 +1,24 @@
 # Twitch webhooks
 
-//When Twitch sends a post request to the callback url you provided
-//it will expect a 200 and the 'hub.challenge' query string
+The mainframe subscribes to the following webhooks, which POST to the mainframe webserver when changes are detected:
+
+### Broadcaster follows
+
+When a Twitch user follows the configured broadcaster, a POST request is sent to `/webhooks/subscribe/broadcaster/follow` which subsequently sends an event over the websocket connections.
+
+### Stream team stream changes
+
+When a member of the stream team (configured in config.ts) goes live or offline, a POST request is sent to `/webhooks/subscribe/team/:member_id` which subsequently calls the Discord API to post a message in the configured Discord announcements channel.
+
+## Subscribing to new Twitch webhooks
+
+1. Configure the webhook you want to subscribe to in `webhooks.ts`. You'll need the `topicUrl` and you may need to configure a new `WebhookType`.
+2. Add a `GET` request to `webserver.ts` to handle the initial webhook subscription. It's important that you send the following as the response to the `GET` request in order for the subscription to be successful.
+
+```
+res.status(200).send(req.query["hub.challenge"]);
+```
+
+3. Add a `POST` request to `webserver.ts` to handle the webhook changes (on the same path as the `GET` request you configured above).
 
 
-broadcaster follows:
-
-    //   {
-    //     "data": [
-    //         {
-    //             "followed_at": "2020-11-20T20:37:07Z",
-    //             "from_id": "40856022",
-    //             "from_name": "exegete46",
-    //             "to_id": "469006291",
-    //             "to_name": "whitep4nth3r"
-    //         }
-    //     ]
-    // }
