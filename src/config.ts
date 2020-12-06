@@ -125,10 +125,6 @@ const config: Config = {
       name: "greg_holmes",
       id: "93948214",
     },
-    {
-      name: "vic10usx",
-      id: "190920462",
-    },
   ],
   teamWelcomeMessage: (channel: TwitchChannel): string => {
     return `whitep30PEWPEW ${config.teamName} team member detected! 
