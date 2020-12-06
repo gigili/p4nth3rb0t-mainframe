@@ -69,17 +69,17 @@ tmi.on(
       return;
     }
 
-    config.ignoredWords.map((word) => {
-      if (message.includes(word)) {
-        return;
-      }
-    });
+    const messageContainsIgnoredWords = config.ignoredWords.some((word) =>
+      message.includes(word),
+    );
 
-    config.ignoredCharacters.map((char) => {
-      if (message.includes(char)) {
-        return;
-      }
-    });
+    const messageContainsIgnoredChars = config.ignoredCharacters.some((char) =>
+      message.includes(char),
+    );
+
+    if (messageContainsIgnoredWords || messageContainsIgnoredChars) {
+      return;
+    }
 
     if (tags.username === config.broadcaster.name) {
       if (message === "!reset") {
