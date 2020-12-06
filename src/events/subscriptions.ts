@@ -12,16 +12,24 @@ export const sendSubEvent = async (
   messageId: string,
   message: string,
   subTier: string,
+  isGift: boolean = false,
   months: number = 0,
 ) => {
   try {
     const user = await UserManager.getUserById(userId as string);
+    const giftRecipient = isGift
+      ? await UserManager.getUserByLogin(username)
+      : null;
+
+    const logoUrl =
+      giftRecipient !== null ? giftRecipient.users[0].logo : user.logo;
+
     const subEvent: Packet = {
       broadcaster: config.broadcaster.name,
       event: TwitchEvent.sub,
       id: messageId,
       data: {
-        logoUrl: user.logo,
+        logoUrl,
         subscriberUsername: username,
         subTier,
         message,
@@ -79,15 +87,19 @@ tmi.on(
           testConfig.userId,
           testConfig.username,
           testConfig.userId,
-          "this is a message",
+          "this is a test message",
           "1",
+          true,
         )
       : sendSubEvent(
           userstate["user-id"] as string,
           userstate["msg-param-recipient-user-name"],
           userstate["id"] as string,
           "",
-          "subtier",
+          userstate["msg-param-sub-plan"] === "Prime"
+            ? "Prime"
+            : (userstate["msg-param-sub-plan"] / 1000).toString(),
+          true,
         );
   },
 );
@@ -140,6 +152,7 @@ tmi.on(
       userstate["msg-param-sub-plan"] === "Prime"
         ? "Prime"
         : (userstate["msg-param-sub-plan"] / 1000).toString(),
+      false,
       months,
     );
   },
