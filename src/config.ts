@@ -12,6 +12,8 @@ interface Config {
   };
   specialUsers: string[];
   ignoredUsers: string[];
+  ignoredCharacters: string[];
+  ignoredWords: string[];
   ignoredMessages: string[];
   botResponses: any;
   teamShoutoutEnabled: boolean;
@@ -46,8 +48,11 @@ const config: Config = {
     "laylacodesit",
   ],
   ignoredUsers: ["nightbot", "pretzelrocks", "p4nth3rb0t"],
+  ignoredCharacters: ["a̞", "s̾", "ȯ", "a̹", "u͖"],
+  ignoredWords: ["bigfollows"],
   ignoredMessages: [
     "Twitch Themer is ready to go. Listening for commands beginning with !theme",
+    "Twitch Highlighter in the house!",
   ],
   botResponses: {
     SillyQuestion: (username: string) => {

@@ -69,6 +69,18 @@ tmi.on(
       return;
     }
 
+    config.ignoredWords.map((word) => {
+      if (message.includes(word)) {
+        return;
+      }
+    });
+
+    config.ignoredCharacters.map((char) => {
+      if (message.includes(char)) {
+        return;
+      }
+    });
+
     if (tags.username === config.broadcaster.name) {
       if (message === "!reset") {
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
