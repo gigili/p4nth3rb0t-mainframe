@@ -63,6 +63,10 @@ const config: Config = {
   teamName: "The Claw",
   teamMembers: [
     {
+      name: "baldbeardedbuilder",
+      id: "279965339",
+    },
+    {
       name: "cadillacjack1",
       id: "501793804",
     },
