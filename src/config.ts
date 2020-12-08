@@ -83,6 +83,10 @@ const config: Config = {
       id: "199566394",
     },
     {
+      name: "contentfuldevs",
+      id: "576507866",
+    },
+    {
       name: "cowboy_salmon",
       id: "113485816",
     },
