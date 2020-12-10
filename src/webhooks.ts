@@ -4,6 +4,8 @@ import { config } from "./config";
 
 const accessTokenUtil = new AccessToken();
 
+//TODO: do not run if process.env.TWITCH_API_CALLBACK_URL is unavailable
+
 const enum WebhookType {
   StreamAnnouncement = "StreamAnnouncement",
   BroadcasterFollow = "BroadcasterFollow",
