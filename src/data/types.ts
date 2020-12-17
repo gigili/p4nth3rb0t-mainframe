@@ -77,6 +77,7 @@ export interface ChatMessageData extends Data {
   isSubscriber: boolean;
   isBroadcaster: boolean;
   isTeamMember: boolean;
+  isMyFavoriteStreamer: boolean;
   emotes?: {
     [emoteid: string]: string[];
   };

@@ -139,6 +139,8 @@ tmi.on(
 
       const user = await UserManager.getUserById(tags["user-id"] as string);
 
+      const isMyFavoriteStreamer = user._id === '279965339'; // BBB ;)
+
       const chatMessageData: ChatMessageData = {
         userId: tags["user-id"] as string,
         username: tags.username as string,
@@ -150,6 +152,7 @@ tmi.on(
         isVip,
         isSubscriber,
         isBroadcaster,
+        isMyFavoriteStreamer,
         isTeamMember: config.teamShoutoutEnabled
           ? possibleTeamMember !== undefined || isBroadcaster
           : false,
