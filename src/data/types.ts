@@ -15,7 +15,7 @@ export enum TwitchEvent {
   broadcasterFollow = "follow",
 }
 
-interface Data { }
+interface Data {}
 
 interface CheerData extends Data {
   bitCount: string;
@@ -151,16 +151,16 @@ export interface Packet {
   event: TwitchEvent;
   id: string;
   data:
-  | CheerData
-  | DropData
-  | SpecialUserJoinData
-  | RaidData
-  | SubData
-  | WeatherData
-  | WeatherTrailData
-  | teamMemberJoinData
-  | ChatMessageData
-  | BroadcasterFollowData;
+    | CheerData
+    | DropData
+    | SpecialUserJoinData
+    | RaidData
+    | SubData
+    | WeatherData
+    | WeatherTrailData
+    | teamMemberJoinData
+    | ChatMessageData
+    | BroadcasterFollowData;
 }
 
 export interface MyBadges extends Badges {
