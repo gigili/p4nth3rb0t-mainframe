@@ -67,6 +67,10 @@ const config: Config = {
       id: "279965339",
     },
     {
+      name: "brattdamon",
+      id: "254737658",
+    },
+    {
       name: "cadillacjack1",
       id: "501793804",
     },
