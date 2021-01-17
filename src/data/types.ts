@@ -13,6 +13,7 @@ export enum TwitchEvent {
   chatMessage = "chatmessage",
   yeetUser = "yeetuser",
   broadcasterFollow = "follow",
+  imageDrop = "imagedrop",
 }
 
 interface Data {}
@@ -27,6 +28,10 @@ interface DropData extends Data {
   logoUrl?: string;
   emoteUrls?: string[];
   dropType?: string;
+}
+
+interface ImageDropData extends Data {
+  type: string;
 }
 
 interface SpecialUserJoinData extends Data {
@@ -160,7 +165,8 @@ export interface Packet {
     | WeatherTrailData
     | teamMemberJoinData
     | ChatMessageData
-    | BroadcasterFollowData;
+    | BroadcasterFollowData
+    | ImageDropData;
 }
 
 export interface MyBadges extends Badges {
@@ -205,4 +211,8 @@ export interface StreamByBroadcasterIdResponse {
   language: string;
   thumbnail_url: string;
   tag_ids: string[];
+}
+
+export enum ImageDrops {
+  Contentful = "contentful",
 }
