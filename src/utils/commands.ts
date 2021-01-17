@@ -1,3 +1,4 @@
+import { tmi } from "./../tmi";
 import { sendDropEmotesEvent } from "./../actions/drop";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
@@ -6,7 +7,9 @@ import {
   sendWeatherEvent,
   sendWeatherTrailEvent,
   sendYeetEvent,
+  sendImageDropEvent,
 } from "../actions/drop";
+import { ImageDrops } from "../data/types";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -35,7 +38,7 @@ const ChatCommands: Commands = {
         Object.keys(tags.emotes) as [],
         true,
         tags["id"] as string,
-        "!bigdrop"
+        "!bigdrop",
       );
     }
   },
@@ -45,7 +48,7 @@ const ChatCommands: Commands = {
         Object.keys(tags.emotes) as [],
         false,
         tags["id"] as string,
-        "!drop"
+        "!drop",
       );
     }
 
@@ -83,6 +86,13 @@ const ChatCommands: Commands = {
     } else if (userToYeet.length === 1) {
       sendYeetEvent(userToYeet[0].replace("@", ""), tags["id"] as string);
     }
+  },
+  "!content": async (tags, message) => {
+    tmi.say(
+      config.channel,
+      "Salma is a Developer Evangelist for Contentful. Find out more about Contentful at the Developer Portal: https://www.contentful.com/developers/",
+    );
+    sendImageDropEvent(ImageDrops.Contentful, tags["id"] as string);
   },
 };
 
