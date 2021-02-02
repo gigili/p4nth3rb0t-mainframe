@@ -95,6 +95,10 @@ const config: Config = {
       id: "113485816",
     },
     {
+      name: "dr_dinomight",
+      id: "25347823",
+    },
+    {
       name: "exegete46",
       id: "40856022",
     },
