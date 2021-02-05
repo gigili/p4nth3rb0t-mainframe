@@ -1,5 +1,3 @@
-import { StartGiveawayData, EndGiveawayData } from "./types";
-
 import { Badges } from "tmi.js";
 export enum TwitchEvent {
   sub = "sub",
@@ -91,8 +89,8 @@ export interface ChatMessageData extends Data {
 }
 
 export interface StartGiveawayData {}
-export interface EndGiveawayData {}
 
+export interface EndGiveawayData {}
 
 export interface DrawGiveawayData {
   winner: string;
@@ -180,8 +178,8 @@ export interface Packet {
     | BroadcasterFollowData
     | EnterGiveawayData
     | StartGiveawayData
-    | DrawGiveawayData;
-    | EndGiveawayData
+    | DrawGiveawayData
+    | EndGiveawayData;
 }
 
 export interface MyBadges extends Badges {
