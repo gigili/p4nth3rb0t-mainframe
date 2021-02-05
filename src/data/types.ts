@@ -1,5 +1,6 @@
-import { Badges } from "tmi.js";
+import { StartGiveawayData, EndGiveawayData } from "./types";
 
+import { Badges } from "tmi.js";
 export enum TwitchEvent {
   sub = "sub",
   dropUser = "dropuser",
@@ -13,6 +14,10 @@ export enum TwitchEvent {
   chatMessage = "chatmessage",
   yeetUser = "yeetuser",
   broadcasterFollow = "follow",
+  startGiveaway = "startgiveaway",
+  endGiveaway = "endgiveaway",
+  enterGiveaway = "entergiveaway",
+  drawGiveaway = "drawgiveaway",
 }
 
 interface Data {}
@@ -83,6 +88,18 @@ export interface ChatMessageData extends Data {
   };
   type: string | undefined;
   id: string | undefined;
+}
+
+export interface StartGiveawayData {}
+export interface EndGiveawayData {}
+
+
+export interface DrawGiveawayData {
+  winner: string;
+}
+
+export interface EnterGiveawayData {
+  username: string;
 }
 
 export interface TwitchChannel {
@@ -160,7 +177,11 @@ export interface Packet {
     | WeatherTrailData
     | teamMemberJoinData
     | ChatMessageData
-    | BroadcasterFollowData;
+    | BroadcasterFollowData
+    | EnterGiveawayData
+    | StartGiveawayData
+    | DrawGiveawayData;
+    | EndGiveawayData
 }
 
 export interface MyBadges extends Badges {

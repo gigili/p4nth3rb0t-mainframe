@@ -101,11 +101,20 @@ tmi.on(
       }
 
       if (message === "!endgiveaway") {
+        Giveaway.close();
+
+        tmi.say(
+          config.channel,
+          "whitep30PEWPEW The giveaway is closed! Thanks for playing! whitep30PEWPEW",
+        );
+      }
+
+      if (message === "!drawgiveaway") {
         const winner = Giveaway.draw();
 
         tmi.say(
           config.channel,
-          `whitep30PEWPEW The giveaway is closed! Congratulations to @${winner}! whitep30PEWPEW`,
+          `whitep30PEWPEW Congratulations to @${winner}! whitep30PEWPEW`,
         );
       }
     }
