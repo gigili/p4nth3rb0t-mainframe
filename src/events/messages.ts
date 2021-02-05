@@ -14,6 +14,7 @@ import {
 } from "../data/types";
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
+import Giveaway from "../actions/Giveaway";
 
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
@@ -89,6 +90,24 @@ tmi.on(
           `${config.teamName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`,
         );
       }
+
+      if (message === "!startgiveaway") {
+        Giveaway.open();
+
+        tmi.say(
+          config.channel,
+          "whitep30PEWPEW The giveaway is open! Enter !win in chat to be in with a chance of winning! whitep30PEWPEW",
+        );
+      }
+
+      if (message === "!endgiveaway") {
+        const winner = Giveaway.draw();
+
+        tmi.say(
+          config.channel,
+          `whitep30PEWPEW The giveaway is closed! Congratulations to @${winner}! whitep30PEWPEW`,
+        );
+      }
     }
 
     if (config.teamShoutoutEnabled && process.env.NODE_ENV === "production") {
@@ -139,7 +158,7 @@ tmi.on(
 
       const user = await UserManager.getUserById(tags["user-id"] as string);
 
-      const isMyFavoriteStreamer = user._id === '279965339'; // BBB ;)
+      const isMyFavoriteStreamer = user._id === "279965339"; // BBB ;)
 
       const chatMessageData: ChatMessageData = {
         userId: tags["user-id"] as string,

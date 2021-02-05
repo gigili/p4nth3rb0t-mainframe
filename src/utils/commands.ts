@@ -7,6 +7,7 @@ import {
   sendWeatherTrailEvent,
   sendYeetEvent,
 } from "../actions/drop";
+import Giveaway from "../actions/Giveaway";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -19,6 +20,11 @@ type Commands = {
 };
 
 const ChatCommands: Commands = {
+  "!win": async (tags, message) => {
+    if (Giveaway.inProgress()) {
+      Giveaway.enter(tags.username as string);
+    }
+  },
   "!start-trail": async (tags, message) => {
     if (tags.username === config.broadcaster.name) {
       sendWeatherTrailEvent(true);
@@ -35,7 +41,7 @@ const ChatCommands: Commands = {
         Object.keys(tags.emotes) as [],
         true,
         tags["id"] as string,
-        "!bigdrop"
+        "!bigdrop",
       );
     }
   },
@@ -45,7 +51,7 @@ const ChatCommands: Commands = {
         Object.keys(tags.emotes) as [],
         false,
         tags["id"] as string,
-        "!drop"
+        "!drop",
       );
     }
 
