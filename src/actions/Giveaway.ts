@@ -1,6 +1,7 @@
 import WebSocketServer from "../WebSocketServer";
 import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
+import UserManager from "../users/UserManager";
 
 const sendGiveawayStartEvent = async () => {
   try {
@@ -33,6 +34,8 @@ const sendGiveawayEndEvent = async () => {
 };
 
 const sendGiveawayEnterEvent = async (username: string) => {
+  const user = await UserManager.getUserByLogin(username);
+
   try {
     const enterGiveawayEvent: Packet = {
       broadcaster: config.broadcaster.name,
@@ -40,6 +43,7 @@ const sendGiveawayEnterEvent = async (username: string) => {
       id: `giveaway-enter${Math.random()}`,
       data: {
         username,
+        logoUrl: user.users[0].logo.replace("300x300", "50x50"),
       },
     };
 
@@ -87,8 +91,11 @@ export default class Giveaway {
   };
 
   static enter = (username: string) => {
+    if (!Giveaway.entrants.has(username)) {
+      sendGiveawayEnterEvent(username);
+    }
+
     Giveaway.entrants.add(username);
-    sendGiveawayEnterEvent(username);
   };
 
   static draw = () => {
@@ -97,6 +104,7 @@ export default class Giveaway {
       usernamesArray[Math.floor(Math.random() * usernamesArray.length)];
 
     sendGiveawayDrawEvent(winner);
+    Giveaway.entrants.delete(winner);
 
     return winner;
   };

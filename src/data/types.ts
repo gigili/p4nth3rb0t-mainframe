@@ -98,6 +98,7 @@ export interface DrawGiveawayData {
 
 export interface EnterGiveawayData {
   username: string;
+  logoUrl: string;
 }
 
 export interface TwitchChannel {
