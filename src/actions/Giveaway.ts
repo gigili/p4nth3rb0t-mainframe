@@ -53,14 +53,17 @@ const sendGiveawayEnterEvent = async (username: string) => {
   }
 };
 
-const sendGiveawayDrawEvent = async (winner: string) => {
+const sendGiveawayDrawEvent = async (username: string) => {
+  const user = await UserManager.getUserByLogin(username);
+
   try {
     const drawGiveawayEvent: Packet = {
       broadcaster: config.broadcaster.name,
       event: TwitchEvent.drawGiveaway,
       id: `giveaway${Math.random()}`,
       data: {
-        winner,
+        username,
+        logoUrl: user.users[0].logo,
       },
     };
 
@@ -74,23 +77,23 @@ export default class Giveaway {
   static isOpen: boolean = false;
   static entrants: Set<string> = new Set();
 
-  static open = () => {
+  static open = (): void => {
     Giveaway.entrants.clear();
     Giveaway.isOpen = true;
     sendGiveawayStartEvent();
   };
 
-  static close = () => {
+  static close = (): void => {
     Giveaway.isOpen = false;
     Giveaway.entrants.clear();
     sendGiveawayEndEvent();
   };
 
-  static inProgress = () => {
+  static inProgress = (): boolean => {
     return Giveaway.isOpen === true;
   };
 
-  static enter = (username: string) => {
+  static enter = (username: string): void => {
     if (!Giveaway.entrants.has(username)) {
       sendGiveawayEnterEvent(username);
     }
@@ -98,14 +101,18 @@ export default class Giveaway {
     Giveaway.entrants.add(username);
   };
 
-  static draw = () => {
+  static draw = (): string | null => {
     const usernamesArray: string[] = Array.from(Giveaway.entrants);
     const winner =
       usernamesArray[Math.floor(Math.random() * usernamesArray.length)];
 
-    sendGiveawayDrawEvent(winner);
-    Giveaway.entrants.delete(winner);
+    if (winner !== null && winner !== undefined) {
+      sendGiveawayDrawEvent(winner);
+      Giveaway.entrants.delete(winner);
 
-    return winner;
+      return winner;
+    }
+
+    return null;
   };
 }

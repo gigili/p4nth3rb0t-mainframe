@@ -1,3 +1,4 @@
+import { tmi } from "./../tmi";
 import { sendDropEmotesEvent } from "./../actions/drop";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
@@ -23,6 +24,11 @@ const ChatCommands: Commands = {
   "!win": async (tags, message) => {
     if (Giveaway.inProgress()) {
       Giveaway.enter(tags.username as string);
+    } else {
+      tmi.say(
+        config.channel,
+        "whitep30TROLL Access denied! There is no giveaway in progress! whitep30TROLL",
+      );
     }
   },
   "!start-trail": async (tags, message) => {

@@ -112,10 +112,17 @@ tmi.on(
       if (message === "!drawgiveaway") {
         const winner = Giveaway.draw();
 
-        tmi.say(
-          config.channel,
-          `whitep30PEWPEW Congratulations to @${winner}! whitep30PEWPEW`,
-        );
+        if (winner !== null) {
+          tmi.say(
+            config.channel,
+            `whitep30PEWPEW Congratulations to @${winner}! whitep30PEWPEW`,
+          );
+        } else {
+          tmi.say(
+            config.channel,
+            `whitep30TROLL The entry pot is empty! whitep30TROLL`,
+          );
+        }
       }
     }
 
