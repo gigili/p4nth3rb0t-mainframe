@@ -2,19 +2,18 @@ import { tmi } from "./../tmi";
 import WebSocketServer from "../WebSocketServer";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
-import { Packet, TwitchEvent } from "../data/types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
 import {
   TwitchChannel,
   TeamMembers,
   TeamMember,
-  ChatMessageData,
   MyBadges,
 } from "../data/types";
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 import Giveaway from "../actions/Giveaway";
+import { ChatMessageData, ChatMessagePacket, MainframeEvent, TeamMemberJoinPacket } from "p4nth3rb0t-types";
 
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
@@ -22,9 +21,9 @@ const teamMembersGreeted: TeamMembers = [];
 
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
-    const chatMessageEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.chatMessage,
+    const chatMessageEvent: ChatMessagePacket = {
+       
+      event:  MainframeEvent.chatMessage,
       id: data.messageId,
       data,
     };
@@ -39,9 +38,9 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
   try {
     const user = await UserManager.getUserById(teamMember.id as string);
 
-    const teamMemberJoin: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.teamMemberJoin,
+    const teamMemberJoin: TeamMemberJoinPacket = {
+       
+      event:  MainframeEvent.teammemberJoin,
       id: teamMember.name + "-" + Date.now(),
       data: {
         logoUrl: user.logo,

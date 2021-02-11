@@ -1,9 +1,8 @@
 import { tmi } from "../tmi";
 import WebSocketServer from "../WebSocketServer";
-import { Packet, TwitchEvent } from "../data/types";
-import { config } from "../config";
 import { ChatUserstate } from "tmi.js";
 import UserManager from "../users/UserManager";
+import { CheerPacket, MainframeEvent } from "p4nth3rb0t-types";
 
 const sendCheerEvent = async (
   bitCount: string,
@@ -13,9 +12,8 @@ const sendCheerEvent = async (
   const user = await UserManager.getUserByLogin(username);
 
   try {
-    const cheerEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.cheer,
+    const cheerEvent: CheerPacket = {
+      event:  MainframeEvent.cheer,
       id: messageId,
       data: {
         bitCount: bitCount,

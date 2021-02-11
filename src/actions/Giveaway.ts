@@ -1,13 +1,11 @@
 import WebSocketServer from "../WebSocketServer";
-import { Packet, TwitchEvent } from "../data/types";
-import { config } from "../config";
 import UserManager from "../users/UserManager";
+import { DrawGiveawayPacket, EndGiveawayPacket, EnterGiveawayPacket, MainframeEvent, StartGiveawayPacket } from "p4nth3rb0t-types";
 
 const sendGiveawayStartEvent = async () => {
   try {
-    const giveawayStartEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.startGiveaway,
+    const giveawayStartEvent: StartGiveawayPacket = {
+      event: MainframeEvent.startGiveaway,
       id: `giveaway-start${Math.random()}`,
       data: {},
     };
@@ -20,9 +18,8 @@ const sendGiveawayStartEvent = async () => {
 
 const sendGiveawayEndEvent = async () => {
   try {
-    const giveawayEndEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.endGiveaway,
+    const giveawayEndEvent: EndGiveawayPacket = {
+      event:  MainframeEvent.endGiveaway,
       id: `giveaway-end${Math.random()}`,
       data: {},
     };
@@ -37,9 +34,8 @@ const sendGiveawayEnterEvent = async (username: string) => {
   const user = await UserManager.getUserByLogin(username);
 
   try {
-    const enterGiveawayEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.enterGiveaway,
+    const enterGiveawayEvent: EnterGiveawayPacket = {
+      event:  MainframeEvent.enterGiveaway,
       id: `giveaway-enter${Math.random()}`,
       data: {
         username,
@@ -53,16 +49,15 @@ const sendGiveawayEnterEvent = async (username: string) => {
   }
 };
 
-const sendGiveawayDrawEvent = async (username: string) => {
-  const user = await UserManager.getUserByLogin(username);
+const sendGiveawayDrawEvent = async (winner: string) => {
+  const user = await UserManager.getUserByLogin(winner);
 
   try {
-    const drawGiveawayEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.drawGiveaway,
+    const drawGiveawayEvent: DrawGiveawayPacket = {
+      event:  MainframeEvent.drawGiveaway,
       id: `giveaway${Math.random()}`,
       data: {
-        username,
+        winner,
         logoUrl: user.users[0].logo,
       },
     };
