@@ -104,3 +104,7 @@ export interface StreamByBroadcasterIdResponse {
   thumbnail_url: string;
   tag_ids: string[];
 }
+
+export enum ImageDrops {
+  Contentful = "contentful",
+}

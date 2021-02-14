@@ -43,7 +43,7 @@ const config: Config = {
     "thatn00b__",
     "baldbeardedbuilder",
     "codingwithluce",
-    "madhousesteve",
+    "sociablesteve",
     "rawwwrs",
     "laylacodesit",
   ],
@@ -95,6 +95,10 @@ const config: Config = {
       id: "113485816",
     },
     {
+      name: "dr_dinomight",
+      id: "25347823",
+    },
+    {
       name: "exegete46",
       id: "40856022",
     },
@@ -109,10 +113,6 @@ const config: Config = {
     {
       name: "laylacodesit",
       id: "260151116",
-    },
-    {
-      name: "madhousesteve",
-      id: "76884091",
     },
     {
       name: "rawwwrs",
@@ -133,6 +133,10 @@ const config: Config = {
     {
       name: "sketchni",
       id: "64115778",
+    },
+    {
+      name: "sociablesteve",
+      id: "76884091",
     },
     {
       name: "thatn00b__",

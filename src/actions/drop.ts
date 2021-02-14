@@ -102,3 +102,20 @@ export const sendYeetEvent = async (userName: string, messageId: string) => {
     console.log(error);
   }
 };
+
+export const sendImageDropEvent = async (type: string, messageId: string) => {
+  try {
+    const imageDropEvent: Packet = {
+      broadcaster: config.broadcaster.name,
+      event: TwitchEvent.imageDrop,
+      id: messageId,
+      data: {
+        type,
+      },
+    };
+
+    WebSocketServer.sendData(imageDropEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
