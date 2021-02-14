@@ -2,7 +2,15 @@ import { config } from "../config";
 import { UserByLoginResponse } from "../data/types";
 import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
-import { DropEmotePacket, DropUserPacket, MainframeEvent, WeatherPacket, WeatherTrailPacket, YeetUserPacket } from "p4nth3rb0t-types";
+import {
+  DropEmotePacket,
+  DropUserPacket,
+  MainframeEvent,
+  WeatherPacket,
+  WeatherTrailPacket,
+  YeetUserPacket,
+  ImageDropPacket,
+} from "p4nth3rb0t-types";
 
 export const sendWeatherTrailEvent = async (trailing: boolean) => {
   try {
@@ -105,9 +113,8 @@ export const sendYeetEvent = async (userName: string, messageId: string) => {
 
 export const sendImageDropEvent = async (type: string, messageId: string) => {
   try {
-    const imageDropEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.imageDrop,
+    const imageDropEvent: ImageDropPacket = {
+      event: MainframeEvent.imageDrop,
       id: messageId,
       data: {
         type,
