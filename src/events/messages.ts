@@ -93,37 +93,25 @@ tmi.on(
         );
       }
 
-      if (message === "!startgiveaway") {
+      if (message === Giveaway.commands.open) {
         Giveaway.open();
 
-        tmi.say(
-          config.channel,
-          "whitep30PEWPEW The giveaway is open! Enter !win in chat to be in with a chance of winning! whitep30PEWPEW",
-        );
+        tmi.say(config.channel, Giveaway.getOpenMessage());
       }
 
-      if (message === "!endgiveaway") {
+      if (message === Giveaway.commands.close) {
         Giveaway.close();
 
-        tmi.say(
-          config.channel,
-          "whitep30PEWPEW The giveaway is closed! Thanks for playing! whitep30PEWPEW",
-        );
+        tmi.say(config.channel, Giveaway.getCloseMessage());
       }
 
-      if (message === "!drawgiveaway") {
+      if (message === Giveaway.commands.draw) {
         const winner = Giveaway.draw();
 
         if (winner !== null) {
-          tmi.say(
-            config.channel,
-            `whitep30PEWPEW Congratulations to @${winner}! whitep30PEWPEW`,
-          );
+          tmi.say(config.channel, Giveaway.getDrawMessage(winner));
         } else {
-          tmi.say(
-            config.channel,
-            `whitep30TROLL The entry pot is empty! whitep30TROLL`,
-          );
+          tmi.say(config.channel, Giveaway.getNoEntrantsMessage());
         }
       }
     }
