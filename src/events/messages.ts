@@ -13,7 +13,12 @@ import {
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 import Giveaway from "../actions/Giveaway";
-import { ChatMessageData, ChatMessagePacket, MainframeEvent, TeamMemberJoinPacket } from "p4nth3rb0t-types";
+import {
+  ChatMessageData,
+  ChatMessagePacket,
+  MainframeEvent,
+  TeamMemberJoinPacket,
+} from "p4nth3rb0t-types";
 
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
@@ -22,8 +27,7 @@ const teamMembersGreeted: TeamMembers = [];
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
     const chatMessageEvent: ChatMessagePacket = {
-       
-      event:  MainframeEvent.chatMessage,
+      event: MainframeEvent.chatMessage,
       id: data.messageId,
       data,
     };
@@ -39,8 +43,7 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
     const user = await UserManager.getUserById(teamMember.id as string);
 
     const teamMemberJoin: TeamMemberJoinPacket = {
-       
-      event:  MainframeEvent.teammemberJoin,
+      event: MainframeEvent.teamMemberJoin,
       id: teamMember.name + "-" + Date.now(),
       data: {
         logoUrl: user.logo,
@@ -182,6 +185,7 @@ tmi.on(
         messageId: tags.id as string,
         message: message as string,
         logoUrl: user.logo,
+        teamMemberIconUrl: user.logo,
         isMod,
         isVip,
         isSubscriber,
