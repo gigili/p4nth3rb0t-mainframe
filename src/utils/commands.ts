@@ -25,10 +25,7 @@ const ChatCommands: Commands = {
     if (Giveaway.inProgress()) {
       Giveaway.enter(tags.username as string);
     } else {
-      tmi.say(
-        config.channel,
-        "whitep30TROLL Access denied! There is no giveaway in progress! whitep30TROLL",
-      );
+      tmi.say(config.channel, Giveaway.getInactiveMessage());
     }
   },
   "!start-trail": async (tags, message) => {

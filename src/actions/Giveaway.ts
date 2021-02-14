@@ -100,6 +100,10 @@ export default class Giveaway {
     return `whitep30PEWPEW Congratulations to @${winner}! whitep30PEWPEW`;
   };
 
+  static getInactiveMessage = (): string => {
+    return "whitep30TROLL Access denied! There is no giveaway in progress! whitep30TROLL";
+  };
+
   static open = (): void => {
     Giveaway.entrants.clear();
     Giveaway.isOpen = true;
