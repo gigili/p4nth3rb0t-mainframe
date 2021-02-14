@@ -1,13 +1,13 @@
 import { tmi } from "../tmi";
 import WebSocketServer from "../WebSocketServer";
-import { Packet, TwitchEvent } from "../data/types";
 import { config } from "../config";
+import { MainframeEvent, SpecialUserJoinPacket } from "p4nth3rb0t-types";
 
 const sendSpecialUserJoinEvent = async (username: string) => {
   try {
-    const specialUserJoin: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.specialUserJoin,
+    const specialUserJoin: SpecialUserJoinPacket = {
+       
+      event:  MainframeEvent.specialUserJoin,
       id: username + "-" + Date.now(),
       data: {
         username: username,

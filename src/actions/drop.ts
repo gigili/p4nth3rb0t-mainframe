@@ -1,13 +1,21 @@
 import { config } from "../config";
-import { Packet, TwitchEvent, UserByLoginResponse } from "../data/types";
+import { UserByLoginResponse } from "../data/types";
 import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
+import {
+  DropEmotePacket,
+  DropUserPacket,
+  MainframeEvent,
+  WeatherPacket,
+  WeatherTrailPacket,
+  YeetUserPacket,
+  ImageDropPacket,
+} from "p4nth3rb0t-types";
 
 export const sendWeatherTrailEvent = async (trailing: boolean) => {
   try {
-    const weatherTrailEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.weatherTrailEvent,
+    const weatherTrailEvent: WeatherTrailPacket = {
+      event: MainframeEvent.weatherTrailEvent,
       id: "trailing-" + Date.now(),
       data: {
         trailing: trailing,
@@ -24,9 +32,8 @@ export const sendDropUserEvent = async (userId: string, messageId: string) => {
   try {
     const user = await UserManager.getUserById(userId as string);
 
-    const dropUserEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.dropUser,
+    const dropUserEvent: DropUserPacket = {
+      event: MainframeEvent.dropUser,
       id: messageId,
       data: {
         logoUrl: user.logo as string,
@@ -51,9 +58,8 @@ export const sendDropEmotesEvent = (
       (emoteId) => `${config.emotes.baseUrl}${emoteId}/${imgSize}`,
     );
 
-    const emotesEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.dropEmotes,
+    const emotesEvent: DropEmotePacket = {
+      event: MainframeEvent.dropEmotes,
       id: messageId,
       data: {
         emoteUrls: urls,
@@ -69,9 +75,8 @@ export const sendDropEmotesEvent = (
 
 export const sendWeatherEvent = (weatherType: string, messageId: string) => {
   try {
-    const weatherEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.weather,
+    const weatherEvent: WeatherPacket = {
+      event: MainframeEvent.weather,
       id: messageId,
       data: {
         weatherEvent: weatherType,
@@ -91,9 +96,8 @@ export const sendYeetEvent = async (userName: string, messageId: string) => {
     );
 
     if (usersResponse.users[0].logo) {
-      const yeetUserEvent: Packet = {
-        broadcaster: config.broadcaster.name,
-        event: TwitchEvent.yeetUser,
+      const yeetUserEvent: YeetUserPacket = {
+        event: MainframeEvent.yeetUser,
         id: messageId,
         data: {
           logoUrl: usersResponse.users[0].logo,
@@ -109,9 +113,8 @@ export const sendYeetEvent = async (userName: string, messageId: string) => {
 
 export const sendImageDropEvent = async (type: string, messageId: string) => {
   try {
-    const imageDropEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.imageDrop,
+    const imageDropEvent: ImageDropPacket = {
+      event: MainframeEvent.imageDrop,
       id: messageId,
       data: {
         type,

@@ -1,6 +1,7 @@
+import { Packet } from "p4nth3rb0t-types";
 import WebSocket from "ws";
 import { webServer } from "./webserver";
-import { Packet } from "./data/types";
+
 //wss - web socket server
 //ws - web socket client
 

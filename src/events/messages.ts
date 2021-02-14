@@ -2,18 +2,23 @@ import { tmi } from "./../tmi";
 import WebSocketServer from "../WebSocketServer";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
-import { Packet, TwitchEvent } from "../data/types";
 import { getCommandFromMessage, ChatCommands } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
 import {
   TwitchChannel,
   TeamMembers,
   TeamMember,
-  ChatMessageData,
   MyBadges,
 } from "../data/types";
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
+import Giveaway from "../actions/Giveaway";
+import {
+  ChatMessageData,
+  ChatMessagePacket,
+  MainframeEvent,
+  TeamMemberJoinPacket,
+} from "p4nth3rb0t-types";
 
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
@@ -21,9 +26,8 @@ const teamMembersGreeted: TeamMembers = [];
 
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
-    const chatMessageEvent: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.chatMessage,
+    const chatMessageEvent: ChatMessagePacket = {
+      event: MainframeEvent.chatMessage,
       id: data.messageId,
       data,
     };
@@ -38,9 +42,8 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
   try {
     const user = await UserManager.getUserById(teamMember.id as string);
 
-    const teamMemberJoin: Packet = {
-      broadcaster: config.broadcaster.name,
-      event: TwitchEvent.teamMemberJoin,
+    const teamMemberJoin: TeamMemberJoinPacket = {
+      event: MainframeEvent.teamMemberJoin,
       id: teamMember.name + "-" + Date.now(),
       data: {
         logoUrl: user.logo,
@@ -88,6 +91,28 @@ tmi.on(
           config.channel,
           `${config.teamName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`,
         );
+      }
+
+      if (message === Giveaway.commands.open) {
+        Giveaway.open();
+
+        tmi.say(config.channel, Giveaway.getOpenMessage());
+      }
+
+      if (message === Giveaway.commands.close) {
+        Giveaway.close();
+
+        tmi.say(config.channel, Giveaway.getCloseMessage());
+      }
+
+      if (message === Giveaway.commands.draw) {
+        const winner = Giveaway.draw();
+
+        if (winner !== null) {
+          tmi.say(config.channel, Giveaway.getDrawMessage(winner));
+        } else {
+          tmi.say(config.channel, Giveaway.getNoEntrantsMessage());
+        }
       }
     }
 
@@ -139,7 +164,7 @@ tmi.on(
 
       const user = await UserManager.getUserById(tags["user-id"] as string);
 
-      const isMyFavoriteStreamer = user._id === '279965339'; // BBB ;)
+      const isMyFavoriteStreamer = user._id === "279965339"; // BBB ;)
 
       const chatMessageData: ChatMessageData = {
         userId: tags["user-id"] as string,
@@ -148,6 +173,7 @@ tmi.on(
         messageId: tags.id as string,
         message: message as string,
         logoUrl: user.logo,
+        teamMemberIconUrl: user.logo,
         isMod,
         isVip,
         isSubscriber,

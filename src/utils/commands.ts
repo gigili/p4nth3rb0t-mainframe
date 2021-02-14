@@ -9,6 +9,7 @@ import {
   sendYeetEvent,
   sendImageDropEvent,
 } from "../actions/drop";
+import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
@@ -22,6 +23,13 @@ type Commands = {
 };
 
 const ChatCommands: Commands = {
+  "!win": async (tags, message) => {
+    if (Giveaway.inProgress()) {
+      Giveaway.enter(tags.username as string);
+    } else {
+      tmi.say(config.channel, Giveaway.getInactiveMessage());
+    }
+  },
   "!start-trail": async (tags, message) => {
     if (tags.username === config.broadcaster.name) {
       sendWeatherTrailEvent(true);
