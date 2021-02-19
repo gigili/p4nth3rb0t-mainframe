@@ -42,7 +42,7 @@ const config: Config = {
   specialUsers: [
     "thatn00b__",
     "baldbeardedbuilder",
-    "codingwithluce",
+    "lucecarter",
     "sociablesteve",
     "rawwwrs",
     "laylacodesit",
@@ -83,7 +83,7 @@ const config: Config = {
       id: "25116716",
     },
     {
-      name: "codingwithluce",
+      name: "lucecarter",
       id: "199566394",
     },
     {
