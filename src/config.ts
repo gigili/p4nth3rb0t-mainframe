@@ -27,6 +27,9 @@ interface Config {
     liveAnnouncementColorOffline: string;
     liveAnnouncementImageSize: string;
   };
+  redemptions: {
+    [key: string]: string;
+  };
 }
 
 const config: Config = {
@@ -167,6 +170,16 @@ const config: Config = {
     liveAnnouncementColorOnline: "#84AE39",
     liveAnnouncementColorOffline: "#AE8439",
     liveAnnouncementImageSize: "1280x720",
+  },
+  redemptions: {
+    "2a8f5598-0d54-47c7-a1cb-c2f2068f13f5": "cool",
+    "214baddc-bf47-483c-8297-2089484e55db": "dolla",
+    "1e20afa0-a66d-44cf-b052-494150085b41": "fire",
+    "e7be41df-4942-47ef-bfd6-945004b9515d": "heart",
+    "3a1bbb8a-3b46-4f4f-b462-d4fe2d69fc7f": "majick",
+    "c496ca07-506f-426a-ac3a-c18f9e313819": "pewpew",
+    "22f97669-4655-4524-83e2-1ae7ddf7401b": "sad",
+    "dd1bd410-ce90-4669-a9a7-59adf4fc226a": "star",
   },
 };
 

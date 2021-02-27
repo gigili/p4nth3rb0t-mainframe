@@ -16,41 +16,43 @@ async function registerWebhook(
   member_id: string,
   webhookType: WebhookType,
 ) {
-  const webhooksApiUrl = "https://api.twitch.tv/helix/webhooks/hub";
+  if (process.env.TWITCH_API_CALLBACK_URL) {
+    const webhooksApiUrl = "https://api.twitch.tv/helix/webhooks/hub";
 
-  const accessTokenData = await accessTokenUtil.get();
+    const accessTokenData = await accessTokenUtil.get();
 
-  let hubCallback;
+    let hubCallback;
 
-  switch (webhookType) {
-    case WebhookType.StreamAnnouncement:
-      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/team/${member_id}`;
-      break;
-    case WebhookType.BroadcasterFollow:
-      hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/broadcaster/follow`;
-      break;
-    default:
-      `${process.env.TWITCH_API_CALLBACK_URL}`;
-  }
+    switch (webhookType) {
+      case WebhookType.StreamAnnouncement:
+        hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/team/${member_id}`;
+        break;
+      case WebhookType.BroadcasterFollow:
+        hubCallback = `${process.env.TWITCH_API_CALLBACK_URL}/broadcaster/follow`;
+        break;
+      default:
+        `${process.env.TWITCH_API_CALLBACK_URL}`;
+    }
 
-  if (accessTokenData) {
-    const data = {
-      "hub.callback": hubCallback,
-      "hub.mode": "subscribe",
-      "hub.topic": topicUrl,
-      "hub.lease_seconds": 84600,
-    };
+    if (accessTokenData) {
+      const data = {
+        "hub.callback": hubCallback,
+        "hub.mode": "subscribe",
+        "hub.topic": topicUrl,
+        "hub.lease_seconds": 84600,
+      };
 
-    try {
-      const response = await axios.post(webhooksApiUrl, data, {
-        headers: {
-          Authorization: `Bearer ${accessTokenData.accessToken}`,
-          "Client-Id": process.env.CLIENT_ID,
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (err) {
-      console.error(err);
+      try {
+        const response = await axios.post(webhooksApiUrl, data, {
+          headers: {
+            Authorization: `Bearer ${accessTokenData.accessToken}`,
+            "Client-Id": process.env.CLIENT_ID,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 }

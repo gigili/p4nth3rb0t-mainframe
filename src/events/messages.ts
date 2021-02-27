@@ -2,7 +2,11 @@ import { tmi } from "./../tmi";
 import WebSocketServer from "../WebSocketServer";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
-import { getCommandFromMessage, ChatCommands } from "../utils/commands";
+import {
+  getCommandFromMessage,
+  ChatCommands,
+  BroadcasterCommands,
+} from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
 import {
   TwitchChannel,
@@ -85,6 +89,15 @@ tmi.on(
     }
 
     if (tags.username === config.broadcaster.name) {
+      const possibleBroadcasterCommand: string = getCommandFromMessage(
+        message,
+      ).toLowerCase();
+      const foundHandler = BroadcasterCommands[possibleBroadcasterCommand];
+
+      if (typeof foundHandler === "function") {
+        foundHandler(tags, message);
+      }
+
       if (message === "!reset") {
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
         tmi.say(

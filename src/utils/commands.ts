@@ -9,6 +9,7 @@ import {
   sendYeetEvent,
   sendImageDropEvent,
 } from "../actions/drop";
+import { sendMoodChangeEvent } from "../events/redemptions";
 import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 
@@ -22,7 +23,34 @@ type Commands = {
   [key: string]: Handler;
 };
 
-const ChatCommands: Commands = {
+export const BroadcasterCommands: Commands = {
+  "!cool": async (tags, message) => {
+    sendMoodChangeEvent("cool", tags["custom-reward-id"]);
+  },
+  "!dolla": async (tags, message) => {
+    sendMoodChangeEvent("dolla", tags["custom-reward-id"]);
+  },
+  "!fire": async (tags, message) => {
+    sendMoodChangeEvent("fire", tags["custom-reward-id"]);
+  },
+  "!heart": async (tags, message) => {
+    sendMoodChangeEvent("heart", tags["custom-reward-id"]);
+  },
+  "!majick": async (tags, message) => {
+    sendMoodChangeEvent("majick", tags["custom-reward-id"]);
+  },
+  "!pewpew": async (tags, message) => {
+    sendMoodChangeEvent("pewpew", tags["custom-reward-id"]);
+  },
+  "!sad": async (tags, message) => {
+    sendMoodChangeEvent("sad", tags["custom-reward-id"]);
+  },
+  "!star": async (tags, message) => {
+    sendMoodChangeEvent("star", tags["custom-reward-id"]);
+  },
+};
+
+export const ChatCommands: Commands = {
   "!win": async (tags, message) => {
     if (Giveaway.inProgress()) {
       Giveaway.enter(tags.username as string);
@@ -103,5 +131,3 @@ const ChatCommands: Commands = {
     sendImageDropEvent(ImageDrops.Contentful, tags["id"] as string);
   },
 };
-
-export { ChatCommands };
