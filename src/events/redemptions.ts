@@ -1,9 +1,12 @@
-import { UserByLoginResponse } from "./../data/types";
 import { tmi } from "../tmi";
 import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
 import WebSocketServer from "../WebSocketServer";
-import { MoodChangePacket, MainframeEvent } from "p4nth3rb0t-types";
+import {
+  MoodChangePacket,
+  MainframeEvent,
+  CurrentMoods,
+} from "p4nth3rb0t-types";
 
 export const sendMoodChangeEvent = async (mood: string, rewardId: string) => {
   try {
@@ -39,7 +42,7 @@ tmi.on(
 
       tmi.say(
         config.channel,
-        `whitep30PEWPEW Thanks for the **${mood}** mood change, @${username}! whitep30PEWPEW`,
+        `whitep30PEWPEW @${username} redeemed ${mood} panther! whitep30PEWPEW`,
       );
     }
   },
