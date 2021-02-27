@@ -5,7 +5,7 @@ import { config } from "../config";
 import WebSocketServer from "../WebSocketServer";
 import { MoodChangePacket, MainframeEvent } from "p4nth3rb0t-types";
 
-const sendMoodChangeEvent = async (mood: string, rewardId: string) => {
+export const sendMoodChangeEvent = async (mood: string, rewardId: string) => {
   try {
     const moodChangeEvent: MoodChangePacket = {
       event: MainframeEvent.moodChange,
@@ -32,8 +32,8 @@ tmi.on(
     const rewardId: string = tags["custom-reward-id"];
 
     if (Object.keys(config.redemptions).includes(rewardId)) {
-      const mood = config.redemptions[rewardId];
-      const username = tags["username"];
+      const mood: string = config.redemptions[rewardId];
+      const username: string = tags["username"] as string;
 
       await sendMoodChangeEvent(mood, rewardId);
 
