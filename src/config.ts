@@ -102,7 +102,7 @@ const config: Config = {
       id: "25347823",
     },
     {
-      name: "exegete46",
+      name: "exegeteio",
       id: "40856022",
     },
     {
@@ -116,6 +116,10 @@ const config: Config = {
     {
       name: "laylacodesit",
       id: "260151116",
+    },
+    {
+      name: "matty_twoshoes",
+      id: "556670211",
     },
     {
       name: "rawwwrs",
