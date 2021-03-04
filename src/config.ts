@@ -94,10 +94,6 @@ const config: Config = {
       id: "576507866",
     },
     {
-      name: "cowboy_salmon",
-      id: "113485816",
-    },
-    {
       name: "dr_dinomight",
       id: "25347823",
     },
@@ -158,7 +154,7 @@ const config: Config = {
       id: "93948214",
     },
     {
-      name: "madhouseminers",
+      name: "aurorasmadhouse",
       id: "132113595",
     },
   ],
