@@ -49,6 +49,8 @@ const config: Config = {
     "sociablesteve",
     "rawwwrs",
     "laylacodesit",
+    "toefrog",
+    "dr_dinomight",
   ],
   ignoredUsers: ["nightbot", "pretzelrocks", "p4nth3rb0t"],
   ignoredCharacters: ["a̞", "s̾", "ȯ", "a̹", "u͖"],
@@ -108,6 +110,10 @@ const config: Config = {
     {
       name: "laylacodesit",
       id: "260151116",
+    },
+    {
+      name: "lukeocodes",
+      id: "415867772",
     },
     {
       name: "matty_twoshoes",
