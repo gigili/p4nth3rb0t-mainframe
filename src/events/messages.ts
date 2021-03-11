@@ -106,6 +106,12 @@ tmi.on(
         );
       }
 
+      if (message === Giveaway.commands.announce) {
+        Giveaway.announce();
+
+        tmi.say(config.channel, Giveaway.getAnnounceMessage());
+      }
+
       if (message === Giveaway.commands.open) {
         Giveaway.open();
 

@@ -1,12 +1,27 @@
 import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
 import {
+  AnnounceGiveawayPacket,
   DrawGiveawayPacket,
   EndGiveawayPacket,
   EnterGiveawayPacket,
   MainframeEvent,
   StartGiveawayPacket,
 } from "p4nth3rb0t-types";
+
+const sendGiveawayAnnounceEvent = async () => {
+  try {
+    const giveawayAnnounceEvent: AnnounceGiveawayPacket = {
+      event: MainframeEvent.announceGiveaway,
+      id: `giveaway-announce${Math.random()}`,
+      data: {},
+    };
+
+    WebSocketServer.sendData(giveawayAnnounceEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const sendGiveawayStartEvent = async () => {
   try {
@@ -79,9 +94,14 @@ export default class Giveaway {
   static entrants: Set<string> = new Set();
 
   static commands = {
+    announce: "!announcega",
     open: "!startga",
     close: "!endga",
     draw: "!drawga",
+  };
+
+  static getAnnounceMessage = (): string => {
+    return "whitep30PEWPEW !win !win !win !win !win !win !win !win whitep30PEWPEW";
   };
 
   static getOpenMessage = (): string => {
@@ -102,6 +122,10 @@ export default class Giveaway {
 
   static getInactiveMessage = (): string => {
     return "whitep30TROLL Access denied! There is no giveaway in progress! whitep30TROLL";
+  };
+
+  static announce = (): void => {
+    sendGiveawayAnnounceEvent();
   };
 
   static open = (): void => {
