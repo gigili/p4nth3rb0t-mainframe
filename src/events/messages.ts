@@ -88,6 +88,20 @@ tmi.on(
       return;
     }
 
+    /**
+     * Mods can also change the mood on the overlay
+     */
+    if (tags["user-type"] === "mod") {
+      const possibleBroadcasterCommand: string = getCommandFromMessage(
+        message,
+      ).toLowerCase();
+      const foundHandler = BroadcasterCommands[possibleBroadcasterCommand];
+
+      if (typeof foundHandler === "function") {
+        foundHandler(tags, message);
+      }
+    }
+
     if (tags.username === config.broadcaster.name) {
       const possibleBroadcasterCommand: string = getCommandFromMessage(
         message,
