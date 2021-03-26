@@ -20,6 +20,7 @@ import Giveaway from "../actions/Giveaway";
 import {
   ChatMessageData,
   ChatMessagePacket,
+  DeletedChatMessagePacket,
   MainframeEvent,
   TeamMemberJoinPacket,
 } from "p4nth3rb0t-types";
@@ -27,6 +28,22 @@ import {
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
+
+const sendDeletedMessageEvent = async (messageId: string) => {
+  try {
+    const deletedChatMessageEvent: DeletedChatMessagePacket = {
+      event: MainframeEvent.deleteChatMessage,
+      id: messageId,
+      data: {
+        messageId,
+      },
+    };
+
+    WebSocketServer.sendData(deletedChatMessageEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const sendChatMessageEvent = async (data: ChatMessageData) => {
   try {
@@ -59,6 +76,18 @@ const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
     console.log(error);
   }
 };
+
+tmi.on(
+  "messagedeleted",
+  async (
+    channel: string,
+    username: string,
+    deletedMessage: string,
+    tags: ChatUserstate,
+  ) => {
+    sendDeletedMessageEvent(tags["target-msg-id"]);
+  },
+);
 
 tmi.on(
   "chat",
