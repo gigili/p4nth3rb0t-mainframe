@@ -156,9 +156,12 @@ tmi.on(
       }
 
       if (message === Giveaway.commands.open) {
-        Giveaway.open();
-
-        tmi.say(config.channel, Giveaway.getOpenMessage());
+        if (Giveaway.isOpen) {
+          tmi.say(config.channel, Giveaway.getAlreadyOpenMessage());
+        } else {
+          Giveaway.open();
+          tmi.say(config.channel, Giveaway.getOpenMessage());
+        }
       }
 
       if (message === Giveaway.commands.close) {

@@ -124,14 +124,20 @@ export default class Giveaway {
     return "whitep30TROLL Access denied! There is no giveaway in progress! whitep30TROLL";
   };
 
+  static getAlreadyOpenMessage = (): string => {
+    return "whitep30TROLL @whitep4nth3r pressed the wrong button. Giveaway is already open! whitep30TROLL";
+  };
+
   static announce = (): void => {
     sendGiveawayAnnounceEvent();
   };
 
   static open = (): void => {
-    Giveaway.entrants.clear();
-    Giveaway.isOpen = true;
-    sendGiveawayStartEvent();
+    if (!Giveaway.isOpen) {
+      Giveaway.entrants.clear();
+      Giveaway.isOpen = true;
+      sendGiveawayStartEvent();
+    }
   };
 
   static close = (): void => {
