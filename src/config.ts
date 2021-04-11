@@ -112,10 +112,6 @@ const config: Config = {
       id: "260151116",
     },
     {
-      name: "lukeocodes",
-      id: "415867772",
-    },
-    {
       name: "matty_twoshoes",
       id: "556670211",
     },
