@@ -84,10 +84,6 @@ const config: Config = {
       id: "60218113",
     },
     {
-      name: "codejuration",
-      id: "25116716",
-    },
-    {
       name: "lucecarter",
       id: "199566394",
     },
