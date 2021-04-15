@@ -108,3 +108,9 @@ export interface StreamByBroadcasterIdResponse {
 export enum ImageDrops {
   Contentful = "contentful",
 }
+
+export interface DiscordReactionRole {
+  role_id: string;
+  emoji_tag: string;
+  message_id: string;
+}
