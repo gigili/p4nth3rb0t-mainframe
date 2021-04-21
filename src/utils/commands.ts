@@ -130,4 +130,7 @@ export const ChatCommands: Commands = {
     );
     sendImageDropEvent(ImageDrops.Contentful, tags["id"] as string);
   },
+  "!checkmark": async (tags, message) => {
+    sendImageDropEvent(ImageDrops.Partner, tags["id"] as string);
+  }
 };

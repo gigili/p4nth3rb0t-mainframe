@@ -107,4 +107,5 @@ export interface StreamByBroadcasterIdResponse {
 
 export enum ImageDrops {
   Contentful = "contentful",
+  Partner = "partner",
 }
