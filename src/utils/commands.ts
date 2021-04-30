@@ -12,6 +12,7 @@ import {
 import { sendMoodChangeEvent } from "../events/redemptions";
 import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
+import { sendMerchEvent } from "../events/merch";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -47,6 +48,9 @@ export const BroadcasterCommands: Commands = {
   },
   "!star": async (tags, message) => {
     sendMoodChangeEvent("star", tags["custom-reward-id"]);
+  },
+  "!merch": async (tags, message) => {
+    sendMerchEvent(tags["id"] as string);
   },
 };
 
@@ -132,5 +136,5 @@ export const ChatCommands: Commands = {
   },
   "!checkmark": async (tags, message) => {
     sendImageDropEvent(ImageDrops.Partner, tags["id"] as string);
-  }
+  },
 };

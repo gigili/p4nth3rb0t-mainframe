@@ -41,7 +41,7 @@
     "jest": "^26.4.2",
     "mongoose": "^5.10.7",
     "npm": "^6.14.9",
-    "p4nth3rb0t-types": "github:whitep4nth3r/p4nth3rb0t-types#ab7ad8106cbb8565de9c38fe91f4e90c26e2d7ea",
+    "p4nth3rb0t-types": "github:whitep4nth3r/p4nth3rb0t-types#a5fe1c0e232ac76d2bc4bb6a12143e40d69ad6c1",
     "prettier-eslint": "^12.0.0",
     "tmi.js": "^1.5.0",
     "ts-jest": "^26.4.0",
