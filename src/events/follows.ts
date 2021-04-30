@@ -3,7 +3,7 @@ import { config } from "../config";
 import UserManager from "../users/UserManager";
 import TwitchFollowerModel from "../data/models/TwitchFollower";
 import { getActiveBroadcasterStreamByBroadcasterId } from "../utils/twitchUtils";
-import { FollowPacket, MainframeEvent } from "p4nth3rb0t-types";
+import { FollowPacket, MainframeEvent } from "@whitep4nth3r/p4nth3rb0t-types";
 
 export const sendBroadcasterFollowEvent = async (
   followerName: string,
@@ -24,8 +24,7 @@ export const sendBroadcasterFollowEvent = async (
 
       try {
         const broadcasterFollowEvent: FollowPacket = {
-           
-          event:  MainframeEvent.follow,
+          event: MainframeEvent.follow,
           id: followerName + "-" + Date.now(),
           data: {
             followerName,
