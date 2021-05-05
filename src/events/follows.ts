@@ -37,18 +37,20 @@ export const sendBroadcasterFollowEvent = async (
 
         WebsocketServer.sendData(broadcasterFollowEvent);
 
-        // Send random mood change
-        const newRandomMood: string = Moods.getRandomNewMood();
-        await sendMoodChangeEvent(
-          newRandomMood,
-          followerName + "-" + Date.now(),
-        );
+        setTimeout(async () => {
+          // Send random mood change
+          const newRandomMood: string = Moods.getRandomNewMood();
+          await sendMoodChangeEvent(
+            newRandomMood,
+            followerName + "-" + Date.now(),
+          );
 
-        // Announce with p4nth3rb0t
-        tmi.say(
-          config.channel,
-          `whitep30PEWPEW Thanks for the follow @${followerName}! You get ${newRandomMood} panther! whitep30PEWPEW`,
-        );
+          // Announce with p4nth3rb0t
+          tmi.say(
+            config.channel,
+            `whitep30PEWPEW Thanks for the follow @${followerName}! You get ${newRandomMood} panther! whitep30PEWPEW`,
+          );
+        }, 3500);
 
         await TwitchFollowerModel.updateOne(
           { userId: followerUserId },
