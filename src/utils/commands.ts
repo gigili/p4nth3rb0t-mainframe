@@ -26,28 +26,31 @@ type Commands = {
 
 export const BroadcasterCommands: Commands = {
   "!cool": async (tags, message) => {
-    sendMoodChangeEvent("cool", tags["custom-reward-id"]);
+    sendMoodChangeEvent("cool", tags["id"] as string);
   },
   "!dolla": async (tags, message) => {
-    sendMoodChangeEvent("dolla", tags["custom-reward-id"]);
+    sendMoodChangeEvent("dolla", tags["id"] as string);
   },
   "!fire": async (tags, message) => {
-    sendMoodChangeEvent("fire", tags["custom-reward-id"]);
+    sendMoodChangeEvent("fire", tags["id"] as string);
   },
   "!heart": async (tags, message) => {
-    sendMoodChangeEvent("heart", tags["custom-reward-id"]);
+    sendMoodChangeEvent("heart", tags["id"] as string);
   },
   "!majick": async (tags, message) => {
-    sendMoodChangeEvent("majick", tags["custom-reward-id"]);
+    sendMoodChangeEvent("majick", tags["id"] as string);
   },
   "!pewpew": async (tags, message) => {
-    sendMoodChangeEvent("pewpew", tags["custom-reward-id"]);
+    sendMoodChangeEvent("pewpew", tags["id"] as string);
   },
   "!sad": async (tags, message) => {
-    sendMoodChangeEvent("sad", tags["custom-reward-id"]);
+    sendMoodChangeEvent("sad", tags["id"] as string);
   },
   "!star": async (tags, message) => {
-    sendMoodChangeEvent("star", tags["custom-reward-id"]);
+    sendMoodChangeEvent("star", tags["id"] as string);
+  },
+  "!troll": async (tags, message) => {
+    sendMoodChangeEvent("troll", tags["id"] as string);
   },
   "!merch": async (tags, message) => {
     sendMerchEvent(tags["id"] as string);

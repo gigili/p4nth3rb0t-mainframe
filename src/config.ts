@@ -178,6 +178,7 @@ const config: Config = {
     "c496ca07-506f-426a-ac3a-c18f9e313819": "pewpew",
     "22f97669-4655-4524-83e2-1ae7ddf7401b": "sad",
     "dd1bd410-ce90-4669-a9a7-59adf4fc226a": "star",
+    "899073ec-e720-4431-ba6b-5953f1bd246e": "troll",
   },
 };
 

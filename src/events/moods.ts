@@ -38,6 +38,7 @@ const currentMoods = [
   "pewpew",
   "sad",
   "star",
+  "troll",
 ];
 
 export default class Moods {

@@ -141,7 +141,6 @@ tmi.on(
     userstate: Userstate,
     methods: {},
   ) => {
-    console.log("resub", userstate);
     sendSubEvent(
       userstate["user-id"] as string,
       userstate["display-name"] as string,
