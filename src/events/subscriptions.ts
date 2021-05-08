@@ -4,6 +4,7 @@ import { tmi } from "./../tmi";
 import { Userstate } from "tmi.js";
 import UserManager from "../users/UserManager";
 import { MainframeEvent, SubPacket } from "@whitep4nth3r/p4nth3rb0t-types";
+import Moods, { sendMoodChangeEvent } from "./moods";
 
 export const sendSubEvent = async (
   userId: string,
@@ -36,6 +37,11 @@ export const sendSubEvent = async (
     };
 
     WebSocketServer.sendData(subEvent);
+
+    setTimeout(async () => {
+      const newRandomMood: string = Moods.getRandomNewMood();
+      await sendMoodChangeEvent(newRandomMood, Date.now().toString());
+    }, 3500);
   } catch (error) {
     console.log(error);
   }
