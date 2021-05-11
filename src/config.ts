@@ -1,4 +1,4 @@
-import { TwitchChannel, TeamMember } from "./data/types";
+import { DiscordReactionRole, TwitchChannel, TeamMember } from "./data/types";
 
 interface Config {
   broadcaster: TeamMember;
@@ -26,6 +26,7 @@ interface Config {
     liveAnnouncementColorOnline: string;
     liveAnnouncementColorOffline: string;
     liveAnnouncementImageSize: string;
+    reactionRole: DiscordReactionRole[];
   };
   redemptions: {
     [key: string]: string;
@@ -168,6 +169,13 @@ const config: Config = {
     liveAnnouncementColorOnline: "#84AE39",
     liveAnnouncementColorOffline: "#AE8439",
     liveAnnouncementImageSize: "1280x720",
+    reactionRole: [
+      {
+        role_id: "756956508234842145",
+        emoji_tag: "📣",
+        message_id: "790938953951084546",
+      },
+    ],
   },
   redemptions: {
     "2a8f5598-0d54-47c7-a1cb-c2f2068f13f5": "cool",
