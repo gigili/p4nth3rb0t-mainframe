@@ -108,4 +108,7 @@ export interface StreamByBroadcasterIdResponse {
 export enum ImageDrops {
   Contentful = "contentful",
   Partner = "partner",
+  Shopify = "shopify",
+  Shy = "shy",
+  Nextjs = "nextjs",
 }

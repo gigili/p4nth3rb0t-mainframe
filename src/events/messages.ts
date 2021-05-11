@@ -6,6 +6,7 @@ import {
   getCommandFromMessage,
   ChatCommands,
   BroadcasterCommands,
+  ExclusiveCommands,
 } from "../utils/commands";
 import { isSillyQuestion } from "../utils/sillyQuestions";
 import {
@@ -132,6 +133,16 @@ tmi.on(
     }
 
     if (tags.username === config.broadcaster.name) {
+      /* Super special limited edition commands for broadcaster only */
+      const possibleExclusiveCommand: string = getCommandFromMessage(
+        message,
+      ).toLowerCase();
+      const foundExclusiveCommand = ExclusiveCommands[possibleExclusiveCommand];
+
+      if (typeof foundExclusiveCommand === "function") {
+        foundExclusiveCommand(tags, message);
+      }
+
       const possibleBroadcasterCommand: string = getCommandFromMessage(
         message,
       ).toLowerCase();
