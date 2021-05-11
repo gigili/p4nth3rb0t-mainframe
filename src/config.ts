@@ -173,7 +173,7 @@ const config: Config = {
       {
         role_id: "756956508234842145",
         emoji_tag: "📣",
-        message_id: "790938953951084546",
+        message_id: "841608870001508372",
       },
     ],
   },
