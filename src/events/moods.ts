@@ -30,14 +30,17 @@ export const sendMoodChangeEvent = async (mood: string, id: string) => {
 };
 
 const currentMoods = [
+  "coffee",
   "cool",
   "dolla",
   "fire",
   "heart",
   "majick",
   "pewpew",
+  "rap",
   "sad",
   "star",
+  "tattoo",
   "troll",
 ];
 

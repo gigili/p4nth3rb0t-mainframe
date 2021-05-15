@@ -28,7 +28,7 @@ export default class AccessToken {
     }
   }
 
-  async set(data: AccessTokenResponse): Promise<AccessTokenDoc> {
+  async set(data: AccessTokenResponse): Promise<AccessTokenDoc | any> {
     const setAccessToken = await AccessTokenModel.updateOne(
       {},
       {
@@ -37,7 +37,7 @@ export default class AccessToken {
         expiresIn: data.expires_in,
         updatedAt: Math.floor(Date.now() / 1000),
       },
-      { upsert: true }
+      { upsert: true },
     );
 
     return setAccessToken;
@@ -58,7 +58,7 @@ export default class AccessToken {
           headers: {
             accept: "application/vnd.twitchtv.v5+json",
           },
-        }
+        },
       );
 
       return response.data;
