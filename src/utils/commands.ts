@@ -37,6 +37,9 @@ export const ExclusiveCommands: Commands = {
 };
 
 export const BroadcasterCommands: Commands = {
+  "!coffee": async (tags, message) => {
+    sendMoodChangeEvent("coffee", tags["id"] as string);
+  },
   "!cool": async (tags, message) => {
     sendMoodChangeEvent("cool", tags["id"] as string);
   },
@@ -55,11 +58,17 @@ export const BroadcasterCommands: Commands = {
   "!pewpew": async (tags, message) => {
     sendMoodChangeEvent("pewpew", tags["id"] as string);
   },
+  "!rap": async (tags, message) => {
+    sendMoodChangeEvent("rap", tags["id"] as string);
+  },
   "!sad": async (tags, message) => {
     sendMoodChangeEvent("sad", tags["id"] as string);
   },
   "!star": async (tags, message) => {
     sendMoodChangeEvent("star", tags["id"] as string);
+  },
+  "!tattoo": async (tags, message) => {
+    sendMoodChangeEvent("tattoo", tags["id"] as string);
   },
   "!troll": async (tags, message) => {
     sendMoodChangeEvent("troll", tags["id"] as string);
