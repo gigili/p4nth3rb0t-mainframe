@@ -38,7 +38,6 @@ const currentMoods = [
   "majick",
   "pewpew",
   "rap",
-  "sad",
   "star",
   "tattoo",
   "troll",
