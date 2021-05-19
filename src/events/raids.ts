@@ -29,6 +29,14 @@ const sendRaidEvent = async (raiderCount: number, username: string) => {
       const newRandomMood: string = Moods.getRandomNewMood();
       await sendMoodChangeEvent(newRandomMood, Date.now().toString());
     }, 3500);
+
+    setTimeout(() => {
+      tmi.say(
+        config.channel,
+        "whitep30PEWPEW Engaging followers only chat! whitep30PEWPEW ",
+      );
+      tmi.say(config.channel, "/followers 0");
+    }, 300000);
   } catch (error) {
     console.log(error);
   }
@@ -37,4 +45,9 @@ const sendRaidEvent = async (raiderCount: number, username: string) => {
 tmi.on("raided", (channel: string, username: string, viewers: number) => {
   tmi.say(config.channel, getRaidShoutout(username, viewers));
   sendRaidEvent(viewers, username);
+  tmi.say(
+    config.channel,
+    "whitep30PEWPEW Disengaging followers only chat! Welcome in everyone! whitep30PEWPEW ",
+  );
+  tmi.say(config.channel, "/followersoff");
 });
