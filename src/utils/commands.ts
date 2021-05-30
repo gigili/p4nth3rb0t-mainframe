@@ -10,13 +10,15 @@ import {
   sendImageDropEvent,
 } from "../actions/drop";
 import { sendMoodChangeEvent } from "../events/moods";
+import { sendShoutoutEvent } from "../events/messages";
 import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 import { sendMerchEvent } from "../events/merch";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
-const getRestOfMessage = (message: string) => message.split(" ").slice(1);
+export const getRestOfMessage = (message: string) =>
+  message.split(" ").slice(1);
 
 type Handler = (tags: ChatUserstate, message: string) => void;
 
@@ -63,6 +65,9 @@ export const BroadcasterCommands: Commands = {
   },
   "!sad": async (tags, message) => {
     sendMoodChangeEvent("sad", tags["id"] as string);
+  },
+  "!so": async (tags, message) => {
+    sendShoutoutEvent(tags, message);
   },
   "!star": async (tags, message) => {
     sendMoodChangeEvent("star", tags["id"] as string);

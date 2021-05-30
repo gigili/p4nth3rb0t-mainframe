@@ -4,6 +4,7 @@ import { ChatUserstate } from "tmi.js";
 import { config } from "../config";
 import {
   getCommandFromMessage,
+  getRestOfMessage,
   ChatCommands,
   BroadcasterCommands,
   ExclusiveCommands,
@@ -14,6 +15,8 @@ import {
   TeamMembers,
   TeamMember,
   MyBadges,
+  UserByLoginResponse,
+  VideoByUserIdResponse,
 } from "../data/types";
 import UserManager from "../users/UserManager";
 import Team from "../users/Team";
@@ -24,11 +27,54 @@ import {
   DeletedChatMessagePacket,
   MainframeEvent,
   TeamMemberJoinPacket,
+  ShoutOutPacket,
+  ShoutOutData,
 } from "@whitep4nth3r/p4nth3rb0t-types";
+import { fetchVideoByUserId } from "../utils/twitchUtils";
 
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
+
+export const sendShoutoutEvent = async (
+  tags: ChatUserstate,
+  message: string,
+) => {
+  const possibleUsername: string[] = getRestOfMessage(message);
+
+  try {
+    const user: UserByLoginResponse = await UserManager.getUserByLogin(
+      possibleUsername[0],
+    );
+
+    if (user) {
+      const lastStream: VideoByUserIdResponse | null = await fetchVideoByUserId(
+        user.users[0]._id,
+      );
+
+      tmi.say(
+        config.channel,
+        `whitep30PEWPEW Go check out ${user.users[0].display_name} at https://www.twitch.tv/${user.users[0].name} and give them some panther PEW PEWS! whitep30PEWPEW`,
+      );
+
+      if (lastStream) {
+        const dataToSend: ShoutOutData = {
+          lastStreamTitle: lastStream.title,
+          logoUrl: user.users[0].logo,
+          username: user.users[0].display_name,
+        };
+
+        const shoutOutEvent: ShoutOutPacket = {
+          event: MainframeEvent.shoutOut,
+          id: tags["id"] as string,
+          data: dataToSend,
+        };
+
+        WebSocketServer.sendData(shoutOutEvent);
+      }
+    }
+  } catch (error) {}
+};
 
 const sendDeletedMessageEvent = async (messageId: string) => {
   try {
