@@ -48,7 +48,7 @@ export const sendShoutoutEvent = async (
     );
 
     if (user) {
-      const lastStream: VideoByUserIdResponse | null = await fetchVideoByUserId(
+      const channel: TwitchChannel | undefined = await Team.getChannelById(
         user.users[0]._id,
       );
 
@@ -57,9 +57,12 @@ export const sendShoutoutEvent = async (
         `whitep30PEWPEW Go check out ${user.users[0].display_name} at https://www.twitch.tv/${user.users[0].name} and give them some panther PEW PEWS! whitep30PEWPEW`,
       );
 
-      if (lastStream) {
+      if (channel) {
         const dataToSend: ShoutOutData = {
-          lastStreamTitle: lastStream.title,
+          lastStream: {
+            title: channel.title,
+            category: channel.game_name,
+          },
           logoUrl: user.users[0].logo,
           username: user.users[0].display_name,
         };
