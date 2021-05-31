@@ -10,7 +10,7 @@ import {
   sendImageDropEvent,
 } from "../actions/drop";
 import { sendMoodChangeEvent } from "../events/moods";
-import { sendShoutoutEvent } from "../events/messages";
+import { sendShoutoutEvent } from "../events/shoutout";
 import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 import { sendMerchEvent } from "../events/merch";
