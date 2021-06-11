@@ -49,7 +49,6 @@ const config: Config = {
     "lucecarter",
     "sociablesteve",
     "rawwwrs",
-    "laylacodesit",
     "toefrog",
     "dr_dinomight",
   ],
