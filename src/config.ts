@@ -51,6 +51,8 @@ const config: Config = {
     "rawwwrs",
     "toefrog",
     "dr_dinomight",
+    "matty_twoshoes",
+    "imolalola",
   ],
   ignoredUsers: ["nightbot", "pretzelrocks", "p4nth3rb0t"],
   ignoredCharacters: ["a̞", "s̾", "ȯ", "a̹", "u͖"],
