@@ -26,17 +26,7 @@ type Commands = {
   [key: string]: Handler;
 };
 
-export const ExclusiveCommands: Commands = {
-  "!shopify": async (tags, message) => {
-    sendImageDropEvent(ImageDrops.Shopify, tags["id"] as string);
-  },
-  "!shy": async (tags, message) => {
-    sendImageDropEvent(ImageDrops.Shy, tags["id"] as string);
-  },
-  "!nextjs": async (tags, message) => {
-    sendImageDropEvent(ImageDrops.Nextjs, tags["id"] as string);
-  },
-};
+export const ExclusiveCommands: Commands = {};
 
 export const BroadcasterCommands: Commands = {
   "!coffee": async (tags, message) => {
@@ -165,5 +155,8 @@ export const ChatCommands: Commands = {
   },
   "!checkmark": async (tags, message) => {
     sendImageDropEvent(ImageDrops.Partner, tags["id"] as string);
+  },
+  "!battlesnake": async (tags, message) => {
+    sendImageDropEvent(ImageDrops.Battlesnake, tags["id"] as string);
   },
 };
