@@ -13,10 +13,7 @@ import {
 import WebSocketServer from "../WebSocketServer";
 import Team from "../users/Team";
 
-export const sendShoutoutEvent = async (
-  tags: ChatUserstate,
-  message: string,
-) => {
+export const sendShoutoutEvent = async (messageId: string, message: string) => {
   const possibleUsername: string[] = getRestOfMessage(message);
 
   try {
@@ -46,7 +43,7 @@ export const sendShoutoutEvent = async (
 
         const shoutOutEvent: ShoutOutPacket = {
           event: MainframeEvent.shoutOut,
-          id: tags["id"] as string,
+          id: messageId,
           data: dataToSend,
         };
 

@@ -57,7 +57,7 @@ export const BroadcasterCommands: Commands = {
     sendMoodChangeEvent("sad", tags["id"] as string);
   },
   "!so": async (tags, message) => {
-    sendShoutoutEvent(tags, message);
+    sendShoutoutEvent(tags["id"] as string, message);
   },
   "!star": async (tags, message) => {
     sendMoodChangeEvent("star", tags["id"] as string);
