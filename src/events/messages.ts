@@ -19,6 +19,7 @@ import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 import Giveaway from "../actions/Giveaway";
 import {
+  BanUserPacket,
   ChatMessageData,
   ChatMessagePacket,
   DeletedChatMessagePacket,
@@ -29,6 +30,24 @@ import {
 let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
+
+const sendBanUserEvent = async (userId: string) => {
+  try {
+    const bannedUserEvent: BanUserPacket = {
+      event: MainframeEvent.banUser,
+      id: userId,
+      data: {
+        userId,
+      },
+    };
+
+    console.log("sending banUserEvent for user ", userId);
+
+    WebSocketServer.sendData(bannedUserEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const sendDeletedMessageEvent = async (messageId: string) => {
   try {
@@ -87,6 +106,13 @@ tmi.on(
     tags: ChatUserstate,
   ) => {
     sendDeletedMessageEvent(tags["target-msg-id"]);
+  },
+);
+
+tmi.on(
+  "ban",
+  (channel: string, username: string, reason: null, tags: ChatUserstate) => {
+    sendBanUserEvent(tags["target-user-id"]);
   },
 );
 
