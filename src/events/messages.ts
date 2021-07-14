@@ -19,6 +19,7 @@ import UserManager from "../users/UserManager";
 import Team from "../users/Team";
 import Giveaway from "../actions/Giveaway";
 import {
+  TimeoutUserPacket,
   BanUserPacket,
   ChatMessageData,
   ChatMessagePacket,
@@ -31,6 +32,22 @@ let possibleTeamMember: TeamMember | undefined;
 const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
 
+const sendTimeoutUserEvent = async (userId: string) => {
+  try {
+    const timeoutUserEvent: TimeoutUserPacket = {
+      event: MainframeEvent.timeoutUser,
+      id: userId,
+      data: {
+        userId,
+      },
+    };
+
+    WebSocketServer.sendData(timeoutUserEvent);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const sendBanUserEvent = async (userId: string) => {
   try {
     const bannedUserEvent: BanUserPacket = {
@@ -40,8 +57,6 @@ const sendBanUserEvent = async (userId: string) => {
         userId,
       },
     };
-
-    console.log("sending banUserEvent for user ", userId);
 
     WebSocketServer.sendData(bannedUserEvent);
   } catch (error) {
@@ -113,6 +128,19 @@ tmi.on(
   "ban",
   (channel: string, username: string, reason: null, tags: ChatUserstate) => {
     sendBanUserEvent(tags["target-user-id"]);
+  },
+);
+
+tmi.on(
+  "timeout",
+  (
+    channel: string,
+    username: string,
+    reason: null,
+    duration: number,
+    tags: ChatUserstate,
+  ) => {
+    sendTimeoutUserEvent(tags["target-user-id"]);
   },
 );
 
