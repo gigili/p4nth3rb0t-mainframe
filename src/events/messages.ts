@@ -266,9 +266,9 @@ tmi.on(
       }
     }
 
-    if (isSillyQuestion(message)) {
-      tmi.say(config.channel, config.botResponses.SillyQuestion(tags.username));
-    }
+    // if (isSillyQuestion(message)) {
+    //   tmi.say(config.channel, config.botResponses.SillyQuestion(tags.username));
+    // }
 
     const possibleCommand: string =
       getCommandFromMessage(message).toLowerCase();
