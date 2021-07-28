@@ -8,12 +8,14 @@ import {
 } from "@whitep4nth3r/p4nth3rb0t-types";
 import WebSocketServer from "../WebSocketServer";
 
-export const sendNumeronymEvent = async () => {
+export const sendNumeronymEvent = async (isActive: boolean) => {
   try {
     const numeronymEvent: NumeronymPacket = {
       event: MainframeEvent.numeronym,
       id: Math.random().toString(),
-      data: {},
+      data: {
+        isActive,
+      },
     };
 
     WebSocketServer.sendData(numeronymEvent);
@@ -35,7 +37,11 @@ tmi.on(
     if (Object.keys(config.channelRedemptions).includes(rewardId)) {
       switch (config.channelRedemptions[rewardId]) {
         case "numeronym":
-          sendNumeronymEvent();
+          sendNumeronymEvent(true);
+
+          setTimeout(async () => {
+            sendNumeronymEvent(false);
+          }, 300000);
         default:
           return null;
       }
