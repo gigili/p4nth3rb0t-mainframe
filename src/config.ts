@@ -28,7 +28,10 @@ interface Config {
     liveAnnouncementImageSize: string;
     reactionRole: DiscordReactionRole[];
   };
-  redemptions: {
+  moodRedemptions: {
+    [key: string]: string;
+  };
+  channelRedemptions: {
     [key: string]: string;
   };
 }
@@ -186,7 +189,7 @@ const config: Config = {
       },
     ],
   },
-  redemptions: {
+  moodRedemptions: {
     "40496421-bf68-4854-a417-cf03390062f2": "coffee",
     "2a8f5598-0d54-47c7-a1cb-c2f2068f13f5": "cool",
     "214baddc-bf47-483c-8297-2089484e55db": "dolla",
@@ -199,6 +202,9 @@ const config: Config = {
     "dd1bd410-ce90-4669-a9a7-59adf4fc226a": "star",
     "f8494e84-1089-48c1-a411-1d1a33ac38be": "tattoo",
     "899073ec-e720-4431-ba6b-5953f1bd246e": "troll",
+  },
+  channelRedemptions: {
+    "a5ac6965-dd33-4d09-8787-a177debc6e14": "numeronym",
   },
 };
 
