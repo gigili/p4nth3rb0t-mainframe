@@ -14,7 +14,7 @@ import { sendShoutoutEvent } from "../events/shoutout";
 import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 import { sendMerchEvent } from "../events/merch";
-import { sendBackseatEvent } from "../events/backseat";
+import { sendBackseatEvent, sendClearBackSeatEvent } from "../events/backseat";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -75,6 +75,9 @@ export const BroadcasterCommands: Commands = {
 };
 
 export const ChatCommands: Commands = {
+  "!nobs": async (tags, message) => {
+    sendClearBackSeatEvent();
+  },
   "!bs": async (tags, message) => {
     const username = getRestOfMessage(message)[0].replace("@", "");
     sendBackseatEvent(username);
