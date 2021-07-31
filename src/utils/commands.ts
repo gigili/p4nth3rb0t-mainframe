@@ -14,6 +14,7 @@ import { sendShoutoutEvent } from "../events/shoutout";
 import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 import { sendMerchEvent } from "../events/merch";
+import { sendBackseatEvent } from "../events/backseat";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -74,6 +75,10 @@ export const BroadcasterCommands: Commands = {
 };
 
 export const ChatCommands: Commands = {
+  "!bs": async (tags, message) => {
+    const username = getRestOfMessage(message)[0].replace("@", "");
+    sendBackseatEvent(username);
+  },
   "!win": async (tags, message) => {
     if (Giveaway.inProgress()) {
       Giveaway.enter(tags.username as string);
