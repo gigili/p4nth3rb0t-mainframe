@@ -5,7 +5,8 @@ import bodyParser from "body-parser";
 import asyncWrapper from "./utils/asyncWrapper";
 import { sendLiveAnnouncement, sendOfflineAnnouncement } from "./discord";
 import { sendBroadcasterFollowEvent } from "./events/follows";
-import { config } from "./config";
+import { TeamMembers } from "./data/types";
+import Team from "./users/Team";
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,12 +23,10 @@ if (process.env.NODE_ENV !== "production") {
 app.post(
   "/webhooks/subscribe/team/:member_id",
   asyncWrapper(async (req: Request, res: Response) => {
-    const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
-      (member) => member,
-    );
+    const teamMembers: TeamMembers = await Team.getMembers();
 
-    const member = toSubscribeTo.find(
-      (member) => member.id === req.params.member_id,
+    const member = teamMembers.find(
+      (member) => member.user_id === req.params.member_id,
     );
 
     if (!member) {
@@ -49,23 +48,25 @@ app.post(
 
 app.get(
   "/webhooks/subscribe/team/:member_id",
-  (req: Request, res: Response) => {
-    const toSubscribeTo = [...config.teamMembers, config.broadcaster].map(
-      (member) => member,
-    );
+  asyncWrapper(async (req: Request, res: Response) => {
+    try {
+      const teamMembers: TeamMembers = await Team.getMembers();
 
-    const member = toSubscribeTo.find(
-      (member) => member.id === req.params.member_id,
-    );
+      const member = teamMembers.find(
+        (member) => member.user_id === req.params.member_id,
+      );
 
-    if (!member) {
-      res.sendStatus(404);
-      return;
+      if (!member) {
+        res.sendStatus(404);
+        return;
+      }
+
+      res.status(200).send(req.query["hub.challenge"]);
+      console.log(`↪️  Webhook subscribed for ${member.user_name} streams!`);
+    } catch (error) {
+      console.log(error);
     }
-
-    res.status(200).send(req.query["hub.challenge"]);
-    console.log(`↪️  Webhook subscribed for ${member.name} streams!`);
-  },
+  }),
 );
 
 app.post(

@@ -10,21 +10,28 @@ export interface TwitchChannel {
 }
 
 export interface TeamMember {
-  name: string;
-  id: string;
+  user_id: string;
+  user_name: string;
+  user_login: string;
 }
 
 export type TeamMembers = TeamMember[];
 
 export interface TeamResponse {
-  data: {
-    users: [
-      {
-        name: string;
-        _id: string;
-      },
-    ];
-  };
+  data: [
+    {
+      users: TeamMember[];
+      background_image_url: string;
+      banner: string;
+      created_at: string;
+      updated_at: string;
+      info: string;
+      thumbnail_url: string;
+      team_name: string;
+      team_display_name: string;
+      id: string;
+    },
+  ];
 }
 
 export interface AccessTokenResponse {

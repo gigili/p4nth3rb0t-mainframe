@@ -18,7 +18,7 @@ export const sendBroadcasterFollowEvent = async (
   if (!existingFollower) {
     //TODO: cache this
     const broadcasterStream = await getActiveBroadcasterStreamByBroadcasterId(
-      config.broadcaster.id,
+      config.broadcaster.user_id,
     );
 
     if (broadcasterStream) {

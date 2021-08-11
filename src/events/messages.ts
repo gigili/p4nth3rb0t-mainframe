@@ -8,7 +8,6 @@ import {
   BroadcasterCommands,
   ExclusiveCommands,
 } from "../utils/commands";
-import { isSillyQuestion } from "../utils/sillyQuestions";
 import {
   TwitchChannel,
   TeamMembers,
@@ -29,7 +28,6 @@ import {
 } from "@whitep4nth3r/p4nth3rb0t-types";
 
 let possibleTeamMember: TeamMember | undefined;
-const teamMembers: TeamMembers = Team.getUserNames();
 const teamMembersGreeted: TeamMembers = [];
 
 const sendTimeoutUserEvent = async (userId: string) => {
@@ -96,11 +94,11 @@ const sendChatMessageEvent = async (data: ChatMessageData) => {
 
 const sendteamMemberJoinEvent = async (teamMember: TeamMember) => {
   try {
-    const user = await UserManager.getUserById(teamMember.id as string);
+    const user = await UserManager.getUserById(teamMember.user_id as string);
 
     const teamMemberJoin: TeamMemberJoinPacket = {
       event: MainframeEvent.teamMemberJoin,
-      id: teamMember.name + "-" + Date.now(),
+      id: teamMember.user_id + "-" + Date.now(),
       data: {
         logoUrl: user.logo,
       },
@@ -185,7 +183,7 @@ tmi.on(
       }
     }
 
-    if (tags.username === config.broadcaster.name) {
+    if (tags.username === config.broadcaster.user_name) {
       /* Super special limited edition commands for broadcaster only */
       const possibleExclusiveCommand: string =
         getCommandFromMessage(message).toLowerCase();
@@ -207,7 +205,7 @@ tmi.on(
         teamMembersGreeted.splice(0, teamMembersGreeted.length);
         tmi.say(
           config.channel,
-          `${config.teamName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`,
+          `${config.team.displayName} greetings cache has been reset. Current length of cache is ${teamMembersGreeted.length}.`,
         );
       }
 
@@ -243,18 +241,21 @@ tmi.on(
       }
     }
 
+    // This is ok to do every time because we have a cache
+    const teamMembers: TeamMembers = await Team.getMembers();
+
     if (config.teamShoutoutEnabled && process.env.NODE_ENV === "production") {
       possibleTeamMember = teamMembers.find(
-        (member) => member.name === tags.username,
+        (member) => member.user_name === tags.username,
       );
 
       if (
         possibleTeamMember &&
         !teamMembersGreeted.includes(possibleTeamMember) &&
-        possibleTeamMember.name !== config.broadcaster.name
+        possibleTeamMember.user_name !== config.broadcaster.user_name
       ) {
         const teamMemberChannel = await Team.getChannelById(
-          possibleTeamMember.id,
+          possibleTeamMember.user_id,
         );
 
         tmi.say(

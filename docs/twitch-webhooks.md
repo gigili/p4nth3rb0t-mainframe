@@ -2,13 +2,13 @@
 
 The mainframe subscribes to the following webhooks, which POST to the mainframe webserver when changes are detected:
 
-### Broadcaster follows
+## Broadcaster follows
 
 When a Twitch user follows the configured broadcaster, a POST request is sent to `/webhooks/subscribe/broadcaster/follow` which subsequently sends an event over the websocket connections.
 
 ### Stream team stream changes
 
-When a member of the stream team (configured in config.ts) goes live or offline, a POST request is sent to `/webhooks/subscribe/team/:member_id` which subsequently calls the Discord API to post a message in the configured Discord announcements channel.
+When a member of the stream team goes live or offline, a POST request is sent to `/webhooks/subscribe/team/:member_id` which subsequently calls the Discord API to post a message in the configured Discord announcements channel.
 
 ## Subscribing to new Twitch webhooks
 

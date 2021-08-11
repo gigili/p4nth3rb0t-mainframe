@@ -17,8 +17,10 @@ interface Config {
   ignoredMessages: string[];
   botResponses: any;
   teamShoutoutEnabled: boolean;
-  teamName: string;
-  teamMembers: TeamMember[];
+  team: {
+    name: string;
+    displayName: string;
+  };
   teamWelcomeMessage: (channel: TwitchChannel) => string;
   discord: {
     liveAnnouncementsChannelId: string;
@@ -37,7 +39,11 @@ interface Config {
 }
 
 const config: Config = {
-  broadcaster: { name: "whitep4nth3r", id: "469006291" },
+  broadcaster: {
+    user_login: "whitep4nth3r",
+    user_name: "whitep4nth3r",
+    user_id: "469006291",
+  },
   channel: "#whitep4nth3r",
   drop: {
     minAccountAge: 7 * 24 * 60 * 60 * 1000,
@@ -70,107 +76,12 @@ const config: Config = {
     },
   },
   teamShoutoutEnabled: true,
-  teamName: "The Claw",
-  teamMembers: [
-    {
-      name: "baldbeardedbuilder",
-      id: "279965339",
-    },
-    {
-      name: "brattdamon",
-      id: "254737658",
-    },
-    {
-      name: "cadillacjack1",
-      id: "501793804",
-    },
-    {
-      name: "canhorn",
-      id: "60218113",
-    },
-    {
-      name: "lucecarter",
-      id: "199566394",
-    },
-    {
-      name: "cotufa82",
-      id: "495448532",
-    },
-    {
-      name: "dr_dinomight",
-      id: "25347823",
-    },
-    {
-      name: "finitesingularity",
-      id: "536397236",
-    },
-    {
-      name: "gacbl",
-      id: "120572949",
-    },
-    {
-      name: "haliphax",
-      id: "67842281",
-    },
-    {
-      name: "imolalola",
-      id: "198070643",
-    },
-    {
-      name: "matty_twoshoes",
-      id: "556670211",
-    },
-    {
-      name: "metalandcoffee_",
-      id: "163734028",
-    },
-    {
-      name: "mongodb",
-      id: "467752938",
-    },
-    {
-      name: "rawwwrs",
-      id: "166942660",
-    },
-    {
-      name: "ryantupo",
-      id: "158165150",
-    },
-    {
-      name: "sadmoody",
-      id: "28493092",
-    },
-    {
-      name: "sketchni",
-      id: "64115778",
-    },
-    {
-      name: "sociablesteve",
-      id: "76884091",
-    },
-    {
-      name: "thatn00b__",
-      id: "235952406",
-    },
-    {
-      name: "toefrog",
-      id: "50336378",
-    },
-    {
-      name: "greg_holmes",
-      id: "93948214",
-    },
-    {
-      name: "aurorasmadhouse",
-      id: "132113595",
-    },
-    {
-      name: "ukmadlz",
-      id: "109561494",
-    },
-  ],
+  team: {
+    name: "theclaw",
+    displayName: "The Claw",
+  },
   teamWelcomeMessage: (channel: TwitchChannel): string => {
-    return `p4nth3rPEWPEW ${config.teamName} team member detected! 
+    return `p4nth3rPEWPEW ${config.team.displayName} team member detected! 
     PEW PEW, @${channel.broadcaster_name}! 
     Check out their channel here: https://twitch.tv/${channel.broadcaster_name} 
     | They were last seen streaming ${channel.title} in ${channel.game_name} p4nth3rPEWPEW`;

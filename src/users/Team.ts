@@ -6,16 +6,14 @@ import { config } from "../config";
 const accessTokenUtil = new AccessToken();
 
 export default class Team {
-  //TODO: some kind of cache expiry
-  //TODO: put channels in cache
-  static cache: TeamMembers = config.teamMembers;
+  static cache: TeamMembers = [];
 
   static getWelcomeMessage = (channel: TwitchChannel): string => {
     return config.teamWelcomeMessage(channel);
   };
 
   static async getChannelById(
-    broadcasterId: string
+    broadcasterId: string,
   ): Promise<TwitchChannel | undefined> {
     const accessTokenData = await accessTokenUtil.get();
 
@@ -28,7 +26,7 @@ export default class Team {
               authorization: `Bearer ${accessTokenData.accessToken}`,
               "client-id": process.env.CLIENT_ID,
             },
-          }
+          },
         );
 
         return response.data.data[0];
@@ -40,34 +38,33 @@ export default class Team {
     return undefined;
   }
 
-  static getUserNames(): TeamMembers {
+  static async getMembers(): Promise<any> {
     if (Team.cache.length > 0) {
       return Team.cache;
     }
 
-    return [];
+    const accessTokenData = await accessTokenUtil.get();
 
-    // try {
-    //   const response = await axios.get<any, TeamResponse>(
-    //     `https://api.twitch.tv/kraken/teams/${config.teamName}`,
-    //     {
-    //       headers: {
-    //         accept: "application/vnd.twitchtv.v5+json",
-    //         "client-id": process.env.CLIENT_ID,
-    //       },
-    //     }
-    //   );
+    if (accessTokenData) {
+      try {
+        const response = await axios.get<TeamResponse>(
+          `https://api.twitch.tv/helix/teams?name=${config.team.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessTokenData.accessToken}`,
+              "client-id": process.env.CLIENT_ID,
+            },
+          },
+        );
 
-    //   const users = response.data.users.map((user) => ({
-    //     name: user.name,
-    //     id: user._id,
-    //   }));
+        Team.cache = response.data.data[0].users;
 
-    //   Team.cache = users;
+        return response.data.data[0].users;
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-    //   return users;
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    return null;
   }
 }

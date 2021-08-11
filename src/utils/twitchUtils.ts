@@ -11,7 +11,7 @@ const accessTokenUtil = new AccessToken();
 
 export const getCurrentChatters = async (): Promise<any> => {
   const response = await axios.get(
-    `https://tmi.twitch.tv/group/user/${config.broadcaster.name}/chatters`,
+    `https://tmi.twitch.tv/group/user/${config.broadcaster.user_name}/chatters`,
   );
 
   const { data } = response;

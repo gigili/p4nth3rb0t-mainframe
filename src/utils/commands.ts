@@ -90,12 +90,12 @@ export const ChatCommands: Commands = {
     }
   },
   "!start-trail": async (tags, message) => {
-    if (tags.username === config.broadcaster.name) {
+    if (tags.username === config.broadcaster.user_name) {
       sendWeatherTrailEvent(true);
     }
   },
   "!end-trail": async (tags, message) => {
-    if (tags.username === config.broadcaster.name) {
+    if (tags.username === config.broadcaster.user_name) {
       sendWeatherTrailEvent(false);
     }
   },
