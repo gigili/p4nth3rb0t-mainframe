@@ -278,8 +278,9 @@ tmi.on(
       foundHandler(tags, message);
     } else if (!message.startsWith("!")) {
       const badges: MyBadges = tags.badges || {};
+      const isPartner: boolean = badges.partner !== undefined;
       const isMod: boolean = tags.mod || false;
-      const isPartner: boolean = tags.partner || false;
+
       const isSubscriber: boolean =
         tags.subscriber || badges.founder !== undefined || false;
       const isVip: boolean = badges.vip ? badges.vip === "1" : false;
