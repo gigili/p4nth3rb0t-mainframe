@@ -8,7 +8,7 @@ import { sendTimerEvent } from "./timer";
 import { sendShoutoutEvent } from "./shoutout";
 
 const getRaidShoutout = (username: string, viewers: number): string => {
-  return `whitep30PEWPEW Welcome to ${viewers} raiders! Thank you for the raid @${username}! Check out their channel at https://twitch.tv/${username} whitep30PEWPEW`;
+  return `p4nth3rPEWPEW Welcome to ${viewers} raiders! Thank you for the raid @${username}! Check out their channel at https://twitch.tv/${username} p4nth3rPEWPEW`;
 };
 
 const sendRaidEvent = async (raiderCount: number, username: string) => {
@@ -41,7 +41,7 @@ const sendRaidEvent = async (raiderCount: number, username: string) => {
     setTimeout(() => {
       tmi.say(
         config.channel,
-        "whitep30PEWPEW Engaging followers only chat! whitep30PEWPEW ",
+        "p4nth3rPEWPEW Engaging followers only chat! p4nth3rPEWPEW ",
       );
       tmi.say(config.channel, "/followers 0");
     }, 300000);
@@ -55,7 +55,7 @@ tmi.on("raided", (channel: string, username: string, viewers: number) => {
   sendRaidEvent(viewers, username);
   tmi.say(
     config.channel,
-    "whitep30PEWPEW Disengaging followers only chat! Welcome in everyone! whitep30PEWPEW ",
+    "p4nth3rPEWPEW Disengaging followers only chat! Welcome in everyone! p4nth3rPEWPEW ",
   );
   tmi.say(config.channel, "/followersoff");
 });

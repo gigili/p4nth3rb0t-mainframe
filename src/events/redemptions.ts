@@ -55,7 +55,7 @@ tmi.on(
 
       tmi.say(
         config.channel,
-        `whitep30PEWPEW @${username} redeemed ${mood} panther! whitep30PEWPEW`,
+        `p4nth3rPEWPEW @${username} redeemed ${mood} panther! p4nth3rPEWPEW`,
       );
     }
   },

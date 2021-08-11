@@ -101,31 +101,31 @@ export default class Giveaway {
   };
 
   static getAnnounceMessage = (): string => {
-    return "whitep30PEWPEW !win !win !win !win !win !win !win !win whitep30PEWPEW";
+    return "p4nth3rPEWPEW !win !win !win !win !win !win !win !win p4nth3rPEWPEW";
   };
 
   static getOpenMessage = (): string => {
-    return "whitep30PEWPEW The giveaway is open! Enter !win in chat to be in with a chance of winning! whitep30PEWPEW";
+    return "p4nth3rPEWPEW The giveaway is open! Enter !win in chat to be in with a chance of winning! p4nth3rPEWPEW";
   };
 
   static getCloseMessage = (): string => {
-    return "whitep30PEWPEW The giveaway is closed! Thanks for playing! whitep30PEWPEW";
+    return "p4nth3rPEWPEW The giveaway is closed! Thanks for playing! p4nth3rPEWPEW";
   };
 
   static getNoEntrantsMessage = (): string => {
-    return "whitep30TROLL The entry pot is empty! whitep30TROLL";
+    return "p4nth3rTROLL The entry pot is empty! p4nth3rTROLL";
   };
 
   static getDrawMessage = (winner: string): string => {
-    return `whitep30PEWPEW Congratulations to @${winner}! whitep30PEWPEW`;
+    return `p4nth3rPEWPEW Congratulations to @${winner}! p4nth3rPEWPEW`;
   };
 
   static getInactiveMessage = (): string => {
-    return "whitep30TROLL Access denied! There is no giveaway in progress! whitep30TROLL";
+    return "p4nth3rTROLL Access denied! There is no giveaway in progress! p4nth3rTROLL";
   };
 
   static getAlreadyOpenMessage = (): string => {
-    return "whitep30TROLL @whitep4nth3r pressed the wrong button. Giveaway is already open! whitep30TROLL";
+    return "p4nth3rTROLL @whitep4nth3r pressed the wrong button. Giveaway is already open! p4nth3rTROLL";
   };
 
   static announce = (): void => {

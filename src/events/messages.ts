@@ -277,9 +277,9 @@ tmi.on(
     if (typeof foundHandler === "function") {
       foundHandler(tags, message);
     } else if (!message.startsWith("!")) {
-      //if no 'command', send a chat message
       const badges: MyBadges = tags.badges || {};
       const isMod: boolean = tags.mod || false;
+      const isPartner: boolean = tags.partner || false;
       const isSubscriber: boolean =
         tags.subscriber || badges.founder !== undefined || false;
       const isVip: boolean = badges.vip ? badges.vip === "1" : false;
@@ -289,8 +289,6 @@ tmi.on(
         : false;
 
       const user = await UserManager.getUserById(tags["user-id"] as string);
-
-      const isMyFavoriteStreamer = user._id === "279965339"; // BBB ;)
 
       const chatMessageData: ChatMessageData = {
         userId: tags["user-id"] as string,
@@ -304,7 +302,7 @@ tmi.on(
         isVip,
         isSubscriber,
         isBroadcaster,
-        isMyFavoriteStreamer,
+        isPartner,
         isTeamMember: config.teamShoutoutEnabled
           ? possibleTeamMember !== undefined || isBroadcaster
           : false,
