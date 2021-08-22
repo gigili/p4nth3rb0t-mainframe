@@ -75,6 +75,12 @@ export const BroadcasterCommands: Commands = {
 };
 
 export const ChatCommands: Commands = {
+  "!raidcall": async () => {
+    tmi.say(
+      config.channel,
+      "p4nth3rRAID p4nth3rHYPE p4nth3rUP PANTHER RAID!!! p4nth3rRAID p4nth3rHYPE p4nth3rUP PANTHER RAID!!! p4nth3rRAID p4nth3rHYPE p4nth3rUP PANTHER RAID!!! p4nth3rRAID p4nth3rHYPE p4nth3rUP PANTHER RAID!!! p4nth3rRAID p4nth3rHYPE p4nth3rUP PANTHER RAID!!! p4nth3rRAID p4nth3rHYPE p4nth3rUP PANTHER RAID!!! p4nth3rRAID p4nth3rHYPE p4nth3rUP",
+    );
+  },
   "!nobs": async (tags, message) => {
     sendClearBackSeatEvent();
   },

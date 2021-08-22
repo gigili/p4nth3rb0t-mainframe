@@ -123,3 +123,5 @@ export interface DiscordReactionRole {
   emoji_tag: string;
   message_id: string;
 }
+
+export type MoodEmotes = { [key: string]: string };
