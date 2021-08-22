@@ -35,6 +35,7 @@ const currentMoods = [
   "dolla",
   "fire",
   "heart",
+  "hype",
   "majick",
   "pewpew",
   "rap",

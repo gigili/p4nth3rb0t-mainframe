@@ -106,6 +106,7 @@ const config: Config = {
     "214baddc-bf47-483c-8297-2089484e55db": "dolla",
     "1e20afa0-a66d-44cf-b052-494150085b41": "fire",
     "e7be41df-4942-47ef-bfd6-945004b9515d": "heart",
+    "810293fe-2996-468d-86be-8fd5f3ede35a": "hype",
     "3a1bbb8a-3b46-4f4f-b462-d4fe2d69fc7f": "majick",
     "c496ca07-506f-426a-ac3a-c18f9e313819": "pewpew",
     "0e9ac3dc-36fa-44a2-811a-21c062ab15cb": "rap",
