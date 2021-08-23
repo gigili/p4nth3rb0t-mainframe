@@ -45,6 +45,9 @@ export const BroadcasterCommands: Commands = {
   "!heart": async (tags, message) => {
     sendMoodChangeEvent("heart", tags["id"] as string);
   },
+  "!hype": async (tags, message) => {
+    sendMoodChangeEvent("hype", tags["id"] as string);
+  },
   "!majick": async (tags, message) => {
     sendMoodChangeEvent("majick", tags["id"] as string);
   },
