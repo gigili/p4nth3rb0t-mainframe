@@ -51,29 +51,31 @@ tmi.on(
   ) => {
     const rewardId: string = tags["custom-reward-id"];
 
-    if (Object.keys(config.channelRedemptions).includes(rewardId)) {
-      switch (config.channelRedemptions[rewardId]) {
-        case "numeronym":
-          sendNumeronymEvent(true);
+    if (!config.FREEZE_MODE) {
+      if (Object.keys(config.channelRedemptions).includes(rewardId)) {
+        switch (config.channelRedemptions[rewardId]) {
+          case "numeronym":
+            sendNumeronymEvent(true);
 
-          setTimeout(async () => {
-            sendNumeronymEvent(false);
-          }, 300000);
-        default:
-          return null;
+            setTimeout(async () => {
+              sendNumeronymEvent(false);
+            }, 300000);
+          default:
+            return null;
+        }
       }
-    }
 
-    if (Object.keys(config.moodRedemptions).includes(rewardId)) {
-      const mood: string = config.moodRedemptions[rewardId];
-      const username: string = tags["username"] as string;
+      if (Object.keys(config.moodRedemptions).includes(rewardId)) {
+        const mood: string = config.moodRedemptions[rewardId];
+        const username: string = tags["username"] as string;
 
-      await sendMoodChangeEvent(mood, rewardId);
+        await sendMoodChangeEvent(mood, rewardId);
 
-      tmi.say(
-        config.channel,
-        `${MoodEmotesForChatResponse[mood]} @${username} redeemed ${mood} panther! ${MoodEmotesForChatResponse[mood]}`,
-      );
+        tmi.say(
+          config.channel,
+          `${MoodEmotesForChatResponse[mood]} @${username} redeemed ${mood} panther! ${MoodEmotesForChatResponse[mood]}`,
+        );
+      }
     }
   },
 );

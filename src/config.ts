@@ -1,6 +1,7 @@
 import { DiscordReactionRole, TwitchChannel, TeamMember } from "./data/types";
 
 interface Config {
+  FREEZE_MODE: boolean;
   broadcaster: TeamMember;
   channel: string;
   drop: {
@@ -39,6 +40,7 @@ interface Config {
 }
 
 const config: Config = {
+  FREEZE_MODE: false,
   broadcaster: {
     user_login: "whitep4nth3r",
     user_name: "whitep4nth3r",

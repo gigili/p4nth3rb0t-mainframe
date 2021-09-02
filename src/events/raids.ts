@@ -51,11 +51,13 @@ const sendRaidEvent = async (raiderCount: number, username: string) => {
 };
 
 tmi.on("raided", (channel: string, username: string, viewers: number) => {
-  tmi.say(config.channel, getRaidShoutout(username, viewers));
-  sendRaidEvent(viewers, username);
-  tmi.say(
-    config.channel,
-    "p4nth3rPEWPEW Disengaging followers only chat! Welcome in everyone! p4nth3rPEWPEW ",
-  );
-  tmi.say(config.channel, "/followersoff");
+  if (!config.FREEZE_MODE) {
+    tmi.say(config.channel, getRaidShoutout(username, viewers));
+    sendRaidEvent(viewers, username);
+    tmi.say(
+      config.channel,
+      "p4nth3rPEWPEW Disengaging followers only chat! Welcome in everyone! p4nth3rPEWPEW ",
+    );
+    tmi.say(config.channel, "/followersoff");
+  }
 });
