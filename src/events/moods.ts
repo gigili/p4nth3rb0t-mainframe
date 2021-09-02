@@ -2,7 +2,6 @@ import {
   MoodChangePacket,
   MainframeEvent,
 } from "@whitep4nth3r/p4nth3rb0t-types";
-import { config } from "../config";
 import WebSocketServer from "../WebSocketServer";
 
 function getRandomInt(min: number, max: number): number {

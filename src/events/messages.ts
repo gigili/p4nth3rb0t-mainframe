@@ -190,7 +190,7 @@ tmi.on(
         getCommandFromMessage(message).toLowerCase();
       const foundExclusiveCommand = ExclusiveCommands[possibleExclusiveCommand];
 
-      if (typeof foundExclusiveCommand === "function" && !config.FREEZE_MODE) {
+      if (typeof foundExclusiveCommand === "function") {
         foundExclusiveCommand(tags, message);
       }
 

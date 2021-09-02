@@ -2,7 +2,6 @@ import { BackseatPacket, MainframeEvent } from "@whitep4nth3r/p4nth3rb0t-types";
 import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
 import { getCurrentChatters } from "../utils/twitchUtils";
-import { config } from "../config";
 
 export const sendClearBackSeatEvent = async () => {
   try {
