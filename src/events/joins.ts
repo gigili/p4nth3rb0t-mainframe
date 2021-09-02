@@ -23,7 +23,10 @@ const sendSpecialUserJoinEvent = async (username: string) => {
 };
 
 tmi.on("join", async (channel: string, username: string, self: boolean) => {
-  if (config.specialUsers.includes(username.toLowerCase())) {
+  if (
+    config.specialUsers.includes(username.toLowerCase()) &&
+    !config.FREEZE_MODE
+  ) {
     sendSpecialUserJoinEvent(username.toLowerCase());
   }
 });

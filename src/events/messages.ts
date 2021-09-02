@@ -172,6 +172,7 @@ tmi.on(
 
     /**
      * Mods can also change the mood on the overlay
+     * Allow !freeze and !unfreeze regardless
      */
     if (tags["user-type"] === "mod") {
       const possibleBroadcasterCommand: string =
@@ -209,13 +210,13 @@ tmi.on(
         );
       }
 
-      if (message === Giveaway.commands.announce) {
+      if (message === Giveaway.commands.announce && !config.FREEZE_MODE) {
         Giveaway.announce();
 
         tmi.say(config.channel, Giveaway.getAnnounceMessage());
       }
 
-      if (message === Giveaway.commands.open) {
+      if (message === Giveaway.commands.open && !config.FREEZE_MODE) {
         if (Giveaway.isOpen) {
           tmi.say(config.channel, Giveaway.getAlreadyOpenMessage());
         } else {
@@ -224,13 +225,13 @@ tmi.on(
         }
       }
 
-      if (message === Giveaway.commands.close) {
+      if (message === Giveaway.commands.close && !config.FREEZE_MODE) {
         Giveaway.close();
 
         tmi.say(config.channel, Giveaway.getCloseMessage());
       }
 
-      if (message === Giveaway.commands.draw) {
+      if (message === Giveaway.commands.draw && !config.FREEZE_MODE) {
         const winner = Giveaway.draw();
 
         if (winner !== null) {
@@ -244,7 +245,11 @@ tmi.on(
     // This is ok to do every time because we have a cache
     const teamMembers: TeamMembers = await Team.getMembers();
 
-    if (config.teamShoutoutEnabled && process.env.NODE_ENV === "production") {
+    if (
+      config.teamShoutoutEnabled &&
+      process.env.NODE_ENV === "production" &&
+      !config.FREEZE_MODE
+    ) {
       possibleTeamMember = teamMembers.find(
         (member) => member.user_name === tags.username,
       );
@@ -267,53 +272,51 @@ tmi.on(
       }
     }
 
-    // if (isSillyQuestion(message)) {
-    //   tmi.say(config.channel, config.botResponses.SillyQuestion(tags.username));
-    // }
+    if (!config.FREEZE_MODE) {
+      const possibleCommand: string =
+        getCommandFromMessage(message).toLowerCase();
+      const foundHandler = ChatCommands[possibleCommand];
 
-    const possibleCommand: string =
-      getCommandFromMessage(message).toLowerCase();
-    const foundHandler = ChatCommands[possibleCommand];
+      if (typeof foundHandler === "function") {
+        foundHandler(tags, message);
+      } else if (!message.startsWith("!")) {
+        const badges: MyBadges = tags.badges || {};
+        const isPartner: boolean = badges.partner !== undefined;
+        const isMod: boolean = tags.mod || false;
 
-    if (typeof foundHandler === "function") {
-      foundHandler(tags, message);
-    } else if (!message.startsWith("!")) {
-      const badges: MyBadges = tags.badges || {};
-      const isPartner: boolean = badges.partner !== undefined;
-      const isMod: boolean = tags.mod || false;
+        const isSubscriber: boolean =
+          tags.subscriber || badges.founder !== undefined || false;
+        const isVip: boolean = badges.vip ? badges.vip === "1" : false;
 
-      const isSubscriber: boolean =
-        tags.subscriber || badges.founder !== undefined || false;
-      const isVip: boolean = badges.vip ? badges.vip === "1" : false;
+        const isBroadcaster: boolean = badges.broadcaster
+          ? badges.broadcaster === "1"
+          : false;
 
-      const isBroadcaster: boolean = badges.broadcaster
-        ? badges.broadcaster === "1"
-        : false;
+        const user = await UserManager.getUserById(tags["user-id"] as string);
 
-      const user = await UserManager.getUserById(tags["user-id"] as string);
+        const chatMessageData: ChatMessageData = {
+          userId: tags["user-id"] as string,
+          username: tags.username as string,
+          displayName: tags["display-name"] as string,
+          messageId: tags.id as string,
+          message: message as string,
+          logoUrl: user.logo,
+          teamMemberIconUrl: user.logo,
+          isMod,
+          isVip,
+          isSubscriber,
+          isBroadcaster,
+          isPartner,
+          isTeamMember: config.teamShoutoutEnabled
+            ? possibleTeamMember !== undefined || isBroadcaster
+            : false,
+          emotes: tags.emotes,
+          type: tags["message-type"],
+          id: tags["id"],
+        };
 
-      const chatMessageData: ChatMessageData = {
-        userId: tags["user-id"] as string,
-        username: tags.username as string,
-        displayName: tags["display-name"] as string,
-        messageId: tags.id as string,
-        message: message as string,
-        logoUrl: user.logo,
-        teamMemberIconUrl: user.logo,
-        isMod,
-        isVip,
-        isSubscriber,
-        isBroadcaster,
-        isPartner,
-        isTeamMember: config.teamShoutoutEnabled
-          ? possibleTeamMember !== undefined || isBroadcaster
-          : false,
-        emotes: tags.emotes,
-        type: tags["message-type"],
-        id: tags["id"],
-      };
-
-      await sendChatMessageEvent(chatMessageData);
+        await sendChatMessageEvent(chatMessageData);
+      }
     }
   },
 );

@@ -4,6 +4,7 @@ import { Userstate } from "tmi.js";
 import UserManager from "../users/UserManager";
 import { MainframeEvent, SubPacket } from "@whitep4nth3r/p4nth3rb0t-types";
 import Moods, { sendMoodChangeEvent } from "./moods";
+import { config } from "../config";
 
 export const sendSubEvent = async (
   userId: string,
@@ -106,16 +107,18 @@ tmi.on(
     methods: {},
     userstate: Userstate,
   ) => {
-    sendSubEvent(
-      userstate["user-id"] as string,
-      userstate["msg-param-recipient-user-name"],
-      userstate["id"] as string,
-      "",
-      userstate["msg-param-sub-plan"] === "Prime"
-        ? "Prime"
-        : (userstate["msg-param-sub-plan"] / 1000).toString(),
-      true,
-    );
+    if (!config.FREEZE_MODE) {
+      sendSubEvent(
+        userstate["user-id"] as string,
+        userstate["msg-param-recipient-user-name"],
+        userstate["id"] as string,
+        "",
+        userstate["msg-param-sub-plan"] === "Prime"
+          ? "Prime"
+          : (userstate["msg-param-sub-plan"] / 1000).toString(),
+        true,
+      );
+    }
   },
 );
 
@@ -128,15 +131,17 @@ tmi.on(
     message: string,
     userstate: Userstate,
   ) => {
-    sendSubEvent(
-      userstate["user-id"] as string,
-      userstate["display-name"] as string,
-      userstate["id"] as string,
-      message,
-      userstate["msg-param-sub-plan"] === "Prime"
-        ? "Prime"
-        : (userstate["msg-param-sub-plan"] / 1000).toString(),
-    );
+    if (!config.FREEZE_MODE) {
+      sendSubEvent(
+        userstate["user-id"] as string,
+        userstate["display-name"] as string,
+        userstate["id"] as string,
+        message,
+        userstate["msg-param-sub-plan"] === "Prime"
+          ? "Prime"
+          : (userstate["msg-param-sub-plan"] / 1000).toString(),
+      );
+    }
   },
 );
 
@@ -150,16 +155,18 @@ tmi.on(
     userstate: Userstate,
     methods: {},
   ) => {
-    sendSubEvent(
-      userstate["user-id"] as string,
-      userstate["display-name"] as string,
-      userstate["id"] as string,
-      message,
-      userstate["msg-param-sub-plan"] === "Prime"
-        ? "Prime"
-        : (userstate["msg-param-sub-plan"] / 1000).toString(),
-      false,
-      months,
-    );
+    if (!config.FREEZE_MODE) {
+      sendSubEvent(
+        userstate["user-id"] as string,
+        userstate["display-name"] as string,
+        userstate["id"] as string,
+        message,
+        userstate["msg-param-sub-plan"] === "Prime"
+          ? "Prime"
+          : (userstate["msg-param-sub-plan"] / 1000).toString(),
+        false,
+        months,
+      );
+    }
   },
 );
