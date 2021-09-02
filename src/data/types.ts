@@ -116,6 +116,7 @@ export enum ImageDrops {
   Contentful = "contentful",
   Partner = "partner",
   Battlesnake = "battlesnake",
+  TheClaw = "theclaw",
 }
 
 export interface DiscordReactionRole {
