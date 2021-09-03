@@ -34,6 +34,8 @@ export const BroadcasterCommands: Commands = {
     tmi.say(config.channel, "p4nth3rRAID [DEFENCES UP] p4nth3rRAID");
     // toggle FREEZE_MODE
     config.FREEZE_MODE = true;
+    // clear chat
+    tmi.say(config.channel, "/clear");
     // activate sub only
     tmi.say(config.channel, "/subscribers");
     sendClearBackSeatEvent();
