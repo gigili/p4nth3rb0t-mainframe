@@ -15,6 +15,7 @@ import Giveaway from "../actions/Giveaway";
 import { ImageDrops } from "../data/types";
 import { sendMerchEvent } from "../events/merch";
 import { sendBackseatEvent, sendClearBackSeatEvent } from "../events/backseat";
+import { sendFreezeEvent } from "../events/freeze";
 
 export const getCommandFromMessage = (message: string) => message.split(" ")[0];
 
@@ -39,6 +40,7 @@ export const BroadcasterCommands: Commands = {
     // activate sub only
     tmi.say(config.channel, "/subscribers");
     sendClearBackSeatEvent();
+    sendFreezeEvent();
   },
   "!unfreeze": async (tags, message) => {
     tmi.say(config.channel, "p4nth3rMAGIC [DEFENCES DOWN] p4nth3rMAGIC");
@@ -148,7 +150,9 @@ export const ChatCommands: Commands = {
   },
   "!bs": async (tags, message) => {
     if (!config.FREEZE_MODE) {
-      const username = getRestOfMessage(message)[0].replace("@", "");
+      const username = getRestOfMessage(message)[0]
+        .replace("@", "")
+        .toLowerCase();
       sendBackseatEvent(username);
     }
   },
