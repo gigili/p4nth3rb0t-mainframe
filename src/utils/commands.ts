@@ -1,7 +1,7 @@
 import { tmi } from "./../tmi";
+import { config } from "../config";
 import { sendDropEmotesEvent } from "./../actions/drop";
 import { ChatUserstate } from "tmi.js";
-import { config } from "../config";
 import {
   sendDropUserEvent,
   sendWeatherEvent,

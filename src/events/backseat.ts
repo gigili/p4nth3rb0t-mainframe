@@ -1,3 +1,5 @@
+import { tmi } from "./../tmi";
+import { config } from "../config";
 import { BackseatPacket, MainframeEvent } from "@whitep4nth3r/p4nth3rb0t-types";
 import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
@@ -40,5 +42,10 @@ export const sendBackseatEvent = async (username: string) => {
     } catch (error) {
       console.log(error);
     }
+  } else {
+    tmi.say(
+      config.channel,
+      "p4nth3rPEWPEW PLEASE HOLD. The backseater you requested is not registered in the chat yet. PLEASE HOLD. p4nth3rPEWPEW",
+    );
   }
 };
