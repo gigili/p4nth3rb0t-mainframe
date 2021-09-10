@@ -43,6 +43,7 @@ export const sendBackseatEvent = async (username: string) => {
       console.log(error);
     }
   } else {
+    sendClearBackSeatEvent();
     tmi.say(
       config.channel,
       "p4nth3rPEWPEW PLEASE HOLD. The backseater you requested is not registered in the chat yet. PLEASE HOLD. p4nth3rPEWPEW",
