@@ -1,3 +1,4 @@
+import { getCurrentChatters } from "../utils/twitchUtils";
 import WebSocketServer from "../WebSocketServer";
 import UserManager from "../users/UserManager";
 import {
@@ -158,12 +159,16 @@ export default class Giveaway {
     Giveaway.entrants.add(username);
   };
 
-  static draw = (): string | null => {
+  static draw = async (): Promise<string | null> => {
     const usernamesArray: string[] = Array.from(Giveaway.entrants);
     const winner =
       usernamesArray[Math.floor(Math.random() * usernamesArray.length)];
-
-    if (winner !== null && winner !== undefined) {
+    const currentChatters = await getCurrentChatters();
+    if (
+      winner !== null &&
+      winner !== undefined &&
+      currentChatters.includes(winner)
+    ) {
       sendGiveawayDrawEvent(winner);
       Giveaway.entrants.delete(winner);
 
