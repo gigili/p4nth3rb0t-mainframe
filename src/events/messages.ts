@@ -232,7 +232,7 @@ tmi.on(
       }
 
       if (message === Giveaway.commands.draw && !config.FREEZE_MODE) {
-        const winner = Giveaway.draw();
+        const winner = await Giveaway.draw();
 
         if (winner !== null) {
           tmi.say(config.channel, Giveaway.getDrawMessage(winner));
