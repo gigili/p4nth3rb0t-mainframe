@@ -84,17 +84,12 @@ export interface VideoByUserIdResponse {
 }
 
 export interface StreamInfo {
-  game_id: string;
   id: string;
-  language: string;
   started_at: string;
-  tag_ids: string[];
-  thumbnail_url: string;
-  title: string;
   type: string;
-  user_id: string;
-  user_name: string;
-  viewer_count: number;
+  broadcaster_user_id: string;
+  broadcaster_user_login: string;
+  broadcaster_user_name: string;
 }
 
 export interface StreamByBroadcasterIdResponse {
