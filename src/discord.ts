@@ -2,7 +2,11 @@ import UserManager from "./users/UserManager";
 import DiscordAnnouncementModel from "./data/models/DiscordAnnouncement";
 import Discord, { MessageEmbed, MessageReaction, User } from "discord.js";
 import { config } from "./config";
-import { fetchVideoByUserId } from "./utils/twitchUtils";
+import {
+  fetchGameById,
+  fetchVideoByUserId,
+  getActiveBroadcasterStreamByBroadcasterId,
+} from "./utils/twitchUtils";
 import type { PartialUser, TextChannel } from "discord.js";
 import type { DiscordReactionRole, StreamInfo } from "./data/types";
 
@@ -88,10 +92,13 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
   if (announcementsChannel) {
     const user = await UserManager.getUserById(streamInfo.broadcaster_user_id);
     const started_at = new Date(streamInfo.started_at);
-    const video = await fetchVideoByUserId(streamInfo.broadcaster_user_id);
+    const stream = await getActiveBroadcasterStreamByBroadcasterId(
+      streamInfo.broadcaster_user_id,
+    );
 
-    const videoTitle = video !== null ? video.title : "";
-    const videoThumbnailUrl = video !== null ? video.thumbnail_url : "";
+    const videoTitle = stream !== null ? stream.title : "";
+    const videoThumbnailUrl = stream !== null ? stream.thumbnail_url : "";
+    const category = stream !== null ? stream.game_name : "";
 
     const embed = buildDiscordEmbed(
       true,
@@ -101,6 +108,7 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
       videoTitle,
       videoThumbnailUrl,
       `Started streaming • Today at ${started_at.toTimeString()}`,
+      category,
     );
 
     const onlineAnnouncementPrefix: string =
@@ -137,7 +145,7 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
         memberId: streamInfo.broadcaster_user_id,
         messageId: message.id,
         streamId: streamInfo.id,
-        category: "unknown",
+        category: category,
       },
       { upsert: true },
     );
@@ -173,6 +181,7 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
     video.title,
     video.thumbnail_url,
     `Finished streaming • Streamed for ${video.duration}`,
+    saved_message.category,
     video.id,
   );
 
@@ -192,6 +201,7 @@ const buildDiscordEmbed = (
   streamTitle: string,
   imageUrl: string,
   footer: string,
+  category: string,
   videoId?: string,
 ) => {
   const embed = new MessageEmbed();
@@ -222,6 +232,10 @@ const buildDiscordEmbed = (
   );
 
   embed.setFooter(footer);
+
+  if (category.length) {
+    embed.setDescription(category);
+  }
 
   return embed;
 };
