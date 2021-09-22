@@ -2,7 +2,11 @@ import UserManager from "./users/UserManager";
 import DiscordAnnouncementModel from "./data/models/DiscordAnnouncement";
 import Discord, { MessageEmbed, MessageReaction, User } from "discord.js";
 import { config } from "./config";
-import { fetchGameById, fetchVideoByUserId } from "./utils/twitchUtils";
+import {
+  fetchGameById,
+  fetchVideoByUserId,
+  getActiveBroadcasterStreamByBroadcasterId,
+} from "./utils/twitchUtils";
 import type { PartialUser, TextChannel } from "discord.js";
 import type { DiscordReactionRole, StreamInfo } from "./data/types";
 
@@ -16,7 +20,7 @@ discord.on("ready", async () => {
   console.log(`🤖 Logged in to Discord as ${discord.user?.username}!`);
 
   announcementsChannel = (await discord.channels.fetch(
-    config.discord.liveAnnouncementsChannelId
+    config.discord.liveAnnouncementsChannelId,
   )) as TextChannel;
 });
 
@@ -37,13 +41,12 @@ discord.on(
       return;
     }
 
-    const reactionRole:
-      | DiscordReactionRole
-      | undefined = config.discord.reactionRole.find(
-      (role) =>
-        role.emoji_tag == messageReaction.emoji.toString() &&
-        role.message_id == messageReaction.message.id,
-    );
+    const reactionRole: DiscordReactionRole | undefined =
+      config.discord.reactionRole.find(
+        (role) =>
+          role.emoji_tag == messageReaction.emoji.toString() &&
+          role.message_id == messageReaction.message.id,
+      );
 
     if (!reactionRole) {
       return;
@@ -70,13 +73,12 @@ discord.on(
       return;
     }
 
-    const reactionRole:
-      | DiscordReactionRole
-      | undefined = config.discord.reactionRole.find(
-      (role) =>
-        role.emoji_tag == messageReaction.emoji.toString() &&
-        role.message_id == messageReaction.message.id,
-    );
+    const reactionRole: DiscordReactionRole | undefined =
+      config.discord.reactionRole.find(
+        (role) =>
+          role.emoji_tag == messageReaction.emoji.toString() &&
+          role.message_id == messageReaction.message.id,
+      );
 
     if (!reactionRole) {
       return;
@@ -88,24 +90,25 @@ discord.on(
 
 export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
   if (announcementsChannel) {
-    const user = await UserManager.getUserById(streamInfo.user_id);
+    const user = await UserManager.getUserById(streamInfo.broadcaster_user_id);
     const started_at = new Date(streamInfo.started_at);
+    const stream = await getActiveBroadcasterStreamByBroadcasterId(
+      streamInfo.broadcaster_user_id,
+    );
 
-    // Fetch category name
-    let category = await fetchGameById(streamInfo.game_id);
-    if (!category) {
-      category = { name: "" };
-    }
+    const videoTitle = stream !== null ? stream.title : "";
+    const videoThumbnailUrl = stream !== null ? stream.thumbnail_url : "";
+    const category = stream !== null ? stream.game_name : "";
 
     const embed = buildDiscordEmbed(
       true,
       user.name,
       user.display_name,
       user.logo,
-      streamInfo.title,
-      streamInfo.thumbnail_url,
+      videoTitle,
+      videoThumbnailUrl,
       `Started streaming • Today at ${started_at.toTimeString()}`,
-      category.name
+      category,
     );
 
     const onlineAnnouncementPrefix: string =
@@ -119,32 +122,32 @@ export const sendLiveAnnouncement = async (streamInfo: StreamInfo) => {
     let message;
     if (existing) {
       message = await announcementsChannel.messages.fetch(
-        `${existing.messageId}`
+        `${existing.messageId}`,
       );
       await message.edit({
         content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(
-          streamInfo.user_name
-        )} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+          user.name,
+        )} is now live on Twitch! https://twitch.tv/${user.name}`,
         embed,
       });
     } else {
       message = await announcementsChannel.send({
         content: `${onlineAnnouncementPrefix}${Discord.Util.escapeMarkdown(
-          streamInfo.user_name
-        )} is now live on Twitch! https://twitch.tv/${streamInfo.user_name}`,
+          user.name,
+        )} is now live on Twitch! https://twitch.tv/${user.name}`,
         embed,
       });
     }
 
     await DiscordAnnouncementModel.updateOne(
-      { memberId: streamInfo.user_id },
+      { memberId: streamInfo.broadcaster_user_id },
       {
-        memberId: streamInfo.user_id,
+        memberId: streamInfo.broadcaster_user_id,
         messageId: message.id,
         streamId: streamInfo.id,
-        category: category.name,
+        category: category,
       },
-      { upsert: true }
+      { upsert: true },
     );
   }
 };
@@ -165,7 +168,7 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
   }
 
   const message = await announcementsChannel.messages.fetch(
-    `${saved_message.messageId}`
+    `${saved_message.messageId}`,
   );
 
   const user = await UserManager.getUserById(member_id);
@@ -179,7 +182,7 @@ export const sendOfflineAnnouncement = async (member_id: string) => {
     video.thumbnail_url,
     `Finished streaming • Streamed for ${video.duration}`,
     saved_message.category,
-    video.id
+    video.id,
   );
 
   await message.edit({
@@ -198,8 +201,8 @@ const buildDiscordEmbed = (
   streamTitle: string,
   imageUrl: string,
   footer: string,
-  gameName: string,
-  videoId?: string
+  category: string,
+  videoId?: string,
 ) => {
   const embed = new MessageEmbed();
 
@@ -210,7 +213,7 @@ const buildDiscordEmbed = (
   embed.setURL(
     online
       ? `https://twitch.tv/${userName}`
-      : `https://twitch.tv/videos/${videoId}`
+      : `https://twitch.tv/videos/${videoId}`,
   );
 
   const imageReplaceString = online ? "{width}x{height}" : "%{width}x%{height}";
@@ -218,20 +221,20 @@ const buildDiscordEmbed = (
   embed.setImage(
     imageUrl.replace(
       imageReplaceString,
-      config.discord.liveAnnouncementImageSize
-    )
+      config.discord.liveAnnouncementImageSize,
+    ),
   );
 
   embed.setColor(
     online
       ? config.discord.liveAnnouncementColorOnline
-      : config.discord.liveAnnouncementColorOffline
+      : config.discord.liveAnnouncementColorOffline,
   );
 
   embed.setFooter(footer);
 
-  if (gameName.length) {
-    embed.setDescription(gameName);
+  if (category.length) {
+    embed.setDescription(category);
   }
 
   return embed;
