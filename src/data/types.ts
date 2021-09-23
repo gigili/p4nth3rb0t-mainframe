@@ -41,7 +41,7 @@ export interface AccessTokenResponse {
   token_type: string;
 }
 
-export interface EventSubscriptionReseponse {
+export interface EventSubscriptionResponse {
   data: EventSubscription[];
   total: number;
   total_cost: number;
