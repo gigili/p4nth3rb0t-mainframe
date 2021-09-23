@@ -41,6 +41,46 @@ export interface AccessTokenResponse {
   token_type: string;
 }
 
+export interface EventSubscriptionResponse {
+  data: EventSubscription[];
+  total: number;
+  total_cost: number;
+  max_total_cost: number;
+  pagination: any;
+}
+
+export const enum EventSubType {
+  StreamOnline = "stream.online",
+  StreamOffline = "stream.offline",
+  ChannelFollow = "channel.follow",
+}
+
+export interface EventSubDefinition {
+  userId: string;
+  eventType: EventSubType;
+  callbackUrl: string;
+}
+
+export interface EventSubscription {
+  id: string;
+  status: string;
+  type: string;
+  version: string;
+  cost: number;
+  condition: Condition;
+  created_at: string;
+  transport: Transport;
+}
+
+export interface Condition {
+  broadcaster_user_id: string;
+}
+
+export interface Transport {
+  method: string;
+  callback: string;
+}
+
 export interface UserByIdResponse {
   display_name: string;
   _id: string;
